@@ -20,6 +20,14 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'Address'=>json_encode([
+                'country'=>$this->faker->country,
+                'city'=>$this->faker->city,
+                'block'=>rand(1,8),
+                'street'=>$this->faker->streetName,
+                'extra'=>$this->faker->text($maxNbChars = 50)
+            ]),
+            'Phone'=>$this->faker->phoneNumber,
         ];
     }
 
