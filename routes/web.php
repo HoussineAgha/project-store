@@ -14,5 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layout.app');
+    return view('home');
 });
+
+Route::prefix('user')->group(function(){
+
+    Route::get('/registration','App\Http\controllers\Usercontroller@creat');
+    Route::post('/store','App\Http\controllers\Usercontroller@store');
+    Route::get('/login','App\Http\controllers\Usercontroller@login')->name('login');
+    Route::post('/selectlogin','App\Http\controllers\Usercontroller@selectlogin');
+    Route::get('/logout','App\Http\controllers\Usercontroller@logout');
+
+});
+
