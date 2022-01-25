@@ -24,6 +24,7 @@ Route::prefix('user')->group(function(){
     Route::get('/login','App\Http\controllers\Usercontroller@login')->name('login');
     Route::post('/selectlogin','App\Http\controllers\Usercontroller@selectlogin');
     Route::get('/logout','App\Http\controllers\Usercontroller@logout');
-
+    Route::get('/account','App\Http\controllers\Usercontroller@account');
+    Route::get('/account/stores','App\Http\controllers\Usercontroller@stores');
 });
 

@@ -66,6 +66,13 @@ class Usercontroller extends Controller
         return redirect('/');
     }
 
+    public function account(){
+        return view('backend.customer.index');
+    }
+
+    public function stores(){
+        return view('backend.customer.stores');
+    }
 }
 
 

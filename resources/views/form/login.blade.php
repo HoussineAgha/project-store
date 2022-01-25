@@ -3,10 +3,10 @@
 @section('title','login')
 
 @section('content')
-
+<body class="body1">
         <form class="row g-3" id="form1" method="POST" action="/user/selectlogin">
             @csrf
-            <div class="col-4">
+            <div class="col-4" id="login">
             <div class="creat">
                 @include('shared.error')
                     <div class="form-group">
@@ -24,5 +24,5 @@
             </div>
         </div>
         </form>
-
+</body>
 @endsection

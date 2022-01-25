@@ -1,6 +1,6 @@
 *{
     padding: auto;
-    margin: auto;
+    margin: 0px;
 }
 
 #form1{
@@ -17,4 +17,31 @@
 #btn1{
     padding-top: 20px;
     text-align: center;
+}
+
+#text1 li{
+    display: flex;
+    padding: 0px 50px;
+}
+
+#text1 li a{
+    padding:0px 15px;
+}
+#login{
+    margin: auto;
+}
+.nav-link{
+    color: black;
+}
+.nav-link a:hover{
+    color: rgba(157, 167, 24, 0.897);
+}
+
+#avat{
+    border-radius: 50% !important;
+    border-top-left-radius: 50% !important;
+    border-top-right-radius: 50% !important;
+    border-bottom-right-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+
 }
