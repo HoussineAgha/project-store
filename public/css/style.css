@@ -43,5 +43,23 @@
     border-top-right-radius: 50% !important;
     border-bottom-right-radius: 50% !important;
     border-bottom-left-radius: 50% !important;
+}
 
+#creat-store{
+    float: right;
+}
+#card{
+    padding-top: 65px;
+    padding-bottom: 25px;
+    object-fit: cover;
+}
+#publish{
+    float: left;
+    margin-bottom: 25px;
+}
+.empety{
+    width: 100%;
+}
+#card1{
+    object-fit: cover;
 }

@@ -23,6 +23,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'country'=>$this->faker->country,
             'Phone'=>$this->faker->phoneNumber,
+            'image'=>$this->faker->imageUrl($width = 640, $height = 480),
         ];
     }
 

@@ -14,13 +14,20 @@
     <body class="expansion-alids-init" id="back-cust">
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
 
-            <a class="nav-link" href="#" >
-                <img src="{{ asset('img/zz.png') }}" alt="Avatar" style="width:32px" id="avat">
+            <a class="nav-link" href="/user/profile" >
+                @isset(auth()->user()->image)
+                <img src="{{ asset(auth()->user()->image) }}" alt="Avatar" style="width:32px" id="avat">
+                @endisset
+
+                @empty(auth()->user()->image)
+                <img src="{{ asset('img\zz.png') }}" alt="Avatar" style="width:32px" id="avat">
+                @endempty
+
             </a>
     </div>
 
 
-          <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
+          <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Hello : {{auth()->user()->first_name}} {{auth()->user()->last_name}}</a>
           <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search">
           <ul class="navbar-nav px-3" id="text1">
             <li class="nav-item text-nowrap">
@@ -37,7 +44,10 @@
                 <ul class="nav flex-column">
                   <li class="nav-item">
                     <a class="nav-link active" href="/user/account">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        <svg id="speedometer2" viewBox="0 0 20 20" width="24" height="24"  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+                            <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"></path>
+                            <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"></path>
+                          </svg>
                       Dashboard <span class="sr-only"></span>
                     </a>
                   </li>
@@ -151,10 +161,12 @@
 
     @yield('content2')
 
-    <script src="{{ asset('js/jquery-3.2.1.slim.min.js') }}"></script>
+    @include('flash::message')
+    <script src="{{ asset('js/jquery-3.0.6.min.js') }}"></script>
     <script src="{{ asset('js/cdnjs/chart.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/feather.min.js') }}"></script>
+    <script src="{{ asset('js/javascript.js') }}"></script>
     @section('script')
 
     @show

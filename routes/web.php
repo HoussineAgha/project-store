@@ -26,5 +26,22 @@ Route::prefix('user')->group(function(){
     Route::get('/logout','App\Http\controllers\Usercontroller@logout');
     Route::get('/account','App\Http\controllers\Usercontroller@account');
     Route::get('/account/stores','App\Http\controllers\Usercontroller@stores');
+    Route::get('/profile','App\Http\controllers\Usercontroller@edit')->name('edit');
+    Route::put('/upadte','App\Http\controllers\Usercontroller@update')->name('user.update');
+
 });
+
+Route::prefix('stores')->group(function(){
+
+    Route::get('/creat','App\Http\controllers\Storecontroller@create');
+    Route::post('/store','App\Http\controllers\Storecontroller@store')->name('submit');
+    Route::get('/{store}/edite','App\Http\controllers\Storecontroller@edit')->name('edite');
+    Route::put('/{store}','App\Http\controllers\Storecontroller@update')->name('update');
+
+});
+
+Route::prefix('profile')->group(function(){
+
+});
+
 

@@ -15,9 +15,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        //$stores = Store::orderBy()->paginate(10);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -25,7 +24,7 @@ class StoreController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.customer.creat_store');
     }
 
     /**
@@ -34,9 +33,23 @@ class StoreController extends Controller
      * @param  \App\Http\Requests\StorestoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorestoreRequest $request)
+    public function store()
     {
-        //
+        $validateData=request()->validate([
+            'name_store'=>'required|min:5|unique:stores',
+            'discription'=>'required|max:1000|min:5',
+            'image'=>'required|mimes:jpeg,png,jpg|max:10000',
+        ]);
+
+        $path= '/storage/'.request()->file('image')->store('image_store',['disk'=>'public']);
+
+        $newstore = new store();
+        $newstore->name_store = request()->name_store;
+        $newstore->discription = request()->discription;
+        $newstore->image = $path;
+        auth()->user()->stores()->save($newstore);
+
+        return redirect('/user/account/stores');
     }
 
     /**
@@ -47,7 +60,7 @@ class StoreController extends Controller
      */
     public function show(store $store)
     {
-        //
+
     }
 
     /**
@@ -58,7 +71,11 @@ class StoreController extends Controller
      */
     public function edit(store $store)
     {
-        //
+
+        if($store->user_id != auth()->user()->id)
+        return back();
+
+        return view('backend.customer.edite',compact('store'));
     }
 
     /**
@@ -68,9 +85,23 @@ class StoreController extends Controller
      * @param  \App\Models\store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatestoreRequest $request, store $store)
+    public function update( store $store)
     {
-        //
+        $validateData= request()->validate([
+            'name_store'=>'required|min:5|unique:stores',
+            'discription'=>'required|max:1000|min:5',
+            'image'=>'required|mimes:jpeg,png,jpg|max:10000',
+        ]);
+
+        $path=$store->image;
+        $path= '/storage/'.request()->file('image')->store('image_store',['disk'=>'public']);
+
+        $store->name_store=request()->name_store;
+        $store->discription=request()->discription;
+        $store->image=$path;
+        $store->save();
+
+        return redirect('/user/account/stores');
     }
 
     /**
@@ -83,4 +114,6 @@ class StoreController extends Controller
     {
         //
     }
+
+
 }

@@ -19,7 +19,7 @@
         @auth
         <div class="text-end">
         <a href="/user/logout" name='but1' class="btn btn-outline-light me-2">Log out</a>
-        <a href="/user/account" name='but1' class="btn btn-outline-light me-2">Account</a>
+        <a href="/user/account" name='but1' class="btn btn-warning">Account</a>
         </div>
         @endauth
         @guest
