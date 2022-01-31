@@ -115,7 +115,7 @@ class Usercontroller extends Controller
             flash('Welcome Aboard!')->error();
         }
 
-        return redirect('/user/account/stores');
+        return redirect('/user/account');
     }
 }
 

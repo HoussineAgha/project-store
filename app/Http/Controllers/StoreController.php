@@ -37,16 +37,30 @@ class StoreController extends Controller
     {
         $validateData=request()->validate([
             'name_store'=>'required|min:5|unique:stores',
-            'discription'=>'required|max:1000|min:5',
-            'image'=>'required|mimes:jpeg,png,jpg|max:10000',
+            'discription'=>'required|max:10000|min:5',
+            'Baner'=>'required|mimes:jpeg,png,jpg|max:10000',
+            'logo'=>'required|mimes:jpeg,png,jpg|max:10000',
+            'text_top'=>'max:400'
         ]);
 
-        $path= '/storage/'.request()->file('image')->store('image_store',['disk'=>'public']);
+        $path= '/storage/'.request()->file('Baner',)->store('image_store',['disk'=>'public']);
+        $path2= '/storage/'.request()->file('logo',)->store('logo_store',['disk'=>'public']);
 
         $newstore = new store();
         $newstore->name_store = request()->name_store;
         $newstore->discription = request()->discription;
-        $newstore->image = $path;
+        $newstore->Baner = $path;
+        $newstore->logo = $path2;
+        $newstore->text_top = request()->text_top;
+        $newstore->face = request()->face;
+        $newstore->twite = request()->twite;
+        $newstore->linkdine = request()->linkdine;
+        $newstore->youtube = request()->youtube;
+        $newstore->text_footer = request()->text_footer;
+        $newstore->opening_times = request()->opening_times;
+        $newstore->close_times = request()->close_times;
+        $newstore->email = request()->email;
+        $newstore->	phone = request()->	phone;
         auth()->user()->stores()->save($newstore);
 
         return redirect('/user/account/stores');
@@ -58,8 +72,10 @@ class StoreController extends Controller
      * @param  \App\Models\store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(store $store)
+    public function show(Store $Store,$id)
     {
+        $store= Store::find($id);
+        return view('front customer.customer store.index',compact('store'));
 
     }
 
@@ -88,17 +104,31 @@ class StoreController extends Controller
     public function update( store $store)
     {
         $validateData= request()->validate([
-            'name_store'=>'required|min:5|unique:stores',
-            'discription'=>'required|max:1000|min:5',
-            'image'=>'required|mimes:jpeg,png,jpg|max:10000',
+            'name_store'=>'required|min:5',
+            'discription'=>'required|max:10000|min:5',
+            'Baner'=>'required|mimes:jpeg,png,jpg|max:10000',
+            'logo'=>'required|mimes:jpeg,png,jpg|max:10000',
+            'text_top'=>'max:400'
         ]);
 
-        $path=$store->image;
-        $path= '/storage/'.request()->file('image')->store('image_store',['disk'=>'public']);
+
+        $path= '/storage/'.request()->file('Baner',)->store('image_store',['disk'=>'public']);
+        $path2= '/storage/'.request()->file('logo',)->store('logo_store',['disk'=>'public']);
 
         $store->name_store=request()->name_store;
         $store->discription=request()->discription;
-        $store->image=$path;
+        $store->Baner = $path;
+        $store->logo = $path2;
+        $store->text_top = request()->text_top;
+        $store->face = request()->face;
+        $store->twite = request()->twite;
+        $store->linkdine = request()->linkdine;
+        $store->youtube = request()->youtube;
+        $store->text_footer = request()->text_footer;
+        $store->opening_times = request()->opening_times;
+        $store->close_times = request()->close_times;
+        $store->email = request()->email;
+        $store->phone = request()->phone;
         $store->save();
 
         return redirect('/user/account/stores');
@@ -112,7 +142,8 @@ class StoreController extends Controller
      */
     public function destroy(store $store)
     {
-        //
+        $store->delete();
+        return redirect('/user/account/stores');
     }
 
 

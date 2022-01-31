@@ -37,6 +37,8 @@ Route::prefix('stores')->group(function(){
     Route::post('/store','App\Http\controllers\Storecontroller@store')->name('submit');
     Route::get('/{store}/edite','App\Http\controllers\Storecontroller@edit')->name('edite');
     Route::put('/{store}','App\Http\controllers\Storecontroller@update')->name('update');
+    Route::get('/delete/{store}','App\Http\controllers\Storecontroller@destroy')->name('store.delete');
+    Route::get('/show/{id}','App\Http\controllers\Storecontroller@show')->name('store.show');
 
 });
 

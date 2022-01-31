@@ -31,10 +31,10 @@
     margin: auto;
 }
 .nav-link{
-    color: black;
+    color: rgb(255, 254, 254);
 }
-.nav-link a:hover{
-    color: rgba(157, 167, 24, 0.897);
+.nav-link:hover{
+    color: #ffc107
 }
 
 #avat{
@@ -62,4 +62,56 @@
 }
 #card1{
     object-fit: cover;
+}
+#logo-customer{
+    margin-left: 50px;
+}
+.banner .caption h2{
+    display: contents;
+}
+.banner .caption .line-dec {
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.caption svg{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.navbar-dark .navbar-toggler{
+    margin-top: -120px;
+}
+.email a{
+    float: left;
+    padding-top: 0px;
+    margin-top: -35px;
+    color: white;
+    text-decoration: none;
+}
+.email svg{
+    float: left;
+    padding-top: 0px;
+    margin-top: -34px;
+    background-color:white;
+    border-radius:50%;
+    text-decoration: none;
+    margin-left:-25px;
+    padding: 3px;
+}
+
+.phone a{
+    float: right;
+    padding-top: 0px;
+    margin-top: -35px;
+    color: white;
+    text-decoration: none;
+}
+.phone svg{
+    float: right;
+    padding-top: 0px;
+    margin-top: -34px;
+    background-color:white;
+    border-radius:50%;
+    text-decoration: none;
+    margin-right:102px;
+    padding: 3px;
 }
