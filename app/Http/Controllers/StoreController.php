@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\store;
+use App\Models\Product;
+use App\Models\User;
 use App\Http\Requests\StorestoreRequest;
 use App\Http\Requests\UpdatestoreRequest;
 
@@ -75,6 +78,7 @@ class StoreController extends Controller
     public function show(Store $Store,$id)
     {
         $store= Store::find($id);
+
         return view('front customer.customer store.index',compact('store'));
 
     }
@@ -144,6 +148,14 @@ class StoreController extends Controller
     {
         $store->delete();
         return redirect('/user/account/stores');
+    }
+
+    public function products(store $store){
+        if($store->user_id != auth()->user()->id)
+        return back();
+
+        return view('backend.customer.products',compact('store'));
+
     }
 
 

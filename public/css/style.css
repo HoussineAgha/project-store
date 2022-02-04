@@ -115,3 +115,99 @@
     margin-right:102px;
     padding: 3px;
 }
+.table{
+    text-align: center;
+}
+.btn-sm, .btn-group-sm > .btn{
+    border-color: aqua;
+}
+.btn-sm:hover, .btn-group-sm > .btn{
+    background-color: rgb(42, 206, 138);
+    color: black;
+}
+
+/* Isotope Transitions
+------------------------------- */
+.isotope,
+.isotope .item {
+  -webkit-transition-duration: 0.8s;
+     -moz-transition-duration: 0.8s;
+      -ms-transition-duration: 0.8s;
+       -o-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.isotope {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+      -ms-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.isotope .item {
+  -webkit-transition-property: -webkit-transform, opacity;
+     -moz-transition-property:    -moz-transform, opacity;
+      -ms-transition-property:     -ms-transform, opacity;
+       -o-transition-property:         top, left, opacity;
+          transition-property:         transform, opacity;
+}
+
+.page-navigation ul {
+	text-align: center;
+	border-top: 1px solid #eee;
+	padding: 30px  0px 0px 0px;
+	margin: 0px 0px 80px 0px;
+}
+.page-navigation ul li {
+	display: inline-block;
+}
+.page-navigation ul li a {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	text-align: center;
+	line-height: 38px;
+	border: 1px solid #eee;
+	border-radius: 5px;
+	font-weight: 700;
+	color: #1e1e1e;
+	font-size: 15px;
+	text-decoration: none;
+	transition: all 0.5s;
+}
+.page-navigation ul li a:hover,
+.page-navigation ul li.current-page a {
+	background-color: #3a8bcd;
+	border-color: #3a8bcd;
+	color: #fff;
+}
+.pagination{
+    float: right;
+}
+
+#product{
+    color: white;
+}
+
+#product:hover{
+    color: #ffc107;
+}
+
+
+#orders-collapse li a{
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+.list-unstyled{
+    padding-left: 45px;
+    margin-top: -50px;
+    list-style: none;
+    text-decoration: none;
+    line-height: 30px;
+}
+#orders-collapse li a:hover{
+    color: #ffc107;
+    text-decoration: none;
+}

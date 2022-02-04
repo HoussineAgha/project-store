@@ -17,7 +17,18 @@ class StoreFactory extends Factory
         return [
             'name_store'=>$this->faker->company,
             'discription'=>$this->faker->text($maxNbChars = 200),
-            'image'=>$this->faker->imageUrl($width = 640, $height = 480),
+            'Baner'=>$this->faker->imageUrl($width = 640, $height = 480),
+            'logo'=>$this->faker->imageUrl($width = 225, $height = 75),
+            'text_top'=>$this->faker->text($maxNbChars = 50),
+            'face'=>$this->faker->url,
+            'twite'=>$this->faker->url,
+            'linkdine'=>$this->faker->url,
+            'youtube'=>$this->faker->url,
+            'text_footer'=>$this->faker->text($maxNbChars = 20),
+            'opening_times'=>$this->faker->time($format = 'H:i:s', $max = 'now'),
+            'close_times'=>$this->faker->time($format = 'H:i:s', $max = 'now'),
+            'email'=>$this->faker->unique()->safeEmail(),
+            'phone'=>$this->faker->phoneNumber,
             'user_id'=> User::factory()
         ];
     }

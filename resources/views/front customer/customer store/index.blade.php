@@ -1,6 +1,6 @@
 @extends('front customer.customer store.layout.app')
 
-@section('title','My store')
+@section('title',$store->name_store)
 
 @section('content3')
 

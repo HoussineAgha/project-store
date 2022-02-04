@@ -25,6 +25,8 @@
                 <a href="{{route('store.show',$item->id)}}" class="btn btn-info"> View </a>
                 <a href="{{ route('edite',$item->id) }}" class="btn btn-info" target="_blank"> Edite </a>
                 <a href="{{ route('store.delete',$item->id) }}" class="btn btn-info" id="delete-button"> Delete </a>
+                <hr>
+                <a href="{{ route('allproduct',$item->id) }}" class="btn btn-info  margin-top" id="delete-button"> View Products </a>
             </div>
           </div>
         </div>

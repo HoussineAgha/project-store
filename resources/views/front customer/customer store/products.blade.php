@@ -1,4 +1,4 @@
-@extends('front customer.customer store.app')
+@extends('front customer.customer store.layout.app')
 
 @section('title','All Products')
 

@@ -56,7 +56,7 @@
             <ul class="navbar-nav ml-auto">
               <li class="nav-item active">
 
-                <a class="nav-link" href="index.html">Home
+                <a class="nav-link" href="{{route('store.show',$store->id)}}">Home
                   <span class="sr-only"></span>
                 </a>
               </li>
