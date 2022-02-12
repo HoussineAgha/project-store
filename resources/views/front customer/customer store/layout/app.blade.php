@@ -21,11 +21,11 @@
 
     @show
 
-    @include('front customer.customer store.layout.header')
+
 
     @yield('content3')
 
-    @include('front customer.customer store.layout.footer')
+
 
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>

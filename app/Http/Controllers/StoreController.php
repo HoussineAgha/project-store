@@ -40,14 +40,15 @@ class StoreController extends Controller
     {
         $validateData=request()->validate([
             'name_store'=>'required|min:5|unique:stores',
-            'discription'=>'required|max:10000|min:5',
+            'discription'=>'required|min:5',
             'Baner'=>'required|mimes:jpeg,png,jpg|max:10000',
             'logo'=>'required|mimes:jpeg,png,jpg|max:10000',
             'text_top'=>'max:400'
         ]);
 
-        $path= '/storage/'.request()->file('Baner',)->store('image_store',['disk'=>'public']);
-        $path2= '/storage/'.request()->file('logo',)->store('logo_store',['disk'=>'public']);
+        $path= '/storage/'.request()->file('Baner')->store('image_store',['disk'=>'public']);
+        $path2= '/storage/'.request()->file('logo')->store('logo_store',['disk'=>'public']);
+        $path3= '/storage/'.request()->file('adsimage',)->store('image_store',['disk'=>'public']);
 
         $newstore = new store();
         $newstore->name_store = request()->name_store;
@@ -64,6 +65,8 @@ class StoreController extends Controller
         $newstore->close_times = request()->close_times;
         $newstore->email = request()->email;
         $newstore->	phone = request()->	phone;
+        $newstore->	adsimage = $path3;
+        $newstore->	urlads = request()->urlads;
         auth()->user()->stores()->save($newstore);
 
         return redirect('/user/account/stores');
@@ -75,11 +78,21 @@ class StoreController extends Controller
      * @param  \App\Models\store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $Store,$id)
+    public function show(Store $Store, Product $product , $id)
     {
         $store= Store::find($id);
 
-        return view('front customer.customer store.index',compact('store'));
+        $latest = Product:: where('store_id','=',$id)->orderBy('created_at', 'desc')->limit('6')->get();
+
+
+        $feature = Product:: where([
+                                    ['store_id','=',$id],
+                                    ['feature','=','1'],
+                                ])->orderBy('created_at', 'asc')->limit('6')->get();
+
+
+
+        return view('front customer.customer store.index',compact('store','feature','latest'));
 
     }
 
@@ -109,7 +122,7 @@ class StoreController extends Controller
     {
         $validateData= request()->validate([
             'name_store'=>'required|min:5',
-            'discription'=>'required|max:10000|min:5',
+            'discription'=>'required|min:5',
             'Baner'=>'required|mimes:jpeg,png,jpg|max:10000',
             'logo'=>'required|mimes:jpeg,png,jpg|max:10000',
             'text_top'=>'max:400'
@@ -118,6 +131,7 @@ class StoreController extends Controller
 
         $path= '/storage/'.request()->file('Baner',)->store('image_store',['disk'=>'public']);
         $path2= '/storage/'.request()->file('logo',)->store('logo_store',['disk'=>'public']);
+        $path3= '/storage/'.request()->file('adsimage',)->store('image_store',['disk'=>'public']);
 
         $store->name_store=request()->name_store;
         $store->discription=request()->discription;
@@ -133,6 +147,8 @@ class StoreController extends Controller
         $store->close_times = request()->close_times;
         $store->email = request()->email;
         $store->phone = request()->phone;
+        $store->adsimage = $path3;
+        $store->urlads = request()->urlads;
         $store->save();
 
         return redirect('/user/account/stores');
@@ -150,12 +166,27 @@ class StoreController extends Controller
         return redirect('/user/account/stores');
     }
 
-    public function products(store $store){
+    public function products(store $store , Product $product){
         if($store->user_id != auth()->user()->id)
         return back();
 
-        return view('backend.customer.products',compact('store'));
+        return view('backend.customer.products',compact('store','product'));
 
+    }
+
+    public function category(store $store){
+
+        if($store->user_id != auth()->user()->id)
+        return back();
+
+        return view('backend.customer.show category',compact('store'));
+    }
+
+    public function allproduct(Product $product , Store $store){
+
+        $product = Product:: where('store_id','=', $store->id)->orderBy('created_at', 'desc')->paginate(6);
+
+        return view('front customer.customer store.products',compact('product','store'));
     }
 
 

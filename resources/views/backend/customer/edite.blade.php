@@ -25,8 +25,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="discription" class="form-label">Enable Discription For Store</label>
-            <input value="{{$store->discription}}" type="text" name="discription" class="ckeditor form-control" id="discription" rows="6">
+            <label for="discription" class="form-label">Enable (New Discription short) For Store</label>
+            <textarea type="text" name="discription"  id="discription" rows="6">{{ $store->discription }}</textarea>
         </div>
 
         <div class="mb-3">
@@ -34,6 +34,22 @@
             <input value="{{$store->Baner}}" name="Baner" class="form-control" type="file" id="Baner">
             <img src="{{asset($store->Baner)}}" width="100%" height="300px">
         </div>
+
+        <div class="mb-3">
+            <label for="adsimage" class="form-label">Please Upload ads image For Store height 150px , width 720px </label>
+            <input accept="image/*" name="adsimage" class="form-control" type="file" id="adsimage" width="720px" height="150px">
+            <br>
+            <img id="blah" src="{{asset($store->adsimage)}}" alt="your image" width="720px" height="150px" />
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="urlads" class="form-label">Enter url-Ads for Redirect URL</label>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon3">https://amazon.com/example/</span>
+                  <input value="{{$store->urlads}}" name="urlads" type="text" class="form-control" id="urlads" aria-describedby="basic-addon3">
+                </div>
+            </div>
 
         <div class="mb-3">
             <label for="logo" class="form-label">Please Upload logo For Store width 200px height 150px</label>

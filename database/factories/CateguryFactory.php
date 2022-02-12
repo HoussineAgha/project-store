@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\store;
 
 class CateguryFactory extends Factory
 {
@@ -17,6 +18,7 @@ class CateguryFactory extends Factory
             'name'=>$this->faker->text($maxNbChars = 20),
             'discription'=>$this->faker->text($maxNbChars = 50),
             'image'=>$this->faker->imageUrl($width = 200, $height = 200),
+            'store_id'=>store::factory(),
         ];
     }
 }

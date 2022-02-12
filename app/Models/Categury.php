@@ -12,4 +12,7 @@ class Categury extends Model
     public function product(){
         return $this->hasMany('App\models\Product');
     }
+    public function store(){
+        return $this->belongsTo('App\models\store');
+    }
 }

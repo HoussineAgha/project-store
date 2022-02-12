@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/{id}','App\Http\controllers\Storecontroller@show')->name('store.show');
+Route::get('/All-Product/{store}','App\Http\controllers\Storecontroller@allproduct')->name('page.product');
 
 Route::prefix('user')->group(function(){
 
@@ -44,9 +45,23 @@ Route::prefix('stores')->group(function(){
 
 });
 
-Route::prefix('product')->group(function($store){
+
+Route::prefix('product')->group(function(){
 
     Route::get('/{store}/All-Products','App\Http\controllers\Storecontroller@products')->name('allproduct');
+    Route::get('/create/{store}','App\Http\controllers\ProductController@create');
+    Route::post('/{store}','App\Http\controllers\ProductController@store')->name('creat.product');
+    Route::get('/edite/{product}','App\Http\controllers\ProductController@edit')->name('edit.product');
+    Route::put('/{product}','App\Http\controllers\ProductController@update');
+    Route::get('/delete/{product}','App\Http\controllers\ProductController@destroy')->name('delete.product');
 
 });
 
+Route::prefix('categories')->group(function(){
+    Route::get('/create','App\Http\controllers\CateguryController@create')->name('creat Categories');
+    Route::post('/store','App\Http\controllers\CateguryController@store');
+    Route::get('/{store}/category','App\Http\controllers\Storecontroller@category')->name('view.category');
+    Route::get('/{categury}/edit','App\Http\controllers\CateguryController@edit')->name('edit.category');
+    Route::put('/{categury}/edit','App\Http\controllers\CateguryController@update')->name('update.category');
+    Route::get('/{categury}/delete','App\Http\controllers\CateguryController@destroy')->name('delete.category');
+});

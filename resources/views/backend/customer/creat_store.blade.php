@@ -24,19 +24,39 @@
             </div>
 
             <div class="mb-3">
-                <label for="discription" class="form-label">Enable Discription For Store</label>
+                <label for="discription" class="form-label">Enable (Discription short) For Store</label>
                 <textarea name="discription" class="ckeditor form-control" id="discription" rows="3"></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="Baner" class="form-label">Please Upload Banner For Store height 600px </label>
-                <input  name="Baner" class="form-control" type="file" id="Baner" width="50%" height="200px">
+                <input accept="image/*" name="Baner" class="form-control" type="file" id="Baner" width="50%" height="200px">
+                <br>
+                <img id="blah" src="#" alt="your image" width="100%" height="300px" />
             </div>
 
             <div class="mb-3">
-                <label for="logo" class="form-label">Please Upload logo For Store width 200px height 150px</label>
-                <input  name="logo" class="form-control" type="file" id="logo" width="200px" height="150px">
+                <label for="adsimage" class="form-label">Please Upload Ads image For Store height 150px , width 720px </label>
+                <input accept="image/*" name="adsimage" class="form-control" type="file" id="adsimage" width="720px" height="150px">
+                <br>
+                <img id="blah" src="#" alt="your image" width="720px" height="150px" />
             </div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="urlads" class="form-label">Enter url-Ads for Redirect URL</label>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="basic-addon3">https://amazon.com/example/</span>
+                      <input name="urlads" type="text" class="form-control" id="urlads" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+
+            <div class="mb-3">
+                <label for="logo" class="form-label">Please Upload logo For Store width 200px height 150px</label>
+                <input name="logo" class="form-control" type="file" id="logo" width="200px" height="150px" onchange="loadFile(event)">
+            </div>
+            <img id="output" src="{{ asset('img/defult.jpg') }}" alt="your image" width="150px" height="150px" />
+
         <div class="row g-3">
             <div class="col-md-6">
                 <label for="face" class="form-label">Your vanity FaceBook URL</label>
@@ -96,10 +116,30 @@
                 <input name="phone" type="text" id="phone" class="form-control" placeholder="phone">
             </div>
           </div>
-        <br>
-            <button type="submit" class="btn btn-primary" id="publish">publish</button>
     </div>
+    <br>
+    <button type="submit" class="btn btn-primary" id="publish">publish</button>
 </form>
 
+@section('script')
+<script>
+Baner.onchange = evt => {
+    const [file] = Baner.files
+    if (file) {
+      blah.src = URL.createObjectURL(file)
+    }
+  }
+  </script>
 
+<script>
+    var loadFile = function(event) {
+      var output = document.getElementById('output');
+      output.src = URL.createObjectURL(event.target.files[0]);
+      output.onload = function() {
+        URL.revokeObjectURL(output.src) // free memory
+      }
+    };
+  </script>
+
+@endsection
 @endsection

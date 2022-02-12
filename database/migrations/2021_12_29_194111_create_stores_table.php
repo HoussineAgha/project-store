@@ -16,7 +16,7 @@ class CreateStoresTable extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
             $table->string('name_store');
-            $table->string('discription')->nullable();
+            $table->longtext('discription')->nullable();
             $table->string('Baner')->nullable();
             $table->string('logo')->nullable();
             $table->string('text_top')->nullable();
@@ -29,6 +29,8 @@ class CreateStoresTable extends Migration
             $table->string('close_times')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->string('adsimage')->nullable();
+            $table->string('urlads')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

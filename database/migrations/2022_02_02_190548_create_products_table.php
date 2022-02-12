@@ -20,14 +20,19 @@ class CreateProductsTable extends Migration
             $table->decimal('discount', 5 , 2)->nullable();
             $table->string('image');
             $table->string('gallery')->nullable();
-            $table->string('discription');
+            $table->longtext('discription');
             $table->string('statu')->nullable();
             $table->string('ship')->nullable();
             $table->BigInteger('Inventory')->nullable();
-            $table->string('discription_long')->nullable();
+            $table->longtext('discription_long')->nullable();
+            $table->boolean('feature')->default(0);
+            $table->string('unity')->nullable();
+            $table->integer('qyt')->default(1);
+
             $table->unsignedBigInteger('store_id');
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
-            $table->unsignedBigInteger('cat_id');
+
+            $table->unsignedBigInteger('cat_id')->nullable();
             $table->foreign('cat_id')->references('id')->on('categuries')->onDelete('cascade');
 
             $table->timestamps();

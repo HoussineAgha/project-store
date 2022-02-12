@@ -16,4 +16,8 @@ class Product extends Model
     public function categury(){
         return $this->hasMany('App\models\Categury');
     }
+
+    protected $casts =[
+        'gallery'=>'array',
+    ];
 }

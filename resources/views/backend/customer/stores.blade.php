@@ -19,7 +19,8 @@
             @endempty
           <div class="card-body">
             <h5 class="card-title">{{$item->name_store}}</h5>
-            <p class="card-text">{{ $item->discription }}</p>
+            <p class="card-text">{!! Str::limit($item->discription,150) !!}</p>
+            <p class="card-text"><small class="text-muted"> Store Number : {{ $item->id }} </small></p>
             <p class="card-text"><small class="text-muted"> last update :.{{$item->updated_at}}</small></p>
             <div>
                 <a href="{{route('store.show',$item->id)}}" class="btn btn-info"> View </a>
@@ -27,6 +28,7 @@
                 <a href="{{ route('store.delete',$item->id) }}" class="btn btn-info" id="delete-button"> Delete </a>
                 <hr>
                 <a href="{{ route('allproduct',$item->id) }}" class="btn btn-info  margin-top" id="delete-button"> View Products </a>
+                <a href="{{ route('view.category',$item->id) }}" class="btn btn-info  margin-top" id="delete-button"> View category </a>
             </div>
           </div>
         </div>

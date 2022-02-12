@@ -19,6 +19,8 @@ class CreateCateguriesTable extends Migration
             $table->string('discription');
             $table->string('image')->nullable();
             $table->string('slug')->nullable();
+            $table->unsignedBigInteger('store_id');
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->timestamps();
         });
     }

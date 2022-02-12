@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Categury;
 use App\Http\Requests\StoreCateguryRequest;
 use App\Http\Requests\UpdateCateguryRequest;
+use App\Models\User;
+use App\Models\store;
 
 class CateguryController extends Controller
 {
@@ -25,7 +27,7 @@ class CateguryController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.customer.create Categories');
     }
 
     /**
@@ -34,9 +36,26 @@ class CateguryController extends Controller
      * @param  \App\Http\Requests\StoreCateguryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCateguryRequest $request)
+    public function store()
     {
-        //
+        $datavaldation= request()->validate([
+            'name'=>'required|unique:categuries',
+            'slug'=>'required'
+        ]);
+
+        $path= '/storage/'.request()->File('image')->store('image_cat',['disk'=>'public']);
+
+        $newcat= new Categury();
+        $newcat->name = request()->name;
+        $newcat->discription = request()->discription;
+        $newcat->slug = request()->slug;
+        $newcat->image = $path;
+        $newcat->store_id = request()->store;
+        $newcat->save();
+
+        return redirect('/user/account/stores');
+
+
     }
 
     /**
@@ -58,7 +77,7 @@ class CateguryController extends Controller
      */
     public function edit(Categury $categury)
     {
-        //
+        return view('backend.customer.edite category',compact('categury'));
     }
 
     /**
@@ -68,9 +87,24 @@ class CateguryController extends Controller
      * @param  \App\Models\Categury  $categury
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCateguryRequest $request, Categury $categury)
+    public function update(Categury $categury)
     {
-        //
+        $datavaldation= request()->validate([
+            'name'=>'required',
+            'slug'=>'required'
+        ]);
+        $path= '/storage/'.request()->File('image')->store('image_cat',['disk'=>'public']);
+
+        $categury->name =request()->name;
+        $categury->slug =request()->slug;
+        $categury->discription = request()->discription;
+        $categury->store_id = request()->store;
+        $categury->image =$path;
+
+        $categury->save();
+
+        return redirect('/user/account/stores');
+
     }
 
     /**
@@ -81,6 +115,8 @@ class CateguryController extends Controller
      */
     public function destroy(Categury $categury)
     {
-        //
+        $categury->delete();
+
+        return back();
     }
 }

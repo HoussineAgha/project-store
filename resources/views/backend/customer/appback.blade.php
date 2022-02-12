@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('summary/summernote-lite.min.css') }}">
     <title>@yield('title')</title>
     @section('style')
 
@@ -25,9 +26,7 @@
 
             </a>
     </div>
-
-
-          <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Hello : {{auth()->user()->first_name}} {{auth()->user()->last_name}}</a>
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Hello : {{auth()->user()->first_name}} {{auth()->user()->last_name}}</a>
           <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search">
           <ul class="navbar-nav px-3" id="text1">
             <li class="nav-item text-nowrap">
@@ -73,8 +72,7 @@
                       </button>
                       <div class="collapse show" id="orders-collapse" style="">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                          <li><a href="#" class="link-dark rounded">creat product</a></li>
-                          <li><a href="#" class="link-dark rounded">Processed</a></li>
+                          <li><a href="{{route('creat Categories')}}" class="link-dark rounded">creat Categories</a></li>
 
                         </ul>
                       </div>
@@ -175,6 +173,7 @@
     <script src="{{ asset('js/cdnjs/chart.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/feather.min.js') }}"></script>
+    <script src="{{ asset('summary/summernote-lite.min.js') }}"></script>
     <script src="{{ asset('js/javascript.js') }}"></script>
     @section('script')
 

@@ -3,6 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\store;
+use App\Models\Categury;
+use App\Models\User;
 
 class ProductFactory extends Factory
 {
@@ -21,7 +24,7 @@ class ProductFactory extends Factory
             'gallery'=>$this->faker->imageUrl($width = 640, $height = 480),
             'discription'=>$this->faker->text($maxNbChars = 50),
             'discription_long'=>$this->faker->text($maxNbChars = 200),
-            'store_id'=>Store::factory(),
+            'store_id'=>store::factory(),
             'cat_id'=>Categury::factory(),
         ];
     }
