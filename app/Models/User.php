@@ -50,5 +50,9 @@ class User extends Authenticatable
         return $this->hasMany('App\models\product');
     }
 
+    public function pages(){
+        return $this->hasMany('App\Models\pages');
+    }
+
 
 }

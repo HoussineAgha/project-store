@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\Categury;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 
@@ -48,15 +50,19 @@ class ProductController extends Controller
             'name'=>'required|min:4',
             'price'=>'required',
             'image'=>'required|mimes:jpeg,png,jpg|max:10000',
-            'gallery'=>'mimes:jpeg,png,jpg|max:10000',
+            'gallery.*'=>'mimes:jpeg,png,jpg,jft,pdf|max:10000',
             'discription'=>'required',
         ]);
-
-
+        if(request()->hasFile('image'))
         $path='/storage/'.request()->file('image')->store('image_cat',['disk'=>'public']);
+
         $path2=array();
-        if(request()->hasFile('gallery'))
-        $path2[]='/storage/'.request()->file('gallery')->store('image_cat',['disk'=>'public']);
+        $galleries = request()->gallery;
+        if(count($galleries) > 0){
+        for($i=0 , $imax = count($galleries) ; $i < $imax ; $i++){
+        $path2[$i]='/storage/'.$galleries[$i]->store('image_cat',['disk'=>'public']);
+        }
+    }
 
         $newproduct= new Product();
         $newproduct->name = request()->name;
@@ -93,9 +99,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Store $store , Product $product)
     {
-        //
+
+        $products = Product:: where('store_id','=',$store->id)->inRandomOrder()->limit(4)->get();
+        return view('front customer.customer store.single-product',compact('product','store','products'));
     }
 
     /**
@@ -108,10 +116,11 @@ class ProductController extends Controller
     {
 
         if($product->store->user_id != auth()->user()->id)
-
         return back();
 
-        return view('backend.customer.edite product',compact('product'));
+        $categury = Categury:: where('store_id', $product->store_id)->get();
+
+        return view('backend.customer.edite product',compact('product','categury'));
     }
 
     /**
@@ -123,20 +132,23 @@ class ProductController extends Controller
      */
     public function update(Product $product  , store $store)
     {
-
         $datavalidation= request()-> validate([
             'name'=>'required|min:4',
             'price'=>'required',
             'image'=>'required|mimes:jpeg,png,jpg|max:10000',
-            'gallery'=>'mimes:jpeg,png,jpg|max:10000',
+            'gallery.*'=>'mimes:jpeg,png,jpg|max:10000',
             'discription'=>'required',
         ]);
-
+        if(request()->hasFile('image'))
         $path='/storage/'.request()->file('image')->store('image_cat',['disk'=>'public']);
 
         $path2=array();
-        if(request()->hasFile('gallery'))
-        $path2[]='/storage/'.request()->file('gallery')->store('image_cat',['disk'=>'public']);
+        $galleries = request()->gallery;
+        if(count($galleries) > 0){
+        for($i=0 , $imax = count($galleries) ; $i < $imax ; $i++){
+        $path2[$i]='/storage/'.$galleries[$i]->store('image_cat',['disk'=>'public']);
+        }
+    }
 
         $product->name = request()->name;
         $product->price = request()->price;

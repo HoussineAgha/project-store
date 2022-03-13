@@ -19,4 +19,8 @@ class store extends Model
     public function categury(){
         return $this->hasMany('App\models\Categury');
     }
+
+    public function pages(){
+        return $this->hasMany('App\Models\pages');
+    }
 }

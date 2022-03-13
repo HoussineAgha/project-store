@@ -12,6 +12,9 @@
             margin-top: 20px;
             margin-bottom: 0px;
         }
+        .d-flex{
+            display: inline-flex !important;
+        }
         .col{
             background-color: rgb(255, 255, 255);
             padding-bottom: 25px;
@@ -20,8 +23,8 @@
             border-bottom: 3px solid #2e7fcf !important;
         }
         .card{
-            min-width: max-content;
-            max-width: fit-content;
+            min-width: 250px;
+            max-width: 250px;
         }
         .row > *{
             padding-right:0px;
@@ -38,6 +41,16 @@
         .navbar{
             height: 170px;
         }
+        .list-unstyled{
+
+            text-align: center;
+        }
+        .cat{
+            text-align: center;
+        }
+        .btn-primary{
+            width: 150px;
+        }
 
     </style>
 
@@ -53,7 +66,7 @@
             <div class="col-md-12">
                 @isset($store->text_top)
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M8 16a2 2 0 001.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 008 16z"></path><path fill-rule="evenodd" d="M8 1.5A3.5 3.5 0 004.5 5v2.947c0 .346-.102.683-.294.97l-1.703 2.556a.018.018 0 00-.003.01l.001.006c0 .002.002.004.004.006a.017.017 0 00.006.004l.007.001h10.964l.007-.001a.016.016 0 00.006-.004.016.016 0 00.004-.006l.001-.007a.017.017 0 00-.003-.01l-1.703-2.554a1.75 1.75 0 01-.294-.97V5A3.5 3.5 0 008 1.5zM3 5a5 5 0 0110 0v2.947c0 .05.015.098.042.139l1.703 2.555A1.518 1.518 0 0113.482 13H2.518a1.518 1.518 0 01-1.263-2.36l1.703-2.554A.25.25 0 003 7.947V5z"></path></svg>
-                <span>{{ $store->text_top }}</span>
+                <span>{!! Str::limit($store->text_top , 75) !!}</span>
                 @endisset
 
                 @empty($store->text_top)
@@ -88,23 +101,39 @@
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" >
           @isset($store->logo)
-          <img src="{{asset($store->logo)}}" alt="" width="225px" height="75px" id="logo-customer">
+          <img src="{{asset($store->logo)}}" alt="" width="225px" height="150px" id="logo-customer">
           @endisset
           @empty($store->logo)
-          <img src="{{asset('img\mr.jpeg')}}" alt="" width="150px" height="75px" id="logo-customer">
+          <img src="{{asset('img\mr.jpeg')}}" alt="" width="150px" height="150px" id="logo-customer">
           @endempty
 
         <div class="container">
           @isset($store->adsimage)
-          <a class="navbar-brand" href="{{$store->urlads}}" target="_blank"><img src="{{asset($store->adsimage)}}" alt="" width="720px" height="150px" id="logo-customer"></a>
+          <a class="navbar-brand" href="{{$store->urlads}}" target="_blank"><img src="{{asset($store->adsimage)}}" alt="" width="620px" height="150px" id="logo-customer"></a>
           @endisset
           @empty($store->adsimage)
-          <a class="navbar-brand" href="#" target="_blank"><img src="{{asset('img\ads-store.jpg')}}" alt="" width="720px"  height="150px" id="logo-customer"></a>
+          <a class="navbar-brand" href="#" target="_blank"></a>
           @endempty
 
-            <span class="navbar-toggler-icon"></span>
+          @if (Cart::getTotalQuantity() ==null)
+          <div class="cart" style="margin: 40px ; padding-top:40px;">
+                <div class="qyt">
+                    {{ Cart::getTotalQuantity()}}
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
+        <div>
+          @else
+          <div class="cart" style="margin: 40px ; padding-top:40px;">
+            <a href="{{route('cart.list',$store->id)}}" class="cart">
+                <div class="qyt">
+                    {{ Cart::getTotalQuantity()}}
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
+            </a>
+        <div>
+          @endif
 
-
+        <span class="navbar-toggler-icon"></span>
           <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item active">
@@ -181,73 +210,139 @@
     </div>
     <!-- Banner Ends Here -->
 
+    <div class="cat">
+
+        <div class="container">
+            @include('flash::message')
+
+                @forelse ($categury as $item)
+
+            <ul class="list-unstyled mb-0 row gutters-5">
+                <li class="minw-0 col-2  mt-3" style="background-color: #109cdd;padding: 5px;border-radius: 5px;box-shadow: 1px 1px 10px #ccc; width:auto;  margin-left: 10px; ">
+                    <a href="/categories/{{$item->id}}/{{$store->id}} "class="d-block rounded bg-white p-2 text-reset shadow-sm">
+                        <img src="{{ asset($item->image)}}" alt="" class="img-fit lazyloaded" height="78" onerror="this.onerror=null">
+                            <div class="text-truncate fs-12 fw-600 mt-2 opacity-70">{{ $item->name }}</div>
+                    </a>
+                </li>
+
+            </ul>
+            @empty
+
+            @endforelse
+
+        </div>
+
+    </div>
+
+
+
     <!-- Featured Starts Here -->
 
     <div class="featured container no-gutter">
-        <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Featured product</h3></span>
-        <div class="row">
-            <hr>
-                @foreach ($feature as $item)
+        <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Feature product</h3></span>
+
+        <div class="container">
+            <div class="row">
+                <hr>
+                    @forelse ($feature as $item)
                     <div class="col">
-                    <div class="card text-white bg-black" style="width: 18rem;">
-                        <img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="150px">
-                        <div class="card-body">
-                        <h5 class="card-title">{{$item->name}}</h5>
-                        <br>
-                        <div class="d-flex">
-                        <h5 class="card-text">{{$item->price}} USD</h5>
-                        @isset($item->discount)
-                        <h5 class="card-text"><small class="text-muted text-decoration-line-through"> {{$item->discount}} USD</small></h5>
-                        @endisset
+                        <div class="card text-white bg-black" style="width: 18rem;">
+                            <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
+                            <div class="card-body">
+                            <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</a></h5>
+                            <br>
+                            <div class="d-flex">
+                            <h5 class="card-text">{{$item->price}} USD</h5>
+                            @isset($item->discount)
+                            <h5 class="card-text"><small class="text-muted text-decoration-line-through"> {{$item->discount}} USD</small></h5>
+                            @endisset
 
-                        @empty($item->discount)
-                        <h5 class="card-text"><small class="text-muted text-decoration-line-through"></small></h5>
-                        @endempty
-                        </div>
-                        <br>
-                        <a href="#" class="btn btn-primary">Add To cart</a>
+                            @empty($item->discount)
+                            <h5 class="card-text"><small class="text-muted text-decoration-line-through"></small></h5>
+                            @endempty
+                            </div>
+                            <br>
+                            <div>
 
+                            <br>
+                            <form action="/cart/{{$store->id}}" method="POST">
+                                @csrf
+                                  <input type="hidden" name="id" id="id" value="{{ $item->id }}" >
+                                  <input type="hidden" name="name" id="name" value="{{ $item->name }}">
+                                  <input type="hidden" name="image" id="image" value="{{ $item->image }}">
+                                  @if ($item->discount)
+                                  <input type="hidden" name="discount" id="discount" value="{{ $item->discount }}">
+                                  @else
+                                  <input type="hidden" name="price" id="price" value="{{ $item->price }}" >
+                                  @endif
+                                  <input type="hidden" value="1" name="quantity">
+                              <input type="submit" class="btn btn-primary" value="Add To Cart">
+                            </form>
+                            </div>
+                    </div>
+
+            </div>
+    </div>
+                @empty
+                <div class="empety">
+                    <h5 class="text-center">There are no product available 🙂 😔</h5>
                 </div>
+    @endforelse
 
-        </div>
-</div>
-@endforeach
-        </div>
     <!-- Featred Ends Here -->
 
     <!-- latest product start Here -->
 
-
     <div class="featured container no-gutter">
-      <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Latest product</h3></span>
-      <div class="row">
-          <hr>
-              @foreach ($latest as $item)
-                  <div class="col">
-                  <div class="card text-white bg-black" style="width: 18rem;">
-                      <img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="150px">
-                      <div class="card-body">
-                      <h5 class="card-title">{{$item->name}}</h5>
-                      <br>
-                      <div class="d-flex">
-                      <h5 class="card-text">{{$item->price}} USD</h5>
-                      @isset($item->discount)
-                      <h5 class="card-text"><small class="text-muted text-decoration-line-through"> {{$item->discount}} USD</small></h5>
-                      @endisset
+        <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Latest product</h3></span>
 
-                      @empty($item->discount)
-                      <h5 class="card-text"><small class="text-muted text-decoration-line-through"></small></h5>
-                      @endempty
-                      </div>
-                      <br>
-                      <a href="#" class="btn btn-primary">Add To cart</a>
+        <div class="container">
+            <div class="row">
+                <hr>
+                    @forelse ($latest as $item)
+                    <div class="col">
+                        <div class="card text-white bg-black" style="width: 18rem;">
+                            <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
+                            <div class="card-body">
+                            <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</a></h5>
+                            <br>
+                            <div class="d-flex">
+                            <h5 class="card-text">{{$item->price}} USD</h5>
+                            @isset($item->discount)
+                            <h5 class="card-text"><small class="text-muted text-decoration-line-through"> {{$item->discount}} USD</small></h5>
+                            @endisset
 
-              </div>
+                            @empty($item->discount)
+                            <h5 class="card-text"><small class="text-muted text-decoration-line-through"></small></h5>
+                            @endempty
+                            </div>
+                            <br>
+                            <div>
 
-      </div>
-</div>
-@endforeach
-      </div>
+                            <br>
+                            <form action="/cart/{{$store->id}}" method="POST">
+                                @csrf
+                                  <input type="hidden" name="id" id="id" value="{{ $item->id }}" >
+                                  <input type="hidden" name="name" id="name" value="{{ $item->name }}">
+                                  <input type="hidden" name="image" id="image" value="{{ $item->image }}">
+                                  @if ($item->discount)
+                                  <input type="hidden" name="discount" id="discount" value="{{ $item->discount }}">
+                                  @else
+                                  <input type="hidden" name="price" id="price" value="{{ $item->price }}" >
+                                  @endif
+                                  <input type="hidden" value="1" name="quantity">
+                              <input type="submit" class="btn btn-primary" value="Add To Cart">
+                            </form>
+                            </div>
+                    </div>
+
+            </div>
+    </div>
+                @empty
+                <div class="empety">
+                    <h5 class="text-center">There are no product available 🙂 😔</h5>
+                </div>
+    @endforelse
 
 <!-- latest product end Here -->
 
@@ -256,9 +351,9 @@
             <div class="container">
               <div class="row">
                 <div class="col-md-12">
-                  <div class="logo">
-                    <img src="assets/images/header-logo.png" alt="">
-                  </div>
+                    <div class="logo">
+                        <img src="{{$store->logo}}" alt="" width="225px" height="150px" style="margin-bottom: 0px; ">
+                      </div>
                 </div>
                 <div class="col-md-12">
                   <div class="footer-menu">
@@ -357,8 +452,6 @@
 
 @endsection
   </body>
-
-</html>
 
 @endsection
 

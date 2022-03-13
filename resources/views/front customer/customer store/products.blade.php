@@ -10,9 +10,37 @@
         .bg-black{
             margin-top: 20px;
         }
+        #navbarResponsive{
+            top:175px;
+        }
+
+        .navbar{
+            height: 170px;
+        }
         .pagination {
             margin-top: 35px;
             padding-right: 50%;
+        }
+        .empety{
+            background-color:#dbd8d8;
+            padding: 20px;
+            border-radius:10px;
+        }
+        .d-flex{
+            display: inline-flex !important;
+        }
+        .navbar-light .navbar-toggler{
+            color: rgba(0,0,0,.55);
+            background-color: rgba(0,0,0,.1)
+        }
+        .pe-3{
+            text-align: left;
+        }
+        .bg-light{
+            display: inline-flex;
+        }
+        .card-title a{
+            color: white;
         }
 
     </style>
@@ -63,12 +91,39 @@
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" >
           @isset($store->logo)
-          <img src="{{asset($store->logo)}}" alt="" width="225px" height="75px" id="logo-customer">
+          <img src="{{asset($store->logo)}}" alt="" width="225px" height="150px" id="logo-customer">
           @endisset
           @empty($store->logo)
-          <img src="{{asset('img\mr.jpeg')}}" alt="" width="150px" height="75px" id="logo-customer">
+          <img src="{{asset('img\mr.jpeg')}}" alt="" width="150px" height="150px" id="logo-customer">
           @endempty
 
+          <div class="container">
+            @isset($store->adsimage)
+            <a class="navbar-brand" href="{{$store->urlads}}" target="_blank"><img src="{{asset($store->adsimage)}}" alt="" width="620px" height="150px" id="logo-customer"></a>
+            @endisset
+            @empty($store->adsimage)
+            <a class="navbar-brand" href="#" target="_blank"></a>
+            @endempty
+
+            @if (Cart::getTotalQuantity() ==null)
+            <div class="cart" style="margin: 40px ; padding-top:40px;">
+                  <div class="qyt">
+                      {{ Cart::getTotalQuantity()}}
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
+          <div>
+            @else
+            <div class="cart" style="margin: 40px ; padding-top:40px;">
+              <a href="/cart/{{$store->id}}" class="cart">
+                  <div class="qyt">
+                      {{ Cart::getTotalQuantity()}}
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
+              </a>
+          <div>
+            @endif
+
+    <span class="navbar-toggler-icon"></span>
         <div class="container">
           <a class="navbar-brand" href="#"></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,7 +158,7 @@
 
       </nav>
 
-<body>
+
 
   <body>
 
@@ -123,7 +178,39 @@
               <button class="btn btn-primary" data-filter="*">All Products</button>
               <button class="btn btn-primary" data-filter=".new">Newest</button>
               <button class="btn btn-primary" data-filter=".low">Low Price</button>
-              <button class="btn btn-primary" data-filter=".high">Hight Price</button>
+
+            <div class="navbar-light bg-light">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="width: 275px">
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Categories</h5>
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <hr>
+                <div class="offcanvas-body d-flex">
+                  <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+
+                    <li class="nav-item">
+                        @forelse ($store->categury as $item)
+                        <img src="{{asset($item->image)}}" width="50px" height="50px">
+                        <a class="nav-link active d-flex" aria-current="page" href="/categories/{{$item->id}}/{{$store->id}}"><strong>{{ $item->name }}</strong></a>
+                        <hr>
+                        @empty
+                        <div class="empety">
+                            <h5 class="text-center">There are no Categories available</h5>
+                        </div>
+                        @endforelse
+
+                    </li>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </nav>
+
             </div>
           </div>
         </div>
@@ -131,14 +218,16 @@
     </div>
 
 
+
     <div class="featured container no-gutter">
+        <div class="container">
             <div class="row">
                     @forelse ($product as $item)
-                        <div class="col">
+                    <div class="col">
                         <div class="card text-white bg-black" style="width: 18rem;">
-                            <img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px">
+                            <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
                             <div class="card-body">
-                            <h5 class="card-title">{{$item->name}}</h5>
+                            <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</a></h5>
                             <br>
                             <div class="d-flex">
                             <h5 class="card-text">{{$item->price}} USD</h5>
@@ -151,9 +240,23 @@
                             @endempty
                             </div>
                             <br>
-                            <p class="card-text text-white">{!! Str::limit($item->discription , 30) !!}</p>
+                            <div>
+
                             <br>
-                            <a href="#" class="btn btn-primary">Add To cart</a>
+                            <form action="/cart/{{$store->id}}" method="POST">
+                                @csrf
+                                  <input type="hidden" name="id" id="id" value="{{ $item->id }}" >
+                                  <input type="hidden" name="name" id="name" value="{{ $item->name }}">
+                                  <input type="hidden" name="image" id="image" value="{{ $item->image }}">
+                                  @if ($item->discount)
+                                  <input type="hidden" name="discount" id="discount" value="{{ $item->discount }}">
+                                  @else
+                                  <input type="hidden" name="price" id="price" value="{{ $item->price }}" >
+                                  @endif
+                                  <input type="hidden" value="1" name="quantity">
+                              <input type="submit" class="btn btn-primary" value="Add To Cart">
+                            </form>
+                            </div>
                     </div>
 
             </div>
@@ -163,7 +266,6 @@
                     <h5 class="text-center">There are no product available 🙂 😔</h5>
                 </div>
     @endforelse
-
 
 
 <!-- Featred Page Ends Here -->
@@ -184,7 +286,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="logo">
-                        <img src="{{$store->logo}}" alt="" width="225px" height="75px">
+                        <img src="{{$store->logo}}" alt="" width="225px" height="150px" style="margin-bottom: 0px; ">
                       </div>
                     </div>
                     <div class="col-md-12">

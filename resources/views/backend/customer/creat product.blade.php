@@ -109,7 +109,7 @@
                             <hr>
                             <div class="mb-3">
                                 <label for="gallery" class="form-label">upload Gallery product</label>
-                                <input accept="image/*" name="gallery" class="form-control" type="file" id="gallery" onchange="loadFile(event)" data-multiple="true">
+                                <input accept="image/*" name="gallery[]" class="form-control" type="file" id="gallery" onchange="loadFile(event)" multiple>
                             </div>
                             <img id="output" src="{{ asset('img/defult.jpg') }}" alt="your image" width="150px" height="150px" />
                                 <hr>

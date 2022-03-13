@@ -57,7 +57,12 @@
                         <label for="cat_id">select category</label>
                         <select  name="cat_id" id="cat_id" class="form-control aiz-selectpicker">
                         <option></option>
-                        <option> {{$product->cat_id}} </option>
+                        @foreach ($categury as  $item)
+                        <option>{{$item->id}}</option>
+                        @endforeach
+
+
+
                         </select>
                     </div>
 
@@ -109,7 +114,7 @@
 
                             <div class="mb-3">
                                 <label for="gallery" class="form-label">upload Gallery product</label>
-                                <input  accept="image/*" name="gallery" class="form-control" type="file" id="gallery" onchange="loadFile(event)" multiple>
+                                <input  accept="image/*" name="gallery[]" class="form-control" type="file" id="gallery" onchange="loadFile(event)" multiple>
                             </div>
                             @if(is_array($product->gallery))
                             @foreach($product->gallery as $key => $item)

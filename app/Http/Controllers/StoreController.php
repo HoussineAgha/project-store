@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\store;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Categury;
+use App\Models\pages;
 use App\Http\Requests\StorestoreRequest;
 use App\Http\Requests\UpdatestoreRequest;
 
@@ -43,12 +45,16 @@ class StoreController extends Controller
             'discription'=>'required|min:5',
             'Baner'=>'required|mimes:jpeg,png,jpg|max:10000',
             'logo'=>'required|mimes:jpeg,png,jpg|max:10000',
-            'text_top'=>'max:400'
+            'text_top'=>'max:400',
+            'adsimage'=>'mimes:jpeg,png,jpg|max:10000',
         ]);
 
+        if(request()->hasFile('Baner'))
         $path= '/storage/'.request()->file('Baner')->store('image_store',['disk'=>'public']);
+        if(request()->hasFile('logo'))
         $path2= '/storage/'.request()->file('logo')->store('logo_store',['disk'=>'public']);
-        $path3= '/storage/'.request()->file('adsimage',)->store('image_store',['disk'=>'public']);
+        if(request()->hasFile('adsimage'))
+        $path3 = '/storage/'.request()->file('adsimage')->store('image_store',['disk'=>'public']);
 
         $newstore = new store();
         $newstore->name_store = request()->name_store;
@@ -64,9 +70,9 @@ class StoreController extends Controller
         $newstore->opening_times = request()->opening_times;
         $newstore->close_times = request()->close_times;
         $newstore->email = request()->email;
-        $newstore->	phone = request()->	phone;
-        $newstore->	adsimage = $path3;
-        $newstore->	urlads = request()->urlads;
+        $newstore->phone = request()->	phone;
+        $newstore->adsimage =$path3;
+        $newstore->urlads = request()->urlads;
         auth()->user()->stores()->save($newstore);
 
         return redirect('/user/account/stores');
@@ -78,21 +84,20 @@ class StoreController extends Controller
      * @param  \App\Models\store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $Store, Product $product , $id)
+    public function show(Store $Store, Product $product , $id ,Pages $pages)
     {
         $store= Store::find($id);
 
-        $latest = Product:: where('store_id','=',$id)->orderBy('created_at', 'desc')->limit('6')->get();
-
+        $latest = Product:: where('store_id','=',$id)->orderBy('created_at', 'desc')->limit('8')->get();
 
         $feature = Product:: where([
                                     ['store_id','=',$id],
                                     ['feature','=','1'],
-                                ])->orderBy('created_at', 'asc')->limit('6')->get();
+                                ])->orderBy('created_at', 'asc')->limit('8')->get();
 
+        $categury= Categury:: where('store_id','=' ,$id)->orderBy('created_at','desc')->limit('6')->get();
 
-
-        return view('front customer.customer store.index',compact('store','feature','latest'));
+        return view('front customer.customer store.index',compact('store','feature','latest','categury','pages','product'));
 
     }
 
@@ -104,10 +109,8 @@ class StoreController extends Controller
      */
     public function edit(store $store)
     {
-
         if($store->user_id != auth()->user()->id)
         return back();
-
         return view('backend.customer.edite',compact('store'));
     }
 
@@ -128,9 +131,11 @@ class StoreController extends Controller
             'text_top'=>'max:400'
         ]);
 
-
+        if(request()->hasFile('Baner'))
         $path= '/storage/'.request()->file('Baner',)->store('image_store',['disk'=>'public']);
+        if(request()->hasFile('logo'))
         $path2= '/storage/'.request()->file('logo',)->store('logo_store',['disk'=>'public']);
+        if(request()->hasFile('adsimage'))
         $path3= '/storage/'.request()->file('adsimage',)->store('image_store',['disk'=>'public']);
 
         $store->name_store=request()->name_store;
@@ -169,24 +174,19 @@ class StoreController extends Controller
     public function products(store $store , Product $product){
         if($store->user_id != auth()->user()->id)
         return back();
-
         return view('backend.customer.products',compact('store','product'));
 
     }
 
     public function category(store $store){
-
         if($store->user_id != auth()->user()->id)
         return back();
-
         return view('backend.customer.show category',compact('store'));
     }
 
-    public function allproduct(Product $product , Store $store){
-
+    public function allproduct(Categury $categury , Store $store){
         $product = Product:: where('store_id','=', $store->id)->orderBy('created_at', 'desc')->paginate(6);
-
-        return view('front customer.customer store.products',compact('product','store'));
+        return view('front customer.customer store.products',compact('product','store','categury'));
     }
 
 

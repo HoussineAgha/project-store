@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCateguryRequest;
 use App\Http\Requests\UpdateCateguryRequest;
 use App\Models\User;
 use App\Models\store;
+use App\Models\Product;
 
 class CateguryController extends Controller
 {
@@ -64,9 +65,16 @@ class CateguryController extends Controller
      * @param  \App\Models\Categury  $categury
      * @return \Illuminate\Http\Response
      */
-    public function show(Categury $categury)
+    public function show(Categury $categury , Store $store)
     {
-        //
+        if($categury->store_id != $store->id)
+        return back();
+
+        $product= Product::where([
+            ['cat_id','=',$categury->id],
+            ['store_id','=',$store->id],
+        ])->get();
+        return view('front customer.customer store.show categury', compact('categury','store','product'));
     }
 
     /**
@@ -75,9 +83,13 @@ class CateguryController extends Controller
      * @param  \App\Models\Categury  $categury
      * @return \Illuminate\Http\Response
      */
-    public function edit(Categury $categury)
+    public function edit(Categury $categury , Store $store)
     {
-        return view('backend.customer.edite category',compact('categury'));
+        if($categury->store->user_id != auth()->user()->id)
+
+        return back();
+
+        return view('backend.customer.edite category',compact('categury','store'));
     }
 
     /**

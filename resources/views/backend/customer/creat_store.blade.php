@@ -37,9 +37,9 @@
 
             <div class="mb-3">
                 <label for="adsimage" class="form-label">Please Upload Ads image For Store height 150px , width 720px </label>
-                <input accept="image/*" name="adsimage" class="form-control" type="file" id="adsimage" width="720px" height="150px">
+                <input name="adsimage" class="form-control" type="file" id="adsimage" width="720px" height="150px">
                 <br>
-                <img id="blah" src="#" alt="your image" width="720px" height="150px" />
+                <img src="#" alt="your image" width="720px" height="150px" />
             </div>
 
             <div class="row g-3">
@@ -53,7 +53,7 @@
 
             <div class="mb-3">
                 <label for="logo" class="form-label">Please Upload logo For Store width 200px height 150px</label>
-                <input name="logo" class="form-control" type="file" id="logo" width="200px" height="150px" onchange="loadFile(event)">
+                <input name="logo" class="form-control" type="file" id="logo"  onchange="loadFile(event)">
             </div>
             <img id="output" src="{{ asset('img/defult.jpg') }}" alt="your image" width="150px" height="150px" />
 

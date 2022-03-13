@@ -1,11 +1,3 @@
-<?php
-$message=[
-    'creat_store'=>'success',
-    'register'=>'thank you for register',
-    'login'=>'thank you for login'
-]
-
-?>
 
 @if ($errors->any())
         <div class="alert alert-danger" role="alert">
@@ -17,7 +9,7 @@ $message=[
         </div>
 
         @else
-            <?php return $message ;  ?>
+
         @endif
 
 

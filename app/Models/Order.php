@@ -16,4 +16,9 @@ class Order extends Model
     public function user(){
         return $this->belongsTo('App\models\user');
     }
+
+    protected $casts = [
+        'product'=>'array',
+    ];
+
 }

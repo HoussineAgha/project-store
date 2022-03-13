@@ -211,3 +211,17 @@
     color: #ffc107;
     text-decoration: none;
 }
+.d-md-block{
+    padding-bottom: 75px;
+}
+.qyt{
+    background-color:black;
+    color:white;
+    border-radius:50%;
+    padding-top: 7px;
+    padding-bottom: 8px;
+    text-align: center;
+}
+.bg-success{
+    margin-top: 25px;
+}
