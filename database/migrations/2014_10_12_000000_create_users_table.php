@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('country');
             $table->string('Phone')->nullable();
             $table->string('image')->nullable();
+            $table->string('role')->default('seller');
             $table->timestamps();
         });
     }

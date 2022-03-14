@@ -3,11 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\support\Facades\Auth;
+
 use App\models\User;
 
 class Usercontroller extends Controller
 {
 
+    public function index(){
+        $role = Auth::User()->role;
+
+        if($role == 'admin'){
+            return 'admin';
+        }
+
+        if($role == 'seller'){
+            return view('backend.customer.index');
+        }
+
+    }
 
     public function creat(){
 
@@ -36,8 +50,8 @@ class Usercontroller extends Controller
         $newUser->password=bcrypt(request()->password);
         $newUser->country=request()->country;
         $newUser->Phone=request()->Phone;
+        $newUser->role=request()->flexRadioDefault;
         $newUser->save();
-
             return view('form.login');
     }
     public function login(){
@@ -72,7 +86,8 @@ class Usercontroller extends Controller
 
     public function account(){
         //دالة التوجيه الى لوحة تحكم الزائر
-        return view('backend.customer.index');
+        return redirect(route('redirect'));
+        //return view('backend.customer.index');
     }
 
     public function stores(){

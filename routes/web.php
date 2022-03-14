@@ -22,12 +22,13 @@ Route::get('/All-Product/{store}','App\Http\controllers\Storecontroller@allprodu
 //Route::get('/{store}/{pages}','App\Http\controllers\Pagescontroller@show');
 
 Route::prefix('user')->group(function(){
+    Route::get('/control','App\Http\controllers\Usercontroller@index')->name('redirect');
     Route::get('/registration','App\Http\controllers\Usercontroller@creat');
     Route::post('/store','App\Http\controllers\Usercontroller@store');
     Route::get('/login','App\Http\controllers\Usercontroller@login')->name('login');
     Route::post('/selectlogin','App\Http\controllers\Usercontroller@selectlogin');
     Route::get('/logout','App\Http\controllers\Usercontroller@logout');
-    Route::get('/account','App\Http\controllers\Usercontroller@account');
+    Route::get('/account','App\Http\controllers\Usercontroller@account')->name('account.seller');
     Route::get('/account/stores','App\Http\controllers\Usercontroller@stores');
     Route::get('/profile','App\Http\controllers\Usercontroller@edit')->name('edit');
     Route::put('/upadte','App\Http\controllers\Usercontroller@update')->name('user.update');
@@ -39,6 +40,11 @@ Route::prefix('stores')->group(function(){
     Route::get('/{store}/edite','App\Http\controllers\Storecontroller@edit')->name('edite');
     Route::put('/{store}','App\Http\controllers\Storecontroller@update')->name('update');
     Route::get('/delete/{store}','App\Http\controllers\Storecontroller@destroy')->name('store.delete');
+    Route::post('/{store}/client/login','App\Http\controllers\Storecontroller@login')->name('client.login');;
+    Route::get('/{store}/client/login','App\Http\controllers\Storecontroller@loginclient')->name('client.loginee');
+    Route::get('/{store}/client/registar','App\Http\controllers\Storecontroller@registar');
+    Route::post('/{store}/client/registar','App\Http\controllers\Storecontroller@registration');
+
 });
 
 Route::prefix('product')->group(function(){
@@ -88,6 +94,11 @@ Route::prefix('order')->group(function(){
 Route::prefix('payment')->group(function(){
     Route::post('/stripe/{store}', 'App\Http\controllers\StripeController@stripePost')->name('stripe.post');
     Route::get('/success/{store}', 'App\Http\controllers\StripeController@stripe')->name('strip.get');
+});
+
+Route::prefix('client')->group(function(){
+
+
 });
 
 

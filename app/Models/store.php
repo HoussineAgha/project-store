@@ -23,4 +23,8 @@ class store extends Model
     public function pages(){
         return $this->hasMany('App\Models\pages');
     }
+
+    public function client(){
+        return $this->hasMany('App\Models\Client');
+    }
 }

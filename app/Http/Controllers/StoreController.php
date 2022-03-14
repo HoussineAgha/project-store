@@ -8,6 +8,9 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Categury;
 use App\Models\pages;
+use App\Models\Client;
+use Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Requests\StorestoreRequest;
 use App\Http\Requests\UpdatestoreRequest;
 
@@ -187,6 +190,49 @@ class StoreController extends Controller
     public function allproduct(Categury $categury , Store $store){
         $product = Product:: where('store_id','=', $store->id)->orderBy('created_at', 'desc')->paginate(6);
         return view('front customer.customer store.products',compact('product','store','categury'));
+    }
+
+
+
+    public function registar(Store $store){
+        return view('front customer.customer store.form.registar',compact('store'));
+    }
+
+    public function registration(Store $store){
+        $valdateData = request()->validate([
+            //'Phone'=>"required|min:6|unique:clients",
+            'email'=>"required|unique:clients",
+            'fullname'=>"required",
+            'password'=>'required|min:5'
+        ]);
+
+        $newclient = new client();
+        $newclient->fullname = request()->fullname;
+        $newclient->email = request()->email;
+        $newclient->password =bcrypt(request()->password);
+        $newclient->phone = request()->phone;
+        $newclient->store_id = $store->id;
+        $newclient->save();
+
+        return redirect(route('client.loginee',$store->id));
+    }
+
+
+    public function loginclient(Store $store){
+        return view('front customer.customer store.form.login',compact('store'));
+    }
+
+    public function login(Store $store){
+        $valdateData= request()->validate([
+            'email'=>'required',
+            'password'=>'required|min:5'
+        ]);
+
+        if(Auth::guard('client')->attempt(['email' => request()->email, 'password' =>request()-> password])){
+            return 'test';
+        }else{
+            return back()->withErrors(['Wrong login information']);
+        }
     }
 
 
