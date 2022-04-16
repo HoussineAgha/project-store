@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\Auth;
-
 use App\models\User;
 
 class Usercontroller extends Controller
@@ -50,7 +49,7 @@ class Usercontroller extends Controller
         $newUser->password=bcrypt(request()->password);
         $newUser->country=request()->country;
         $newUser->Phone=request()->Phone;
-        $newUser->role=request()->flexRadioDefault;
+        $newUser->role=request()->role;
         $newUser->save();
             return view('form.login');
     }

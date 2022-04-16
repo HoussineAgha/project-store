@@ -25,6 +25,18 @@
             width: 125px;
             height: 125px;
         }
+        .fas, .fa-solid{
+            font-size:36px;
+            color: black;
+            margin-top: 10px;
+        }
+
+        .btn-dark{
+            width: max-content;
+            margin-top: 40px;
+            margin-left: 10px;
+        }
+
     </style>
 @endsection
 
@@ -83,6 +95,18 @@
             <a class="navbar-brand" href="#" target="_blank"></a>
             @endempty
 
+<!-- للتحقق من ان العميل مسجل بالمتجر ام لا-->
+            @if (auth('client')->check())
+            <div class="iconuser" style="display: flex ;">
+                <a href="/client/{{$store->id}}/logout"  class="btn btn-dark">Log out</a>
+                <a href="/client/dashboard/{{$store->id}}"  class="btn btn-dark">Account</a>
+            </div>
+            @else
+            <div class="iconuser">
+                <a href="{{route('client.loginee',$store->id)}}"><i class="fa-solid fa-user-plus"></i></a>
+            </div>
+            @endif
+<!-------- ايقونة السلة------------>
             @if (Cart::getTotalQuantity() ==null)
             <div class="cart" style="margin: 40px ; padding-top:40px;">
                   <div class="qyt">
@@ -100,7 +124,7 @@
               </a>
           <div>
             @endif
-
+<!----- القائمة----------->
         <span class="navbar-toggler-icon"></span>
         <div class="container">
           <a class="navbar-brand" href="#"></a>
@@ -190,7 +214,6 @@
               <p>{!!Str::limit($product->discription,500) !!}</p>
               <span>7 left on stock</span>
 
-
               <form action="/cart/{{$store->id}}" method="POST">
                   @csrf
                 <label for="quantity">Quantity:</label>
@@ -198,6 +221,8 @@
                     <input type="hidden" name="id" id="id" value="{{ $product->id }}" >
                     <input type="hidden" name="name" id="name" value="{{ $product->name }}">
                     <input type="hidden" name="image" id="image" value="{{ $product->image }}">
+                    <input type="hidden" name="shipping_cost" id="shipping_cost" value="{{ $product->shipping_cost }}">
+                    <input type="hidden" name="shipping_type" id="shipping_type" value="{{ $product->shipping_type }}">
                     @if ($product->discount)
                     <input type="hidden" name="discount" id="discount" value="{{ $product->discount }}">
                     @else
@@ -208,7 +233,7 @@
 
               <div class="down-content">
                 <div class="categories">
-                  <h6>Category: <span><a href="#">{{$product->cat_id}} , </a>
+                  <h6>Category: <span><a href='#'>{{$product->cat_id}}</a>
                 </div>
                 <div class="share">
                   <h6>Share: <span><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-twitter"></i></a></span></h6>

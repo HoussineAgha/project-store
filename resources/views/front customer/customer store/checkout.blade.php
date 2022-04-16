@@ -15,6 +15,18 @@
             margin-top: 50px;
         }
 
+        .fas, .fa-solid{
+            font-size:36px;
+            color: black;
+            margin-top: 10px;
+        }
+
+        .btn-dark{
+            width: max-content;
+            margin-top: 40px;
+            margin-left: 10px;
+        }
+
     </style>
 @endsection
 
@@ -75,7 +87,19 @@
             <a class="navbar-brand" href="#" target="_blank"></a>
             @endempty
 
-            <div class="cart" style="margin: 40px">
+<!-- للتحقق من ان العميل مسجل بالمتجر ام لا-->
+            @if (auth('client')->check())
+            <div class="iconuser" style="display: flex ;">
+                <a href="/client/{{$store->id}}/logout"  class="btn btn-dark">Log out</a>
+                <a href="/client/dashboard/{{$store->id}}"  class="btn btn-dark">Account</a>
+            </div>
+            @else
+            <div class="iconuser">
+                <a href="{{route('client.loginee',$store->id)}}"><i class="fa-solid fa-user-plus"></i></a>
+            </div>
+            @endif
+<!-------- ايقونة السلة------------>
+            <div class="cart" style="margin: 40px; padding-top:40px">
                 <div class="qyt">
                     {{ Cart::getTotalQuantity()}}
                 </div>
@@ -84,7 +108,7 @@
 
                 </a>
             <div>
-
+<!----- القائمة----------->
     <span class="navbar-toggler-icon"></span>
         <div class="container">
           <a class="navbar-brand" href="#"></a>
@@ -132,18 +156,25 @@
                 @foreach ($cartItems as $item)
               <li class="list-group-item d-flex justify-content-between lh-sm">
                     @php
-                        $total = $item->price*$item->quantity;
+                        $total = $item->price*$item->quantity ;
                     @endphp
                     <div>
                         <h6 class="my-0">{{$item->name}}</h6>
                     </div>
+
                     @if ($item->price)
                     <span class="text-muted">${{$item->price}}x({{$item->quantity}}) ={{$total}} $</span>
                     @else
                     <span class="text-muted">${{$item->discount}}x({{$item->quantity}})</span>
                     @endif
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">shipping</h6>
 
+                    </div>
+                    <span class="text-muted">${{$item->shipping}}</span>
               </li>
+
               @endforeach
 <!--
               <li class="list-group-item d-flex justify-content-between bg-light">
@@ -162,7 +193,6 @@
           </div>
         @include('shared.error')
           <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3">Billing address</h4>
             <form
             role="form"
             action="{{ route('stripe.post',$store->id) }}"
@@ -175,78 +205,14 @@
 
               <div class="row g-3">
                 <div class="col-12">
-                    <label for="total" class="form-label"></label>
-                    <input type="text" name="total" class="form-control" id="total"  hidden>
+                    <label for="phone" class="form-label"></label>
+                    <input type="text" name="phone" class="form-control" id="phone"  hidden>
                     <div class="invalid-feedback">
                     </div>
                   </div>
 
-                <div class="col-sm-6">
-                  <label for="firstname" class="form-label">First name</label>
-                  <input type="text" class="form-control" name="firstname" id="firstname"  required>
-                  <div class="invalid-feedback">
-                    Valid first name is required.
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <label for="lastname" class="form-label">Last name</label>
-                  <input type="text" class="form-control" name="lastname" id="lastname"  required>
-                  <div class="invalid-feedback">
-                    Valid last name is required.
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" name="email" id="email" placeholder="you@example.com">
-                  <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="number" class="form-control" name="phone" id="phone" placeholder="965587..." required>
-                    <div class="invalid-feedback">
-                      Please enter a valid phone address for shipping updates.
-                    </div>
-                  </div>
-
-                <div class="col-12">
-                  <label for="address" class="form-label">Address</label>
-                  <input type="text" name="address" class="form-control" id="address" placeholder="1234 Main St" required>
-                  <div class="invalid-feedback">
-                    Please enter your shipping address.
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                <label for="country" class="form-label">Country</label>
-                <input type="text" class="form-control" name="country" id="country" required>
-                  <div class="invalid-feedback">
-                    Please select a valid country .
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                    <label for="state" class="form-label">state</label>
-                    <input type="text" class="form-control" name="state" id="state" required>
-                      <div class="invalid-feedback">
-                        Please select a valid state .
-                      </div>
-                    </div>
-              </div>
-
-              <hr class="my-4">
-
-              <div class="form-check">
-                <input type="checkbox" name="sameaddress" class="form-check-input" id="sameaddress" checked>
-                <label class="form-check-label" for="sameaddress">Shipping address is the same as my billing address</label>
-              </div>
-
-              <hr class="my-4">
               <h4 class="mb-3">Payment</h4>
+              <hr class="my-4">
               <div class="my-3">
                 <div class="form-check">
                 <label class="form-check-label" for="credit">Credit card</label>
@@ -264,7 +230,7 @@
                  </div>
                 </div>
               </div>
-
+              </div>
 <!---start payment---->
 
 
@@ -289,21 +255,31 @@
             <input type="hidden" name="quantity" id="quantity" value="{{$item->quantity}}"/>
             <input type="hidden" name="price" id="price" value="{{$item->price}}"/>
          @endforeach
+         <input type="hidden" name="totalss" id="totalss" value="{{\Cart::getTotal()}}"/>
        <hr class="my-4">
        <div class="row">
         <div class="col-xs-12">
             <button class="btn btn-primary btn-lg btn-block" id="submitbtn" type="submit">Pay with stripe {{$totals}}$</button>
          </div>
+
         </form>
        </div>
  </div>
+            <form action="{{route('charge',$store->id)}}" method="POST">
+                @csrf
+                @foreach ($cartItems as $item)
+                <input type="hidden" name="id" id="id" value="{{$item->id}}"/>
+                <input type="hidden" name="nameproduct" id="nameproduct" value="{{$item->name}}"/>
+                <input type="hidden" name="quantity" id="quantity" value="{{$item->quantity}}"/>
+                <input type="hidden" name="price" id="price" value="{{$item->price}}"/>
+            @endforeach
         <div class="col-xs-12" id="knetttt" style="display: none" >
-            <a href="{{route('charge',$store->id)}}" class="btn btn-primary btn-lg btn-block" id="submitbtn">Pay with Mada {{$totals}}$</a>
+            <button class="btn btn-primary btn-lg btn-block" id="submitbtn" type="submit">Pay with Mada {{$totals}}$</button>
         </div>
           </div>
         </div>
       </main>
-
+    </form>
 <!-- payment end -->
 
                   <!-- Footer Starts Here -->

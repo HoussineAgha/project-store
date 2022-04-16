@@ -15,29 +15,29 @@
     <div class="col-md-12">
             <div class="mb-3">
                 <label for="name_store" class="form-label"></label>
-                <input name="name_store" type="text" class="form-control" id="name_store" placeholder="Enable store Name Example : The Best">
+                <input name="name_store" type="text" class="form-control" id="name_store" placeholder="Enable store Name Example : The Best" value="{{old('name_store')}}">
             </div>
 
             <div class="mb-3">
                 <label for="text_top" class="form-label"> inter your ads</label>
-                <input name="text_top" type="text" class="form-control" id="text_top" >
+                <input name="text_top" type="text" class="form-control" id="text_top" value="{{old('text_top')}}" >
             </div>
 
             <div class="mb-3">
                 <label for="discription" class="form-label">Enable (Discription short) For Store</label>
-                <textarea name="discription" class="ckeditor form-control" id="discription" rows="3"></textarea>
+                <textarea name="discription" class="ckeditor form-control" id="discription" rows="3" value="{{old('discription')}}" ></textarea>
             </div>
 
             <div class="mb-3">
                 <label for="Baner" class="form-label">Please Upload Banner For Store height 600px </label>
-                <input accept="image/*" name="Baner" class="form-control" type="file" id="Baner" width="50%" height="200px">
+                <input accept="image/*" name="Baner" class="form-control" type="file" id="Baner" width="50%" height="200px" value="{{old('Baner')}}">
                 <br>
                 <img id="blah" src="#" alt="your image" width="100%" height="300px" />
             </div>
 
             <div class="mb-3">
                 <label for="adsimage" class="form-label">Please Upload Ads image For Store height 150px , width 720px </label>
-                <input name="adsimage" class="form-control" type="file" id="adsimage" width="720px" height="150px">
+                <input name="adsimage" class="form-control" type="file" id="adsimage" width="720px" height="150px" value="{{old('adsimage')}}">
                 <br>
                 <img src="#" alt="your image" width="720px" height="150px" />
             </div>
@@ -47,7 +47,7 @@
                     <label for="urlads" class="form-label">Enter url-Ads for Redirect URL</label>
                     <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon3">https://amazon.com/example/</span>
-                      <input name="urlads" type="text" class="form-control" id="urlads" aria-describedby="basic-addon3">
+                      <input name="urlads" type="text" class="form-control" id="urlads" aria-describedby="basic-addon3" value="{{old('urlads')}}">
                     </div>
                 </div>
 

@@ -25,6 +25,18 @@ $(document).ready(function() {
       });
   });
 
+// كود السيليكت في لنوع الشحن في حال كان فري بخفي حقل السعر في حال كان مدفوع بظهر حقل اللي بدي اكتب فيه السعر
+
+$(function() {
+    $('#shipping_cost').hide();
+    $('#shipping_type').change(function(){
+        if($('#shipping_type').val() == 'price_shipping') {
+            $('#shipping_cost').show();
+        } else {
+            $('#shipping_cost').hide();
+        }
+    });
+});
 
 
 

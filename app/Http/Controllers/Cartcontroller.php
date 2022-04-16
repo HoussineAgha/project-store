@@ -1,23 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use \Darryldecode\Cart\CartCondition;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\Client;
+use Session;
 class Cartcontroller extends Controller
 {
 
-    public function cartList(Product $product , Store $store)
+    public function cartList(Product $product,Store $store,Client $client)
     {
         $cartItems = \Cart::getContent();
+        $client = Client::first('id');
 
         // dd($cartItems);
-        return view('front customer.customer store.cart', compact('cartItems' , 'product' , 'store'));
+        return view('front customer.customer store.cart', compact('cartItems','product','store','client'));
     }
 
     public function addToCart(Request $request , Product $product , Store $store)
     {
+/*
+        $condition = new \Darryldecode\Cart\CartCondition(array(
+            'name' => 'voucher',
+            'type' => 'voucher',
+            'target' => 'subtotal', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+            'value' => $request->shipping_cost
+          ));
+*/
         $cartItems = \Cart::getContent();
         if(empty($request->discount)){
         \Cart::add([
@@ -25,9 +36,11 @@ class Cartcontroller extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'quantity' => $request->quantity,
+            'shipping' =>$request->shipping_cost,
             'attributes' => array(
                 'image' => $request->image,
-            )
+            ),
+
         ]);
     }else{
         \Cart::add([
@@ -35,11 +48,15 @@ class Cartcontroller extends Controller
             'name' => $request->name,
             'price' => $request->discount,
             'quantity' => $request->quantity,
+            'shipping' =>$request->shipping_cost,
             'attributes' => array(
                 'image' => $request->image,
-            )
+            ),
         ]);
-    }
+}
+
+
+        Session::put('cartitems',$cartItems);
         session()->flash('success', 'Product is Added to Cart Successfully !');
 
         return redirect()->route('cart.list',$store->id);

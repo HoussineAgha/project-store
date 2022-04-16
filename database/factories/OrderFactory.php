@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\store;
 use App\Models\Product;
+use App\Models\Client;
 
 function getproduct(){
 $product=array();
@@ -31,7 +32,7 @@ class OrderFactory extends Factory
             'status'=>$this->faker->randomElement($array = array ('delivered','pending','done','failed')),
             'product'=>getproduct(),
             'store_id'=>store::factory(),
-            'user_id'=>User::factory(),
+            'client_id'=>Client::factory(),
         ];
     }
 }

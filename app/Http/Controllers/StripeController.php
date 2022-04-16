@@ -12,7 +12,8 @@ use App\Models\Order;
 class StripeController extends Controller
 {
 
-    public function stripe(Store $store ,Request $request ){
+    public function stripe(Store $store,Request $request){
+
         $cartItems = \Cart::getContent();
         $totals = \Cart::getTotal();
         if(session('success')){
@@ -29,17 +30,13 @@ class StripeController extends Controller
      */
     public function stripePost(Request $request , Store $store){
 
-        $validatedata = request()->validate([
-            'firstname'=>'required|min:3',
-            'email'=>'required|min:12',
-            'lastname'=>'required|min:3',
-            'phone'=>'required|min:5',
-            'address'=>'required|min:3',
-            'country'=>'required|min:3',
-        ]);
-
-        $totals = \Cart::getTotal();
+        //$totals = \Cart::getTotal();
         $cartItems = \Cart::getContent();
+        $totals =0;
+        $cartItems = \Cart::getContent();
+        foreach($cartItems as $item){
+            $totals += $item->price*$item->quantity + $item->shipping ;
+        }
 
         $datavalidate = $request->validate([
             'cardnumber'=>'required',
@@ -60,7 +57,7 @@ class StripeController extends Controller
             'paymentMethod'=>$request->paymentMethod,
         ]);
 
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe\Stripe::setApiKey('sk_test_51IEzzjKfOvzmk3QD8hbRIBwcn513uiZ1GYxrMiu5g4ie4Go93nYmtN4aUBXmwJwSLQVacGdQlTGYurHbhQ0Tlywk00UvLSp5DH');
         $stripe =Stripe\Charge::create ([
                 "amount" => $totals *100,
                 "currency" => "usd",
@@ -70,15 +67,17 @@ class StripeController extends Controller
 
         Session::flash('success', 'Thank You Payment successful!');
 
-        $product[]=$cartItems;
-
+        $product=$cartItems;
         $neworder = new Order();
         $neworder->receipt_id =  $stripe['id'];
         $neworder->patment_type = 'visa';
         $neworder->status = $stripe['status'];
         $neworder->product = $product;
-        $neworder->user_id = 15;
+        $neworder->client_id = \Auth::guard('client')->user()->id;
         $neworder->store_id = $store->id;
+        $neworder->total = $request->totalss;
+        $neworder->shipping = 'test';
+        $neworder->cartnumber = $stripe['payment_method_details']['card']['last4'];
         $neworder->save();
 
         return redirect()->route('strip.get',$store->id);

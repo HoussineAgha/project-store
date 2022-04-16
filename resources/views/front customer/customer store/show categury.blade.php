@@ -39,6 +39,18 @@
             display: inline-flex;
         }
 
+        .fas, .fa-solid{
+            font-size:36px;
+            color: black;
+            margin-top: 10px;
+        }
+
+        .btn-dark{
+            width: max-content;
+            margin-top: 40px;
+            margin-left: 10px;
+        }
+
     </style>
 @endsection
 
@@ -101,6 +113,18 @@
             <a class="navbar-brand" href="#" target="_blank"></a>
             @endempty
 
+<!-- للتحقق من ان العميل مسجل بالمتجر ام لا-->
+            @if (auth('client')->check())
+            <div class="iconuser" style="display: flex ;">
+                <a href="/client/{{$store->id}}/logout"  class="btn btn-dark">Log out</a>
+                <a href="/client/dashboard/{{$store->id}}"  class="btn btn-dark">Account</a>
+            </div>
+            @else
+            <div class="iconuser">
+                <a href="{{route('client.loginee',$store->id)}}"><i class="fa-solid fa-user-plus"></i></a>
+            </div>
+            @endif
+<!-------- ايقونة السلة------------>
             @if (Cart::getTotalQuantity() ==null)
             <div class="cart" style="margin: 40px ; padding-top:40px;">
                   <div class="qyt">

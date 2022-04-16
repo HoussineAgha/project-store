@@ -72,6 +72,8 @@ class ProductController extends Controller
         $newproduct->gallery = $path2;
         $newproduct->discription = request()->discription;
         $newproduct->ship = request()->ship;
+        $newproduct->shipping_type = request()->shipping_type;
+        $newproduct->shipping_cost = request()->shipping_cost;
         $newproduct->Inventory = request()->Inventory;
         $newproduct->discription_long = request()->discription_long;
         $newproduct->feature = request()->feature;
@@ -83,6 +85,12 @@ class ProductController extends Controller
             $newproduct->feature = '0';
         }else{
             $newproduct->feature = '1';
+        }
+
+        if(request(['shipping_type']) == 'free'){
+            $newproduct->shipping_cost = 0;
+        }else{
+            $newproduct->shipping_cost = request()->shipping_cost;
         }
 
         $store->product()->save($newproduct);
@@ -99,11 +107,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $store , Product $product)
+    public function show(Store $store , Product $product,Categury $categury)
     {
 
         $products = Product:: where('store_id','=',$store->id)->inRandomOrder()->limit(4)->get();
-        return view('front customer.customer store.single-product',compact('product','store','products'));
+        return view('front customer.customer store.single-product',compact('product','store','products','categury'));
     }
 
     /**
@@ -157,6 +165,8 @@ class ProductController extends Controller
         $product->gallery = $path2;
         $product->discription = request()->discription;
         $product->ship = request()->ship;
+        $product->shipping_type = request()->shipping_type;
+        $product->shipping_cost = request()->shipping_cost;
         $product->Inventory = request()->Inventory;
         $product->discription_long = request()->discription_long;
         $product->feature = request()->feature;
@@ -168,6 +178,10 @@ class ProductController extends Controller
             $product->feature='0';
         }else{
             $product->feature='1';
+        }
+
+        if(request('shipping_type') == ['free']){
+            $product->shipping_cost = 0;
         }
 
         $product->save();

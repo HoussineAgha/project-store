@@ -1,6 +1,6 @@
 @extends('front customer.customer store.layout.app')
 
-@section('title','success')
+@section('title')
 
 @section('style')
     <style>
@@ -13,6 +13,11 @@
         }
         .g-5, .gy-5{
             margin-top: 50px;
+        }
+        .btn-dark{
+            width: max-content;
+            margin-top: 10px;
+            margin-left: 10px;
         }
 
 
@@ -75,23 +80,35 @@
             <a class="navbar-brand" href="#" target="_blank"></a>
             @endempty
 
-            @if (Cart::getTotalQuantity() ==null)
-            <div class="cart" style="margin: 40px ; padding-top:40px;">
-                  <div class="qyt">
-                      {{ Cart::getTotalQuantity()}}
-                  </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
-          <div>
-            @else
-            <div class="cart" style="margin: 40px ; padding-top:40px;">
-              <a href="/cart/{{$store->id}}" class="cart">
-                  <div class="qyt">
-                      {{ Cart::getTotalQuantity()}}
-                  </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
-              </a>
-          <div>
-            @endif
+<!-- للتحقق من ان العميل مسجل بالمتجر ام لا-->
+                    @if (auth('client')->check())
+                    <div class="iconuser" style="display: flex ;">
+                        <a href="/client/{{$store->id}}/logout"  class="btn btn-dark">Log out</a>
+                        <a href="/client/dashboard/{{$store->id}}"  class="btn btn-dark">Account</a>
+                    </div>
+                    @else
+                    <div class="iconuser">
+                        <a href="{{route('client.loginee',$store->id)}}"><i class="fa-solid fa-user-plus"></i></a>
+                    </div>
+                    @endif
+                    <!---------- كود سلة التسوق---------->
+                    @if (Cart::getTotalQuantity() ==null)
+                    <div class="cart" style="margin: 40px ; padding-top:40px;">
+                        <div class="qyt">
+                            {{ Cart::getTotalQuantity()}}
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
+                    <div>
+                    @else
+                    <div class="cart" style="margin: 40px ; padding-top:40px;">
+                    <a href="/cart/{{$store->id}}" class="cart">
+                        <div class="qyt">
+                            {{ Cart::getTotalQuantity()}}
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
+                    </a>
+                    <div>
+                    @endif
 
     <span class="navbar-toggler-icon"></span>
         <div class="container">
@@ -129,116 +146,54 @@
 <body>
 <!----------end header--------->
 
-<div class="container">
-    <div class="row g-5">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">checkout</li>
-            </ol>
+<section class="pt-7 pb-12">
+    <div class="container">
+      <div class="row" style="padding-top: 100px;">
+        <div class="col-12 text-center">
+
+          <!-- Heading -->
+
+      </div>
+      <div class="row">
+
+        <div class="col-12 col-md-3">
+            <div class="p-4 text-xl-center mb-4 border-bottom bg-primary text-white position-relative rounded" >
+                <span class="avatar avatar-md mb-3">
+                        <img src="{{asset('img\zz.png')}}" class="image rounded-circle" style="width: 120px;margin-bottom:20px;">
+                </span>
+                <h4 class="h5 fs-16 mb-1 fw-600">{{Auth::guard('client')->user()->fullname}}</h4>
+                    <div class="text-truncate opacity-60">{{Auth::guard('client')->user()->email}}</div>
+            </div>
+          <!-- Nav -->
+          <nav class="mb-10 mb-md-0">
+            <div class="list-group list-group-sm list-group-strong list-group-flush-x">
+              <a class="list-group-item list-group-item-action dropright-toggle " href="{{route('order.client',$store->id)}}">
+                Orders
+
+              </a>
+              <!--
+              <a class="list-group-item list-group-item-action dropright-toggle " href="account-wishlist.html">
+                Widhlist
+              </a>
+            -->
+              <a class="list-group-item list-group-item-action dropright-toggle " href="#">
+                Personal Info
+              </a>
+              <a class="list-group-item list-group-item-action dropright-toggle " href="#">
+                Addresses
+              </a>
+              <a class="list-group-item list-group-item-action dropright-toggle " href="#">
+                Payment Methods
+              </a>
+              <a class="list-group-item list-group-item-action dropright-toggle" href="#!">
+                Logout
+              </a>
+            </div>
           </nav>
-
-        @if (Session::has('success'))
-        <div class="alert alert-success text-center">
-           <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-           <p>{{ Session::get('success')}}</p>
         </div>
-        @else
-        <div class="alert alert-success text-center">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-            <p>{{ Session::get('errorpayment')}}</p>
-         </div>
-        @endif
 
+        @yield('content4')
 
-        <div class="container">
-            <div class="row">
-                <h3 class="thank" style="padding-bottom: 40px;"><strong>Thank you Dear : {{Session::get('information')['firstname']}}</strong></h3>
-                <br>
-                <h4><strong>Details user : <p> Your request will be sent via e-mail </p></strong></h4>
-
-        <table class="table table-striped table-dark">
-            <thead>
-              <tr>
-
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{Session::get('information')['firstname']}}</td>
-                <td>{{Session::get('information')['lastname']}}</td>
-                <td>{{Session::get('information')['email']}}</td>
-                <td>{{Session::get('information')['phone']}}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="ship">
-            <h4><strong>Details Shipping :</strong></h4>
-
-            <table class="table table-striped table-dark">
-                <thead>
-                  <tr>
-
-                    <th scope="col">Address</th>
-                    <th scope="col">Country</th>
-                    <th scope="col">State</th>
-                    <th scope="col">Shipping same address</th>
-
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{{Session::get('information')['address']}}</td>
-                    <td>{{Session::get('information')['country']}}</td>
-                    <td>{{Session::get('information')['state']}}</td>
-                    @if (Session::get('information')['sameaddress'])
-                    <td>{{Session::get('information')['sameaddress']}}</td>
-                    @else
-                    <td>NO</td>
-                    @endif
-
-                  </tr>
-                </tbody>
-              </table>
-          </div>
-
-          <div class="ship">
-            <h4><strong>Details product :</strong></h4>
-
-            <table class="table table-striped table-dark">
-                <thead>
-                  <tr>
-                    <th scope="col">product name</th>
-                    <th scope="col">qyt</th>
-                    <th scope="col">price</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                    @foreach ($cartItems as  $item)
-                  <tr>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->quantity}}</td>
-                    <td>{{$item->price}}</td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-          </div>
-          <div class="payment_type">
-          <h4>Total Order : <strong>{{Session::get('information')['total']}} $</strong></h4>
-          <h4>payment Type :</h4>
-
-
-          </div>
-        </div>
-    </div>
                   <!-- Footer Starts Here -->
 
                   <div class="footer">

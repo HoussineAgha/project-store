@@ -16,6 +16,10 @@ class store extends Model
         return $this->hasMany('App\models\Product');
     }
 
+    public function order(){
+        return $this->hasMany('App\models\Order');
+    }
+
     public function categury(){
         return $this->hasMany('App\models\Categury');
     }
@@ -26,5 +30,8 @@ class store extends Model
 
     public function client(){
         return $this->hasMany('App\Models\Client');
+    }
+    public function shipping(){
+        return $this->hasMany('App\Models\Shipping');
     }
 }

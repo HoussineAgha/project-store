@@ -43,6 +43,18 @@
             color: white;
         }
 
+        .fas, .fa-solid{
+            font-size:36px;
+            color: black;
+            margin-top: 10px;
+        }
+
+        .btn-dark{
+            width: max-content;
+            margin-top: 40px;
+            margin-left: 10px;
+        }
+
     </style>
 @endsection
 
@@ -104,7 +116,18 @@
             @empty($store->adsimage)
             <a class="navbar-brand" href="#" target="_blank"></a>
             @endempty
-
+<!-- للتحقق من ان العميل مسجل بالمتجر ام لا-->
+            @if (auth('client')->check())
+            <div class="iconuser" style="display: flex ;">
+                <a href="/client/{{$store->id}}/logout"  class="btn btn-dark">Log out</a>
+                <a href="/client/dashboard/{{$store->id}}"  class="btn btn-dark">Account</a>
+            </div>
+            @else
+            <div class="iconuser">
+                <a href="{{route('client.loginee',$store->id)}}"><i class="fa-solid fa-user-plus"></i></a>
+            </div>
+            @endif
+<!---------- كود سلة التسوق---------->
             @if (Cart::getTotalQuantity() ==null)
             <div class="cart" style="margin: 40px ; padding-top:40px;">
                   <div class="qyt">
@@ -248,6 +271,8 @@
                                   <input type="hidden" name="id" id="id" value="{{ $item->id }}" >
                                   <input type="hidden" name="name" id="name" value="{{ $item->name }}">
                                   <input type="hidden" name="image" id="image" value="{{ $item->image }}">
+                                  <input type="hidden" name="shipping_cost" id="shipping_cost" value="{{ $item->shipping_cost }}" >
+                                  <input type="hidden" name="shipping_type" id="shipping_type" value="{{ $item->shipping_type }}" >
                                   @if ($item->discount)
                                   <input type="hidden" name="discount" id="discount" value="{{ $item->discount }}">
                                   @else
@@ -275,7 +300,7 @@
             {!! $product->links() !!}
         </div>
 
-              <!-- pandgation Page start Here -->
+<!-- pandgation Page start Here -->
     <!-- Featred Page Ends Here -->
 
 

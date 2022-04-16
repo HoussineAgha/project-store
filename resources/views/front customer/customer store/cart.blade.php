@@ -31,10 +31,23 @@
             margin-top: 25px;
         }
 
+        .fas, .fa-solid{
+            font-size:36px;
+            color: black;
+            margin-top: 10px;
+
+        }
+        #btntop{
+            width: max-content;
+            margin-top: 40px;
+            margin-left: 10px;
+        }
+
     </style>
 @endsection
 
 @section('content3')
+
     <!-- Pre Header -->
     <div id="pre-header">
         <div class="container">
@@ -88,13 +101,28 @@
             <a class="navbar-brand" href="#" target="_blank"></a>
             @endempty
 
-            <div class="cart" style="margin: 40px">
-                <a href="#" class="cart">
+<!-- للتحقق من ان العميل مسجل بالمتجر ام لا-->
+            @if (auth('client')->check())
+            <div class="iconuser" style="display: flex ;">
+                <a href="/client/{{$store->id}}/logout" id="btntop" class="btn btn-dark">Log out</a>
+                <a href="/client/dashboard/{{$store->id}}" id="btntop" class="btn btn-dark">Account</a>
+            </div>
+            @else
+            <div class="iconuser">
+                <a href="{{route('client.loginee',$store->id)}}"><i class="fa-solid fa-user-plus"></i></a>
+            </div>
+            @endif
+<!-------- ايقونة السلة------------>
+            <div class="cart" style="margin: 40px; padding-top:40px;">
+                <div class="qyt">
+                    {{ Cart::getTotalQuantity()}}
+                </div>
+                    <a href="{{route('cart.list',$store->id)}}" class="cart">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
 
                 </a>
             <div>
-
+<!----------- القائمة -------->
     <span class="navbar-toggler-icon"></span>
         <div class="container">
           <a class="navbar-brand" href="#"></a>
@@ -136,9 +164,10 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                  <li class="breadcrumb-item active" aria-current="page">shipping</li>
                 </ol>
-              </nav>
+            </nav>
+
               @if ($message = Session::get('success'))
               <div class="p-3 mb-2 bg-success text-white rounded">
                   <p class="text-green-800 text-white">{{ $message }}</p>
@@ -152,6 +181,7 @@
                                 <th class="text-center" scope="col">Product Name</th>
                                 <th class="text-center" scope="col">Qty</th>
                                 <th class="text-center" scope="col">Price</th>
+                                <th class="text-center" scope="col">shipping</th>
                                 <th class="text-center" scope="col">action</th>
                                 <!--<th class="text-center" scope="col">Checkout</th>-->
                             </tr>
@@ -164,6 +194,7 @@
                                 </th>
                                 <td class="text-center">
                                     <span class="whish-title">{{$item->name}}</span>
+
                                 </td>
                                 <td class="text-center">
                                     <div class="product-count style">
@@ -186,6 +217,9 @@
                                         {{$item->discount}}
                                         @endif
                                     </span></td>
+                                    <td class="text-center">
+                                        <span class="whish-list-price">{{$item->shipping}}</span>
+                                    </td>
                                 <td class="text-center">
                                     <form action="/cart/remove/{{$store->id}}" method="POST">
                                         @csrf
@@ -197,16 +231,27 @@
                                     <!--<button type="button" class="btn btn-dark">Buy Now</button>-->
                                 </td>
                             </tr>
-                            @endforeach
-                        </tbody>
+                    @endforeach
 
+                            @php
+                                $totals = 0;
+                                foreach($cartItems as $item){
+                                    $totals += $item->price * $item->quantity + $item->shipping;
+                                }
+                            @endphp
+
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
         <div class="col-4 total">
-            <h3>total : ${{ Cart::getTotal() }}</h3>
-                <a href="/order/{{$store->id}}"  class="btn btn-dark">Proccess To Checkout</a>
+            <h3>total : ${{ $totals }}</h3>
+            @if(auth('client')->check())
+                <a href="{{'/shipping/'.$store->id.'/Add_shipping/'.$client->id}}"  class="btn btn-dark">Proccess To Checkout</a>
+            @else
+            <a href="{{route('client.loginee',$store->id)}}"  class="btn btn-dark">Proccess To Checkout</a>
+            @endif
         </div>
 
     </div>

@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
-
 Route::get('/{id}','App\Http\controllers\Storecontroller@show')->name('store.show');
 Route::get('/All-Product/{store}','App\Http\controllers\Storecontroller@allproduct')->name('page.product');
 //Route::get('/{store}/{pages}','App\Http\controllers\Pagescontroller@show');
@@ -32,6 +31,8 @@ Route::prefix('user')->group(function(){
     Route::get('/account/stores','App\Http\controllers\Usercontroller@stores');
     Route::get('/profile','App\Http\controllers\Usercontroller@edit')->name('edit');
     Route::put('/upadte','App\Http\controllers\Usercontroller@update')->name('user.update');
+    Route::get('/All-order','App\Http\controllers\OrderController@all_order')->name('store.allorder');
+
 });
 
 Route::prefix('stores')->group(function(){
@@ -40,11 +41,6 @@ Route::prefix('stores')->group(function(){
     Route::get('/{store}/edite','App\Http\controllers\Storecontroller@edit')->name('edite');
     Route::put('/{store}','App\Http\controllers\Storecontroller@update')->name('update');
     Route::get('/delete/{store}','App\Http\controllers\Storecontroller@destroy')->name('store.delete');
-    Route::post('/{store}/client/login','App\Http\controllers\Storecontroller@login')->name('client.login');;
-    Route::get('/{store}/client/login','App\Http\controllers\Storecontroller@loginclient')->name('client.loginee');
-    Route::get('/{store}/client/registar','App\Http\controllers\Storecontroller@registar');
-    Route::post('/{store}/client/registar','App\Http\controllers\Storecontroller@registration');
-
 });
 
 Route::prefix('product')->group(function(){
@@ -84,11 +80,30 @@ Route::prefix('cart')->group(function(){
     Route::post('/remove/{store}','App\Http\controllers\Cartcontroller@removeCart')->name('cart.remove');
     Route::post('/clear/{store}', 'App\Http\controllers\Cartcontroller@clearAllCart')->name('cart.clear');
 });
+Route::prefix('client')->group(function(){
+    Route::get('/{store}/client/registar','App\Http\controllers\Clientcontroller@create')->name('client.registar');
+    Route::post('/{store}/client/registar','App\Http\controllers\Clientcontroller@store');
+    Route::get('/{store}/login','App\Http\controllers\Clientcontroller@loginclient')->name('client.loginee');
+    Route::post('/{store}/client/login','App\Http\controllers\Clientcontroller@login')->name('client.login');
+    Route::get('/{store}/logout','App\Http\controllers\Clientcontroller@logoutclient');
+    Route::get('/dashboard/{store}','App\Http\controllers\Clientcontroller@dashboard')->name('client.dashboard');
+    Route::get('/order/{store}','App\Http\controllers\Clientcontroller@All_order')->name('order.client');
+
+});
+Route::prefix('shipping')->group(function(){
+    Route::get('/{store}/Add_shipping/{client}','App\Http\Controllers\Shippingcontroller@create')->name('Add.shiping');
+    Route::post('/{client}/shipping','App\Http\Controllers\Shippingcontroller@store')->name('insert.shipping');
+    Route::get('/{store}','App\Http\controllers\OrderController@create')->name('order.request');
+});
 Route::prefix('order')->group(function(){
-    Route::get('/{store}','App\Http\controllers\OrderController@create');
-    Route::post('/{store}','App\Http\controllers\OrderController@create');
-    Route::get('/{store}/charge','App\Http\controllers\OrderController@chargeRequest')->name('charge');
+    Route::get('/{store}','App\Http\controllers\OrderController@create')->name('order.request');
+    Route::post('/{store}/charge','App\Http\controllers\OrderController@chargeRequest')->name('charge');
     Route::get('/{store}/chargeupdate','App\Http\controllers\OrderController@chargeupdate')->name('chargeupdate');
+    Route::get('/{store}','App\Http\controllers\OrderController@show')->name('order.perstore');
+    Route::get('/delets/{order}','App\Http\controllers\OrderController@destroy')->name('order.delet');
+    Route::get('/details/{order}','App\Http\controllers\OrderController@indexdetails')->name('order.details');
+    Route::post('/details/{order}','App\Http\controllers\OrderController@indexdetails')->name('orderpost.details');
+
 });
 
 Route::prefix('payment')->group(function(){
@@ -96,10 +111,9 @@ Route::prefix('payment')->group(function(){
     Route::get('/success/{store}', 'App\Http\controllers\StripeController@stripe')->name('strip.get');
 });
 
-Route::prefix('client')->group(function(){
 
 
-});
+
 
 
 

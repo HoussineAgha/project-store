@@ -36,7 +36,7 @@
                     <label for="store">this category for store Number</label>
                     <select name="store" class="form-control" id="store">
                         @foreach (auth()->user()->stores as $item)
-                        <option>{{$item->id}}</option>
+                        <option value="{{$item->id}}">{{$item->name_store}}</option>
                         @endforeach
                     </select>
                 </div>

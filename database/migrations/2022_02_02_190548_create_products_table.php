@@ -23,6 +23,8 @@ class CreateProductsTable extends Migration
             $table->longtext('discription');
             $table->string('statu')->nullable();
             $table->string('ship')->nullable();
+            $table->string('shipping_type');
+            $table->integer('shipping_cost');
             $table->BigInteger('Inventory')->nullable();
             $table->longtext('discription_long')->nullable();
             $table->boolean('feature')->default(0);

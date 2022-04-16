@@ -57,7 +57,7 @@
                         <select name="cat_id" id="cat_id" class="form-control aiz-selectpicker">
                         <option></option>
                         @foreach ($store->categury as $item)
-                        <option>{{$item->id}}</option>
+                        <option value="{{$item->id}}">{{$item->name}}</option>
                         @endforeach
                         </select>
                     </div>
@@ -94,6 +94,19 @@
                             <div class="form-group">
                                 <label for="ship">Shipping days</label>
                                 <input name="ship" type="text"  id="ship" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="shipping_type">shipping type</label>
+                                <select name="shipping_type" id="shipping_type" class="form-control aiz-selectpicker">
+                                <option name="free" value="free">Free</option>
+                                <option name="price_shipping" value="price_shipping">Price</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="shipping_cost" >
+                                <label for="shipping_cost">Shipping Cost</label>
+                                <input id="shipping_cost" name="shipping_cost" type="number" class="form-control" value="0">
                             </div>
 
                             <div class="form-group">
@@ -149,6 +162,7 @@ image.onchange = evt => {
     $('#discription_long').summernote();
   });
   </script>
+
 @endsection
 
 @endsection

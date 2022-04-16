@@ -52,7 +52,7 @@
                     </div>
                     <div class="role" style="display: flex;">
                         <div class="form-check">
-                            <input class="form-check-input" type="text" name="flexRadioDefault" id="seller" value="seller" hidden>
+                            <input class="form-check-input" type="text" name="role" id="seller" value="seller" hidden>
                           </div>
                     </div>
                     <div class="d-grid gap-2 col-6 mx-auto" id="btn1">
