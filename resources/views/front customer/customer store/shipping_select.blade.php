@@ -1,6 +1,6 @@
 @extends('front customer.customer store.layout.app')
 
-@section('title','Add Shipping')
+@section('title','Cart')
 
 @section('style')
     <style>
@@ -20,7 +20,7 @@
         }
         .total{
             text-align: center;
-            background-color:burlywood;
+            background-color:rgb(58 139 205);
             padding: 10px;
             border-radius: 10px;
             margin: auto;
@@ -34,7 +34,7 @@
         .fas, .fa-solid{
             font-size:36px;
             color: black;
-            margin-top: 100px;
+            margin-top: 10px;
 
         }
         #btntop{
@@ -42,12 +42,21 @@
             margin-top: 40px;
             margin-left: 10px;
         }
-        #sec2{
-            margin-top: 20px;
+        .p-3{
+            padding: 0.5rem !important;
+        }
+        .rounded{
+            margin-left: 20px;
         }
 
-</style>
+        .mb-5{
+            width: 30%;
+        }
+        .p-5{
+            height: 130px;
+        }
 
+    </style>
 @endsection
 
 @section('content3')
@@ -109,7 +118,7 @@
             @if (auth('client')->check())
             <div class="iconuser" style="display: flex ;">
                 <a href="/client/{{$store->id}}/logout" id="btntop" class="btn btn-dark">Log out</a>
-                <a href="#" id="btntop" class="btn btn-dark">Account</a>
+                <a href="/client/dashboard/{{$store->id}}" id="btntop" class="btn btn-dark">Account</a>
             </div>
             @else
             <div class="iconuser">
@@ -117,8 +126,7 @@
             </div>
             @endif
 <!-------- ايقونة السلة------------>
-
-            <div class="cart" style="margin: 40px; padding-top:50px;">
+            <div class="cart" style="margin: 40px; padding-top:40px;">
                 <div class="qyt">
                     {{ Cart::getTotalQuantity()}}
                 </div>
@@ -127,7 +135,6 @@
 
                 </a>
             <div>
-
 <!----------- القائمة -------->
     <span class="navbar-toggler-icon"></span>
         <div class="container">
@@ -151,7 +158,7 @@
                 <a class="nav-link" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="{{route('contact.front',$store->id)}}">Contact Us</a>
               </li>
               @auth
               <li class="nav-item">
@@ -162,200 +169,172 @@
           </div>
         </div>
       </nav>
-<body>
-      <!-- product tab start -->
-<section class="whish-list-section theme1 pt-80 pb-80">
-    <div class="container">
-        <div class="row">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">shipping</li>
-                </ol>
-            </nav>
-            <br>
-            <div style="padding-top:20px; ">
-                <h4> This information is important for the delivery of your order in shipping </h4>
-            </div>
-            <hr style="width: 50%; margin-top:10px;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-6" style="margin-top: -25px;">
-            <form method="POST" action="{{route('insert.shipping',\Auth::guard('client')->user()->id)}}">
-                @csrf
+    </div>
+</div>
+    <!-- product tab start -->
+    <form method="POST" action="{{route('shiping',$store->id)}}">
+        @csrf
+<div class="row"style="margin-top: 100px; padding-left:50px; padding-right:50px;  margin-bottom:100px; width:100%;">
+    <div class="note" style="padding-bottom:50px; ">
+        <h6><i class="fas fa-angle-double-right" style="font-size: 16px; color:aqua"></i><i class="fas fa-angle-double-right" style="font-size: 16px;"></i>
+          Please choose the shipping address where the order will be send to:
+        </h6>
+    </div>
 
-                <div class="col-12">
-                    <label for="client_id" class="form-label" ></label>
-                    <input type="text" name="client_id" class="form-control" id="client_id"  hidden value="{{\Auth::guard('client')->user()->id}}">
-                    <div class="invalid-feedback">
-                    </div>
-                  </div>
+    @foreach (Auth::guard('client')->user()->shipping as $item)
+                <div class="col-4 border p-3 rounded mb-5 c-pointer bg-white h-100 d-flex flex-column justify-content-left">
+                    <label class="aiz-megabox  d-block bg-white mb-0">
+                        <input type="radio" name="shipping_id" value="{{$item->id}}" checked="" required="">
+                        <span class="d-flex p-3 aiz-megabox-elem">
+                            <span class="aiz-rounded-check flex-shrink-0 mt-1"></span>
+                            <span class="flex-grow-1 pl-3" style="text-align: left;">
+                                <div>
+                                    <span class="opacity-60">Email:</span>
+                                    <input name="email" value="{{$item->email}}" hidden><span class="fw-600 ml-2">{{$item->email}}</span>
+                                </div>
 
-                  @foreach ($cartItems as $item)
-                  <input type="hidden" name="id" id="id" value="{{$item->id}}"/>
-                  <input type="hidden" name="nameproduct" id="nameproduct" value="{{$item->name}}"/>
-                  <input type="hidden" name="quantity" id="quantity" value="{{$item->quantity}}"/>
-                  <input type="hidden" name="price" id="price" value="{{$item->price}}"/>
-               @endforeach
+                                <div>
+                                    <span class="opacity-60">Phone:</span>
+                                    <input name="phone" value="{{$item->phone}}" hidden><span class="fw-600 ml-2">{{$item->phone}}</span>
+                                </div>
 
-                  <div class="col-12">
-                    <label for="store_id" class="form-label"></label>
-                    <input type="text" name="store_id" class="form-control" id="store_id"  hidden value="{{$store->id}}">
-                    <div class="invalid-feedback">
-                    </div>
-                  </div>
+                                <div>
+                                    <span class="opacity-60">Country:</span>
+                                    <input name="country" value="{{$item->country}}" hidden><span class="fw-600 ml-2">{{$item->country}}</span>
+                                </div>
 
+                                <div>
+                                    <span class="opacity-60">State:</span>
+                                    <input name="state" value="{{$item->state}}" hidden><span class="fw-600 ml-2">{{$item->state}}</span>
+                                </div>
 
-                <div class="col-12">
-                    <label for="firstname" class="form-label">First name</label>
-                    <input type="text" class="form-control" name="firstname" id="firstname"  required>
-                    <div class="invalid-feedback">
-                      Valid first name is required.
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <label for="lastname" class="form-label">Last name</label>
-                    <input type="text" class="form-control" name="lastname" id="lastname"  required>
-                    <div class="invalid-feedback">
-                      Valid last name is required.
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="you@example.com">
-                    <div class="invalid-feedback">
-                      Please enter a valid email address for shipping updates.
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                      <label for="phone" class="form-label">Phone</label>
-                      <input type="number" class="form-control" name="phone" id="phone" placeholder="965587..." required>
-                      <div class="invalid-feedback">
-                        Please enter a valid phone address for shipping updates.
-                      </div>
-                    </div>
+                                <div>
+                                    <span class="opacity-60">Address:</span>
+                                    <input name="address" value="{{$item->address}}" hidden><span class="fw-600 ml-2">{{$item->address}}</span>
+                                </div>
+                            </span>
+                        </span>
+                    </label>
                 </div>
-                <div class="col-6" id="sec2">
-                  <div class="col-12">
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" name="address" class="form-control" id="address" placeholder="1234 Main St" required>
-                    <div class="invalid-feedback">
-                      Please enter your shipping address.
-                    </div>
-                  </div>
 
-                  <div class="col-12">
-                  <label for="country" class="form-label">Country</label>
-                  <input type="text" class="form-control" name="country" id="country" required>
-                    <div class="invalid-feedback">
-                      Please select a valid country .
-                    </div>
-                  </div>
+                @if (Auth::guard('client')->user()->shipping)
+                <div class="ship">
+                    <button type="submit" class="btn btn-dark">continue</button>
+                </div>
+                @endif
 
-                  <div class="col-12">
-                      <label for="state" class="form-label">state</label>
-                      <input type="text" class="form-control" name="state" id="state" required>
-                        <div class="invalid-feedback">
-                          Please select a valid state .
+
+                @endforeach
+
+
+            </form>
+
+            <div class="col-md-6 mx-auto mb-3">
+                <div class="border p-3 rounded mb-3 c-pointer text-center bg-white h-75 d-flex flex-column justify-content-center" onclick="add_new_address()">
+                    <i class="las la-plus la-2x mb-3"></i>
+                    <div class="alpha-7" style="padding-bottom: 20px;">Add New Address Shipping <br>@include('client.model_shipping')</div>
+                </div>
+            </div>
+
+
+
+
+</div>
+
+
+                      <!-- Footer Starts Here -->
+
+                      <div class="footer">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="logo">
+                                <img src="{{$store->logo}}" alt="" width="225px" height="150px" style="margin-bottom: 0px; ">
+                              </div>
+                            </div>
+                            <div class="col-md-12">
+                              <div class="footer-menu">
+                                <ul>
+                                  <li><a href="#">Home</a></li>
+                                  <li><a href="#">Help</a></li>
+                                  <li><a href="#">Privacy Policy</a></li>
+                                  <li><a href="#">How It Works ?</a></li>
+                                  <li><a href="#">Contact Us</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col-md-12">
+                              <div class="social-icons">
+                                <ul>
+                                    @isset($store->face)
+                                    <li><a href="{{$store->face}}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                    @endisset
+                                    @empty($store->face)
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    @endempty
+
+                                    @isset($store->twite)
+                                    <li><a href="{{$store->twite}}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                    @endisset
+                                    @empty($store->twite)
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    @endempty
+
+                                    @isset($store->linkdine)
+                                    <li><a href="{{$store->linkdine}}" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                    @endisset
+                                    @empty($store->linkdine)
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                    @endempty
+
+                                    @isset($store->youtube)
+                                    <li><a href="{{$store->youtube}}" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                                    @endisset
+                                    @empty($store->youtube)
+                                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    @endempty
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                </div>
+                      <!-- Footer Ends Here -->
 
-                <div class="form-check" style="padding-top:20px">
-                    <input type="checkbox" name="sameaddress" class="form-check-input" id="sameaddress" checked>
-                    <label class="form-check-label" for="sameaddress">Shipping address is the same as my billing address</label>
-                  </div>
-                <hr class="my-4">
-                <div class="col-xs-12">
-                    <button class="btn btn-primary btn-lg btn-block"  type="submit">Add Shipping</button>
-                </div>
-            </form>
-            </div>
-            </div>
-        </div>
-<!-- Footer Starts Here -->
 
-    <div class="footer">
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-12">
-                        <div class="logo">
-                                        <img src="{{$store->logo}}" alt="" width="225px" height="150px" style="margin-bottom: 0px; ">
-                    </div>
-            </div>
-        <div class="col-md-12">
-    <div class="footer-menu">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Help</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">How It Works ?</a></li>
-                <li><a href="#">Contact Us</a></li>
-            </ul>
-    </div>
-</div>
-        <div class="col-md-12">
-            <div class="social-icons">
-                <ul>
-                    @isset($store->face)
-                    <li><a href="{{$store->face}}" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                    @endisset
-                    @empty($store->face)
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    @endempty
+                      <!-- Sub Footer Starts Here -->
+                      <div class="sub-footer">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="copyright-text">
+                                  @isset($store->text_footer)
+                                  <p>Copyright &copy; 2022 {{$store->text_footer}}
 
-                    @isset($store->twite)
-                    <li><a href="{{$store->twite}}" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                    @endisset
-                    @empty($store->twite)
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    @endempty
+                                    - Design With Love: <a rel="nofollow" href="#">Houssine Agha</a></p>
+                                  @endisset
 
-                    @isset($store->linkdine)
-                    <li><a href="{{$store->linkdine}}" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                    @endisset
-                    @empty($store->linkdine)
-                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                    @endempty
+                                  @empty($store->text_footer)
+                                  <p>Copyright &copy; 2022 Store Name
 
-                    @isset($store->youtube)
-                    <li><a href="{{$store->youtube}}" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                    @endisset
-                    @empty($store->youtube)
-                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                    @endempty
-                </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Footer Ends Here -->
-<!-- Sub Footer Starts Here -->
-    <div class="sub-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright-text">
-                        @isset($store->text_footer)
-                            <p>Copyright &copy; 2022 {{$store->text_footer}}
+                                    - Design With Love: <a rel="nofollow" href="#">Houssine Agha</a></p>
+                                  @endempty
 
-                            - Design With Love: <a rel="nofollow" href="#">Houssine Agha</a></p>
-                        @endisset
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-                        @empty($store->text_footer)
-                            <p>Copyright &copy; 2022 Store Name
-
-                            - Design With Love: <a rel="nofollow" href="#">Houssine Agha</a></p>
-                        @endempty
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-@endsection
+                    <script language = "text/Javascript">
+                        cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+                        function clearField(t){                   //declaring the array outside of the
+                        if(! cleared[t.id]){                      // function makes it static and global
+                            cleared[t.id] = 1;  // you could use true and false, but that's more typing
+                            t.value='';         // with more chance of typos
+                            t.style.color='#fff';
+                            }
+                        }
+                    </script>
+    </body>
+    @endsection

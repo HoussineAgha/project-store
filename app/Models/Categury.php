@@ -10,7 +10,7 @@ class Categury extends Model
     use HasFactory;
 
     public function product(){
-        return $this->hasMany('App\models\Product');
+        return $this->hasMany('App\models\product');
     }
     public function store(){
         return $this->belongsTo('App\models\store');

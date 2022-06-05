@@ -1,6 +1,6 @@
 @extends('backend.customer.appback')
 
-@section('title','order')
+@section('title','All Client')
 
 
 @section('style')
@@ -18,7 +18,7 @@
 @section('content2')
 
 <div class="">
-    <h5>Note :You will find the number of orders received for each store</h5>
+    <h5>Note :You will find the number of client  for each store</h5>
 </div>
 <br>
 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -28,8 +28,8 @@
         <img src="{{asset($item->Baner)}}" class="card-img-top" alt="..." width="100px" height="150px">
         <div class="card-body">
           <h5 class="card-title"> name :{{ $item->name_store }}</h5>
-          <a href="{{ route('order.perstore',$item->id) }}" class="btn btn-dark" > View Order </a>
-            <p> ({{ $item->order()->count() }})Order </p>
+          <a href="{{route('client.stores',$item->id)}}" class="btn btn-dark" > View Client </a>
+            <p> ({{ $item->client()->count() }})client </p>
         </div>
       </div>
     </div>
@@ -41,4 +41,3 @@
 
 
 @endsection
-

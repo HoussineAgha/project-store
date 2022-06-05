@@ -23,6 +23,8 @@ class ProductFactory extends Factory
             'image'=>$this->faker->imageUrl($width = 640, $height = 480),
             'gallery'=>$this->faker->imageUrl($width = 640, $height = 480),
             'discription'=>$this->faker->text($maxNbChars = 50),
+            'shipping_type'=>'free',
+            'shipping_cost'=>$this->faker->randomFloat($nbMaxDecimals = 3, $min = 1, $max = 10),
             'discription_long'=>$this->faker->text($maxNbChars = 200),
             'store_id'=>store::factory(),
             'cat_id'=>Categury::factory(),

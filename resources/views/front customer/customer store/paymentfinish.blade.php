@@ -14,6 +14,11 @@
         .g-5, .gy-5{
             margin-top: 50px;
         }
+        .btn-dark{
+            width: max-content;
+            margin-top: 20px;
+            margin-left: 10px;
+        }
 
 
     </style>
@@ -74,7 +79,19 @@
             @empty($store->adsimage)
             <a class="navbar-brand" href="#" target="_blank"></a>
             @endempty
+<!-- للتحقق من ان العميل مسجل بالمتجر ام لا-->
 
+            @if(auth('client')->check())
+                <div class="iconuser" style="display: flex ;">
+                    <a href="/client/{{$store->id}}/logout"  class="btn btn-dark">Log out</a>
+                    <a href="/client/dashboard/{{$store->id}}"  class="btn btn-dark">Account</a>
+                </div>
+            @else
+                <div class="iconuser">
+                    <a href="{{route('client.loginee',$store->id)}}"><i class="fa-solid fa-user-plus"></i></a>
+                </div>
+            @endif
+<!-------- ايقونة السلة------------>
             @if (Cart::getTotalQuantity() ==null)
             <div class="cart" style="margin: 40px ; padding-top:40px;">
                   <div class="qyt">
@@ -115,7 +132,7 @@
                 <a class="nav-link" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="{{route('contact.front',$store->id)}}">Contact Us</a>
               </li>
               @auth
               <li class="nav-item">
@@ -153,7 +170,7 @@
 
         <div class="container">
             <div class="row">
-                <h3 class="thank" style="padding-bottom: 40px;"><strong>Thank you Dear : {{Session::get('information')['firstname']}}</strong></h3>
+                <h3 class="thank" style="padding-bottom: 40px;"><strong>Thank you Dear :{{Auth::guard('client')->user()->fullname}}</strong></h3>
                 <br>
                 <h4><strong>Details user : <p> Your request will be sent via e-mail </p></strong></h4>
 
@@ -161,8 +178,7 @@
             <thead>
               <tr>
 
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
+                <th scope="col">Full Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
 
@@ -170,10 +186,9 @@
             </thead>
             <tbody>
               <tr>
-                <td>{{Session::get('information')['firstname']}}</td>
-                <td>{{Session::get('information')['lastname']}}</td>
-                <td>{{Session::get('information')['email']}}</td>
-                <td>{{Session::get('information')['phone']}}</td>
+                <td>{{Auth::guard('client')->user()->fullname}}</td>
+                <td>{{Auth::guard('client')->user()->email}}</td>
+                <td>{{Auth::guard('client')->user()->phone}}</td>
               </tr>
             </tbody>
           </table>
@@ -194,20 +209,16 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{{Session::get('information')['address']}}</td>
-                    <td>{{Session::get('information')['country']}}</td>
-                    <td>{{Session::get('information')['state']}}</td>
-                    @if (Session::get('information')['sameaddress'])
-                    <td>{{Session::get('information')['sameaddress']}}</td>
-                    @else
-                    <td>NO</td>
-                    @endif
+
+                    <td>{{Session::get('select_shipping')['address']}}</td>
+                    <td>{{Session::get('select_shipping')['country']}}</td>
+                    <td>{{Session::get('select_shipping')['state']}}</td>
+                    <td>Yes</td>
 
                   </tr>
                 </tbody>
               </table>
           </div>
-
           <div class="ship">
             <h4><strong>Details product :</strong></h4>
 
@@ -221,6 +232,7 @@
                 </thead>
 
                 <tbody>
+
                     @foreach ($cartItems as  $item)
                   <tr>
                     <td>{{$item->name}}</td>
@@ -232,9 +244,7 @@
               </table>
           </div>
           <div class="payment_type">
-          <h4>Total Order : <strong>{{Session::get('information')['total']}} $</strong></h4>
-          <h4>payment Type :</h4>
-
+          <h4>Total Order : <strong>{{$totals}} $</strong></h4>
 
           </div>
         </div>

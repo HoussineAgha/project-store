@@ -13,15 +13,15 @@ class store extends Model
     }
 
     public function product(){
-        return $this->hasMany('App\models\Product');
+        return $this->hasMany('App\models\product');
     }
 
     public function order(){
-        return $this->hasMany('App\models\Order');
+        return $this->hasMany('App\models\order');
     }
 
     public function categury(){
-        return $this->hasMany('App\models\Categury');
+        return $this->hasMany('App\models\categury');
     }
 
     public function pages(){
@@ -29,9 +29,12 @@ class store extends Model
     }
 
     public function client(){
-        return $this->hasMany('App\Models\Client');
+        return $this->hasMany('App\Models\client');
     }
     public function shipping(){
-        return $this->hasMany('App\Models\Shipping');
+        return $this->hasMany('App\Models\shipping');
+    }
+    public function contact(){
+        return $this->hasMany('App\Models\contact');
     }
 }

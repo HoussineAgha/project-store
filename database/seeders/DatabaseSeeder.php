@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
          \App\Models\store::factory(10)->create();
          \App\Models\product::factory(10)->create();
          \App\Models\Order::factory(10)->create();
+         \App\Models\Client::factory(10)->create();
     }
 }

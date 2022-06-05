@@ -8,19 +8,21 @@ use Stripe;
 use App\Models\Store;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Client;
 
 class StripeController extends Controller
 {
 
-    public function stripe(Store $store,Request $request){
-
+    public function stripe(Store $store,Request $request,Order $order,Client $client){
+/*
         $cartItems = \Cart::getContent();
         $totals = \Cart::getTotal();
         if(session('success')){
             \Cart::clear() ;
         }
 
-        return view('front customer.customer store.paymentfinish',compact('store','cartItems'));
+        return view('front customer.customer store.paymentfinish',compact('store','cartItems','order','client'));
+        */
     }
 
     /**
@@ -28,10 +30,8 @@ class StripeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function stripePost(Request $request , Store $store){
+    public function stripePost(Request $request , Store $store ,Order $order){
 
-        //$totals = \Cart::getTotal();
-        $cartItems = \Cart::getContent();
         $totals =0;
         $cartItems = \Cart::getContent();
         foreach($cartItems as $item){
@@ -44,18 +44,6 @@ class StripeController extends Controller
             'cvc'=>'required',
         ]);
 
-        Session::put('information',[
-            'firstname'=>$request->firstname,
-            'email'=>$request->email ,
-            'lastname'=>$request->lastname,
-            'phone'=>$request->phone,
-            'address'=>$request->address,
-            'country'=>$request->country,
-            'state'=>$request->state,
-            'sameaddress'=>'Yes',
-            'total'=>$totals,
-            'paymentMethod'=>$request->paymentMethod,
-        ]);
 
         Stripe\Stripe::setApiKey('sk_test_51IEzzjKfOvzmk3QD8hbRIBwcn513uiZ1GYxrMiu5g4ie4Go93nYmtN4aUBXmwJwSLQVacGdQlTGYurHbhQ0Tlywk00UvLSp5DH');
         $stripe =Stripe\Charge::create ([
@@ -67,20 +55,27 @@ class StripeController extends Controller
 
         Session::flash('success', 'Thank You Payment successful!');
 
-        $product=$cartItems;
+        $shipping = session::get('select_shipping');
+
+        $product= $cartItems;
         $neworder = new Order();
         $neworder->receipt_id =  $stripe['id'];
         $neworder->patment_type = 'visa';
         $neworder->status = $stripe['status'];
         $neworder->product = $product;
+        $neworder->shipping_info = $shipping;
         $neworder->client_id = \Auth::guard('client')->user()->id;
         $neworder->store_id = $store->id;
-        $neworder->total = $request->totalss;
-        $neworder->shipping = 'test';
+        $neworder->total = $totals;
+        $neworder->shipping = 'Waiting';
         $neworder->cartnumber = $stripe['payment_method_details']['card']['last4'];
+
+        if($stripe['status'] == 'succeeded')
+        $neworder->shipping = 'On the way';
+
         $neworder->save();
 
-        return redirect()->route('strip.get',$store->id);
+        return redirect()->route('payment.get',$store->id);
     }
 
 }

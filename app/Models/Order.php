@@ -18,14 +18,16 @@ class order extends Model
     }
 
     public function client(){
-        return $this->belongsTo('App\models\Client','client_id');
+        return $this->belongsTo('App\models\client');
     }
     public function shipping(){
-        return $this->belongsTo('App\models\Shipping');
+        return $this->belongsTo('App\models\shipping');
     }
 
 
     protected $casts = [
         'product'=>'array',
+        'shipping_info'=>'array'
     ];
+
 }

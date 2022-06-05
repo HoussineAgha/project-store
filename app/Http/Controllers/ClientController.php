@@ -41,14 +41,15 @@ class ClientController extends Controller
      * @param  \App\Http\Requests\StoreClientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Store $store)
+    public function store(Store $store,Client $client)
     {
 
             $valdateData = request()->validate([
                 //'Phone'=>"required|min:6|unique:clients",
                 'email'=>"required|unique:clients",
                 'fullname'=>"required",
-                'password'=>'required|min:5'
+                'password'=>'required|min:5',
+                'phone' => 'required|unique:clients|min:3'
             ]);
 
             $newclient = new client();
@@ -56,6 +57,7 @@ class ClientController extends Controller
             $newclient->email = request()->email;
             $newclient->password =bcrypt(request()->password);
             $newclient->phone = request()->phone;
+            $newclient->image = request()->image;
             $newclient->role = request()->role;
             $newclient->store_id = $store->id;
             $newclient->save();
@@ -81,9 +83,12 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit(Store $store,Client $client)
     {
-        //
+        if($client->id != Auth::guard('client')->user()->id)
+        return back();
+
+        return view('client.profile',compact('store','client'));
     }
 
     /**
@@ -93,9 +98,25 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateClientRequest $request, Client $client)
+    public function update(Client $client,Store $store)
     {
-        //
+
+        $path = '/storage/'.request()->file('image')->store('image_client',['disk' => 'public']);
+
+        $client = Auth::guard('client')->user();
+        $client->fullname = request()->fullname;
+        $client->email = request()->email;
+        $client->phone = request()->phone;
+        $client->password = bcrypt(request()->password);
+        $client->image= $path;
+
+         if($client->save()){
+            flash('Your information has been successfully updated')->success();
+        }else{
+            flash('noooo!')->error();
+        }
+
+        return back();
     }
 
     /**
@@ -111,7 +132,7 @@ class ClientController extends Controller
 
     public function loginclient(Store $store){
 
-            return view('front customer.customer store.form.login',compact('store'));
+    return view('front customer.customer store.form.login',compact('store'));
 
 }
 
@@ -149,6 +170,7 @@ class ClientController extends Controller
     public function dashboard(Store $store,Client $client){
         // دالة التحقق اذا المستخدم مسجل دخول ولا لأ
         if(auth('client')->check()){
+            $client = Auth::guard('client')->user()->id;
             return view('client.dashboard',compact('store','client'));
         }else{
             return redirect(route('client.loginee',$store->id));
@@ -156,6 +178,20 @@ class ClientController extends Controller
     }
 
     public function All_order(Store $store,Client $client,Order $order){
-        return view('client.order',compact('store','client','order'));
+        $orders = Order:: where('client_id','=',Auth::guard('client')->user()->id)->orderBy('created_at', 'desc')->paginate(3);
+        return view('client.order',compact('store','client','order','orders'));
     }
+
+    public function order_details(Client $client,Order $order,Store $store){
+
+        $subtotal = 0;
+        $shipping =0;
+        foreach($order->product as $item){
+            $subtotal += $item['price']*$item['quantity'];
+            $shipping += $item['shipping'];
+        }
+
+        return view('client.orderdetails',compact('client','order','store','subtotal','shipping'));
+    }
+
 }

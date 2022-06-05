@@ -20,7 +20,7 @@
         }
         .total{
             text-align: center;
-            background-color:burlywood;
+            background-color:rgb(58 139 205);
             padding: 10px;
             border-radius: 10px;
             margin: auto;
@@ -145,7 +145,7 @@
                 <a class="nav-link" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="{{route('contact.front',$store->id)}}">Contact Us</a>
               </li>
               @auth
               <li class="nav-item">
@@ -211,14 +211,14 @@
 
                                 <td class="text-center">
                                     <span class="whish-list-price">
-                                        @if ($item->price)
-                                        {{$item->price}}
+                                        @if($item->price)
+                                        $ {{$item->price}}
                                         @else
-                                        {{$item->discount}}
+                                        $ {{$item->discount}}
                                         @endif
                                     </span></td>
                                     <td class="text-center">
-                                        <span class="whish-list-price">{{$item->shipping}}</span>
+                                        <span class="whish-list-price">$ {{$item->shipping}}</span>
                                     </td>
                                 <td class="text-center">
                                     <form action="/cart/remove/{{$store->id}}" method="POST">
@@ -246,9 +246,9 @@
             </div>
         </div>
         <div class="col-4 total">
-            <h3>total : ${{ $totals }}</h3>
+            <h3>Total : ${{ $totals }}</h3>
             @if(auth('client')->check())
-                <a href="{{'/shipping/'.$store->id.'/Add_shipping/'.$client->id}}"  class="btn btn-dark">Proccess To Checkout</a>
+                <a href="{{route('select.shipping',$store->id)}}"  class="btn btn-dark">Proccess To Checkout</a>
             @else
             <a href="{{route('client.loginee',$store->id)}}"  class="btn btn-dark">Proccess To Checkout</a>
             @endif

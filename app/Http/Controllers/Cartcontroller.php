@@ -21,14 +21,6 @@ class Cartcontroller extends Controller
 
     public function addToCart(Request $request , Product $product , Store $store)
     {
-/*
-        $condition = new \Darryldecode\Cart\CartCondition(array(
-            'name' => 'voucher',
-            'type' => 'voucher',
-            'target' => 'subtotal', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-            'value' => $request->shipping_cost
-          ));
-*/
         $cartItems = \Cart::getContent();
         if(empty($request->discount)){
         \Cart::add([
@@ -36,7 +28,8 @@ class Cartcontroller extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'shipping' =>$request->shipping_cost,
+            'shipping' => $request->shipping_cost,
+            'shipping_type' => $request->shipping_type,
             'attributes' => array(
                 'image' => $request->image,
             ),
@@ -49,6 +42,7 @@ class Cartcontroller extends Controller
             'price' => $request->discount,
             'quantity' => $request->quantity,
             'shipping' =>$request->shipping_cost,
+            'shipping_type' => $request->shipping_type,
             'attributes' => array(
                 'image' => $request->image,
             ),
@@ -56,7 +50,7 @@ class Cartcontroller extends Controller
 }
 
 
-        Session::put('cartitems',$cartItems);
+
         session()->flash('success', 'Product is Added to Cart Successfully !');
 
         return redirect()->route('cart.list',$store->id);

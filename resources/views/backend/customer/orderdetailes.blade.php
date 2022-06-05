@@ -29,9 +29,25 @@
 
     <div class="card-body position-relative">
       <h5>Order Details: #{{$order->id}}</h5>
-      <p class="fs--1">{{$order->creat_at}}</p>
+      <p class="fs--1"><strong class="me-2">Date : </strong> {{$order->created_at}}</p>
       <div><strong class="me-2">Payment Status: </strong>
         <div class="badge rounded-pill badge-soft-success fs--2">{{$order->status}}</div>
+      </div>
+      <div class="ship" style="margin-top: 10px;"><strong class="me-2">Shipping Status: </strong>
+        @if ($order->shipping == 'On the way')
+            @component('shared.badge',['color'=>'primary','type'=>$order->shipping])@endcomponent
+
+        @endif
+
+        @if ($order->shipping == 'Waiting')
+        @component('shared.badge',['color'=>'warning text-dark','type'=>$order->shipping])@endcomponent
+
+        @endif
+
+        @if ($order->shipping == 'delivered')
+        @component('shared.badge',['color'=>'success','type'=>$order->shipping])@endcomponent
+
+        @endif
       </div>
     </div>
   </div>
@@ -48,8 +64,8 @@
         </div>
         <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
           <h5 class="mb-3 fs-0">Shipping Address</h5>
-          <h6 class="mb-2">Antony Hopkins</h6>
-          <p class="mb-0 fs--1">2393 Main Avenue<br>Penasauka, New Jersey 87896</p>
+          <h6 class="mb-2">{{$order->shipping_info['country']}}</h6>
+          <p class="mb-0 fs--1">{{$order->shipping_info['state']}}<br>{{$order->shipping_info['address']}}</p>
           <div class="text-500 fs--1"><!--(Free Shipping)--></div>
         </div>
         <div class="col-md-6 col-lg-4">
@@ -57,7 +73,7 @@
           <div class="d-flex">
             <div class="flex-1">
               <h4 class="mb-0">{{$order->patment_type}}</h4>
-              <p class="mb-0 fs--1">**** **** **** {{$order->cartnumber}}</p>
+              <p class="mb-0 fs--1">**** **** ****{{$order->cartnumber}}</p>
             </div>
           </div>
         </div>

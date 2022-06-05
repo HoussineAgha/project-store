@@ -159,7 +159,13 @@
         <div class="col-12 col-md-3">
             <div class="p-4 text-xl-center mb-4 border-bottom bg-primary text-white position-relative rounded" >
                 <span class="avatar avatar-md mb-3">
-                        <img src="{{asset('img\zz.png')}}" class="image rounded-circle" style="width: 120px;margin-bottom:20px;">
+                    @isset(Auth::guard('client')->user()->image)
+                    <img src="{{asset(Auth::guard('client')->user()->image)}}" class="image rounded-circle" style="width: 120px;margin-bottom:20px;">
+                    @endisset
+                    @empty(Auth::guard('client')->user()->image)
+                    <img src="{{asset('img\zz.png')}}" class="image rounded-circle" style="width: 120px;margin-bottom:20px;">
+                    @endempty
+
                 </span>
                 <h4 class="h5 fs-16 mb-1 fw-600">{{Auth::guard('client')->user()->fullname}}</h4>
                     <div class="text-truncate opacity-60">{{Auth::guard('client')->user()->email}}</div>
@@ -176,10 +182,10 @@
                 Widhlist
               </a>
             -->
-              <a class="list-group-item list-group-item-action dropright-toggle " href="#">
+              <a class="list-group-item list-group-item-action dropright-toggle " href="/client/{{$store->id}}/profile/{{Auth::guard('client')->user()->id}}">
                 Personal Info
               </a>
-              <a class="list-group-item list-group-item-action dropright-toggle " href="#">
+              <a class="list-group-item list-group-item-action dropright-toggle " href="/client/{{$store->id}}/all_shipping/{{Auth::guard('client')->user()->id}}">
                 Addresses
               </a>
               <a class="list-group-item list-group-item-action dropright-toggle " href="#">
@@ -288,5 +294,8 @@
                         }
                     }
                 </script>
+                <script>
+                    $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+                    </script>
 </body>
 @endsection

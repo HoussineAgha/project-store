@@ -131,7 +131,7 @@
                 <a class="nav-link" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="{{route('contact.front',$store->id)}}">Contact Us</a>
               </li>
               @auth
               <li class="nav-item">
@@ -191,7 +191,9 @@
               </li>
             </ul>
           </div>
+
         @include('shared.error')
+
           <div class="col-md-7 col-lg-8">
             <form
             role="form"
@@ -204,13 +206,6 @@
             @csrf
 
               <div class="row g-3">
-                <div class="col-12">
-                    <label for="phone" class="form-label"></label>
-                    <input type="text" name="phone" class="form-control" id="phone"  hidden>
-                    <div class="invalid-feedback">
-                    </div>
-                  </div>
-
               <h4 class="mb-3">Payment</h4>
               <hr class="my-4">
               <div class="my-3">
@@ -229,12 +224,18 @@
                   <div class="col-xs-12">
                  </div>
                 </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="paypal">Cash on D  elivery</label>
+                    <input id="cash" name="paymentmethod" type="radio" class="form-check-input" >
+                    </div>
+
               </div>
               </div>
 <!---start payment---->
 
 
-       <div class='form-row row' id="dfdf" >
+       <div class='form-row row' id="input-strip" >
           <div class='col-xs-12 col-md-4 form-group cvc required'>
              <label class='control-label'>Card Number</label>
              <input autocomplete='off' name="cardnumber" id="cardnumber" class='form-control card-cvc' placeholder="123456" size='4' type='text' required >
@@ -265,6 +266,7 @@
         </form>
        </div>
  </div>
+
             <form action="{{route('charge',$store->id)}}" method="POST">
                 @csrf
                 @foreach ($cartItems as $item)
@@ -273,13 +275,32 @@
                 <input type="hidden" name="quantity" id="quantity" value="{{$item->quantity}}"/>
                 <input type="hidden" name="price" id="price" value="{{$item->price}}"/>
             @endforeach
+
         <div class="col-xs-12" id="knetttt" style="display: none" >
             <button class="btn btn-primary btn-lg btn-block" id="submitbtn" type="submit">Pay with Mada {{$totals}}$</button>
         </div>
+
           </div>
         </div>
       </main>
     </form>
+
+    <form action="{{route('cash.post',$store->id)}}" method="POST">
+        @csrf
+        @foreach ($cartItems as $item)
+        <input type="hidden" name="id" id="id" value="{{$item->id}}"/>
+        <input type="hidden" name="nameproduct" id="nameproduct" value="{{$item->name}}"/>
+        <input type="hidden" name="quantity" id="quantity" value="{{$item->quantity}}"/>
+        <input type="hidden" name="price" id="price" value="{{$item->price}}"/>
+    @endforeach
+
+    <div class="col-xs-12" id="cashh" style="display: none" >
+        <button class="btn btn-primary btn-lg btn-block" id="submitbtn" type="submit">Pay with cash {{$totals}}$</button>
+    </div>
+    </form>
+
+
+
 <!-- payment end -->
 
                   <!-- Footer Starts Here -->

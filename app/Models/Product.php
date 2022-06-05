@@ -14,7 +14,7 @@ class Product extends Model
     }
 
     public function categury(){
-        return $this->hasMany('App\models\Categury');
+        return $this->hasMany('App\models\categury');
     }
 
     protected $casts =[

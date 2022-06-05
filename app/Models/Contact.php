@@ -5,17 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Shipping extends Model
+class Contact extends Model
 {
     use HasFactory;
 
     public function store(){
-        return $this->hasMany('App\Models\Store');
+        return $this->belongsTo('App\Models\store');
     }
-
-    public function client(){
-        return $this->belonsTo('App\Models\Client');
-    }
-
 
 }

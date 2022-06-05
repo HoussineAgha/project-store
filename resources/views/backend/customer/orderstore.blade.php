@@ -13,8 +13,8 @@
 
 @section('content2')
 
-
 <div class="row">
+
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -71,9 +71,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                @forelse ($store->order as $item)
-                                <td>
 
+                                @forelse ($orders as $item)
+                                <td>
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="customCheck2">
                                         <label class="form-check-label" for="customCheck2">&nbsp;</label>
@@ -98,7 +98,7 @@
                                     <h5><span class="badge badge-info-lighten">{{$item->shipping}}</span></h5>
                                 </td>
                                 <td>
-                                    <h5><span class="badge badge-info-lighten"></span>{{$item->client_id}}</h5>
+                                    <p><span class="badge badge-info-lighten"></span>{{$item->client->fullname}}</p>
                                 </td>
                                 <td class="text-right footable-last-visible" style="display: table-cell; width:150px;">
                                     <a class="btn btn-soft-success btn-icon btn-circle btn-sm" href="{{route('order.details',$item->id)}}" target="_blank" title="view">
@@ -108,6 +108,18 @@
                                     <a href="{{route('order.delet',$item->id)}}" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="#" title="delete">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="20" height="20"><path fill-rule="evenodd" d="M1.757 10.243a6 6 0 118.486-8.486 6 6 0 01-8.486 8.486zM6 4.763l-2-2L2.763 4l2 2-2 2L4 9.237l2-2 2 2L9.237 8l-2-2 2-2L8 2.763l-2 2z"></path></svg>
                                     </a>
+                                    @if ($item->shipping == 'On the way' || $item->shipping == 'Waiting')
+                                    <a href="{{route('order.delivered',$item->id)}}" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="#" title="delivered">
+                                        <i class="fa-solid fa-truck-fast" style="font-size: 20px;"></i>
+                                    </a>
+                                    @endif
+
+                                    @if ($item->status == 'Waiting')
+                                    <a href="{{route('order.cash',$item->id)}}" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="#" title="Done Payment">
+                                        <i class="fa-solid fa-file-invoice-dollar" style="font-size: 20px;"></i>
+                                    </a>
+                                    @endif
+
                                 </td>
 
                                 <!--
@@ -122,6 +134,7 @@
                             <div class="empety">
                                 <h5 class="text-center">There are no Order available for you 🙂 😔</h5>
                             </div>
+
                             @endforelse
                         </tbody>
 
@@ -132,8 +145,10 @@
     </div> <!-- end col -->
 </div>
 
-
-
+<!-- pandgation Page start Here -->
+<div class="pagination-product" style="padding: 20px 0">
+    {{ $orders->links() }}
+</div>
 
 
 @endsection

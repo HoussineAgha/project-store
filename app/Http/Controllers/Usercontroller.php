@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\Auth;
 use App\models\User;
+use App\Models\Client;
+use App\Models\Store;
+use session;
+
 
 class Usercontroller extends Controller
 {
@@ -131,5 +135,50 @@ class Usercontroller extends Controller
 
         return redirect('/user/account');
     }
+
+    public function all_client(User $user,Store $store,Client $client){
+        return view('backend.customer.Allclient',compact('store','client'));
+    }
+
+    public function client_details(Client $client,Store $store){
+        if($store->user_id != auth()->user()->id)
+        return back();
+        return view('backend.customer.clientstore',compact('store','client'));
+    }
+
+    public function delete_client(Client $client){
+       $client->delete();
+        return back();
+    }
+
+    public function edit_client(Client $client,Store $store){
+        if($client->id != $client->id)
+        return back();
+        return view('backend.customer.edit_client',compact('client','store'));
+    }
+
+    public function update_client(Client $client,Store $store){
+
+        $valdateData = request()->validate([
+            'image'=>'required|mimes:jpeg,png,jpg,webp|max:10000',
+        ]);
+
+        if(request()->hasFile('image'))
+        $path = '/storage/'.request()->file('image')->store('image_client',['disk' => 'public']);
+        $client->fullname = request()->fullname;
+        $client->email = request()->email;
+        $client->phone = request()->phone;
+        $client->password = bcrypt(request()->password);
+        $client->image= $path;
+
+         if($client->save()){
+            flash('Your information has been successfully updated')->success();
+        }else{
+            flash('noooo!')->error();
+        }
+
+        return back();
+    }
+
 }
 

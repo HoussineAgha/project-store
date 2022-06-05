@@ -225,5 +225,23 @@
 .bg-success{
     margin-top: 25px;
 }
+.alert-success{
+    width: 50%;
+    color: white;
+    background-color: #3ab37c;
+    animation: hideAnimation 0s ease-in 5s;
+    animation-fill-mode: forwards;
+}
+@keyframes hideAnimation {
+    to {
+      visibility: hidden;
+      width: 0;
+      height: 0;
+    }
+  }
+.sharee{
+    padding:15px;
+    font-size: 18px;
+}
 
 

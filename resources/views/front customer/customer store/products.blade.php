@@ -168,7 +168,7 @@
                 <a class="nav-link" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="{{route('contact.front',$store->id)}}">Contact Us</a>
               </li>
               @auth
               <li class="nav-item">
@@ -247,20 +247,18 @@
             <div class="row">
                     @forelse ($product as $item)
                     <div class="col">
-                        <div class="card text-white bg-black" style="width: 18rem;">
+                        <div class="card text-white bg-black" style="width: 16rem;">
                             <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
                             <div class="card-body">
                             <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</a></h5>
                             <br>
                             <div class="d-flex">
-                            <h5 class="card-text">{{$item->price}} USD</h5>
-                            @isset($item->discount)
-                            <h5 class="card-text"><small class="text-muted text-decoration-line-through"> {{$item->discount}} USD</small></h5>
-                            @endisset
-
-                            @empty($item->discount)
-                            <h5 class="card-text"><small class="text-muted text-decoration-line-through"></small></h5>
-                            @endempty
+                                @if($item->discount)
+                                <h5 class="card-text"><small class="text-muted text-decoration-line-through">$ {{$item->price}}</small></h5>
+                                <h5 class="card-text">$ {{$item->discount}}</h5>
+                                @else
+                                <h5 class="card-text">$ {{$item->price}}</h5>
+                                @endif
                             </div>
                             <br>
                             <div>

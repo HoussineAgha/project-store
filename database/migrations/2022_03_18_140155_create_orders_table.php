@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->char('patment_type',8);
             $table->char('status',20);
             $table->text('product');
+            $table->text('shipping_info');
             $table->string('total');
             $table->text('shipping')->nullable();
             $table->integer('cartnumber')->nullable();

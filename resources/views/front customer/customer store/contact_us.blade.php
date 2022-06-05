@@ -1,83 +1,23 @@
 @extends('front customer.customer store.layout.app')
 
-@section('title',$store->name_store)
+@section('title','Contact us')
 
 @section('style')
 
     <style>
-        .d-flex h5{
-            margin-right: 40px;
-        }
-        .bg-black{
-            margin-top: 20px;
-            margin-bottom: 0px;
-        }
-        .d-flex{
-            display: inline-flex !important;
-        }
-        .col{
-            background-color: rgb(255, 255, 255);
-            padding-bottom: 25px;
-        }
-        .border-bottom{
-            border-bottom: 3px solid #2e7fcf !important;
-        }
-        .card{
-            min-width: 250px;
-            max-width: 250px;
-        }
-        .row > *{
-            padding-right:0px;
-        }
-        .border-bottom{
-            padding-top: 75px;
-        }
-        body{
-            background-color: rgb(231, 231, 231)
-        }
         #navbarResponsive{
             top:175px;
         }
         .navbar{
             height: 170px;
         }
-        .list-unstyled{
-            display: inline-flex;
-            text-align: center;
-        }
-        .cat{
-            text-align: center;
-        }
-        .btn-primary{
-            width: 150px;
-        }
-        .fas, .fa-solid{
-            font-size:36px;
-            color: black;
-            margin-top: 30px;
-        }
-        .btn-dark{
-            width: max-content;
-            margin-top: 40px;
-            margin-left: 10px;
-        }
-        .card-img, .card-img-top {
-            height: 180px;
-        }
-        .card-title a{
-            color: white;
-        }
-
-
     </style>
-
 @endsection
 
 @section('content3')
 
-
+  <body>
     <!-- Pre Header -->
-    <!-- top par---->
     <div id="pre-header">
         <div class="container">
           <div class="row">
@@ -127,25 +67,12 @@
 
         <div class="container">
           @isset($store->adsimage)
-          <a class="navbar-brand" href="{{$store->urlads}}" target="_blank"><img src="{{asset($store->adsimage)}}" alt="" width="620px" height="150px" id="logo-customer"></a>
+          <a class="navbar-brand" href="{{$store->urlads}}" target="_blank"><img src="{{asset($store->adsimage)}}" alt="" width="720px" height="150px" id="logo-customer"></a>
           @endisset
           @empty($store->adsimage)
           <a class="navbar-brand" href="#" target="_blank"></a>
           @endempty
-<!-- للتحقق من ان العميل مسجل بالمتجر ام لا-->
 
-            @if(auth('client')->check())
-            <div class="iconuser" style="display: flex ;">
-                <a href="/client/{{$store->id}}/logout"  class="btn btn-dark">Log out</a>
-                <a href="/client/dashboard/{{$store->id}}"  class="btn btn-dark">Account</a>
-            </div>
-            @else
-            <div class="iconuser">
-                <a href="{{route('client.loginee',$store->id)}}"><i class="fa-solid fa-user-plus"></i></a>
-            </div>
-
-            @endif
-<!-------- ايقونة السلة------------>
           @if (Cart::getTotalQuantity() ==null)
           <div class="cart" style="margin: 40px ; padding-top:40px;">
                 <div class="qyt">
@@ -153,10 +80,9 @@
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 576" width='36px' height='36px'><!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z"/></svg>
         <div>
-
           @else
           <div class="cart" style="margin: 40px ; padding-top:40px;">
-            <a href="{{route('cart.list',$store->id)}}" class="cart">
+            <a href="/cart/{{$store->id}}" class="cart">
                 <div class="qyt">
                     {{ Cart::getTotalQuantity()}}
                 </div>
@@ -164,7 +90,7 @@
             </a>
         <div>
           @endif
-<!----- القائمة----------->
+
         <span class="navbar-toggler-icon"></span>
           <div class="collapse navbar-collapse " id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
@@ -181,7 +107,7 @@
                 <a class="nav-link" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{route('contact.front',$store->id)}}">Contact Us</a>
+                <a class="nav-link" href="#">Contact Us</a>
               </li>
               @auth
               <li class="nav-item">
@@ -193,190 +119,131 @@
         </div>
 
       </nav>
+    <!-- Page Content -->
 
-<body>
-<!-- Page Content -->
-    <!-- Banner Starts Here -->
-    <div class="banner">
-        @isset($store->Baner)
-        <img src="{{asset($store->Baner)}}" width="100%" height="600px"  alt="..." >
-        @endisset
-
-        @empty($store->Baner)
-        <img src="{{asset(img\store.jpg)}}" width="100%" height="600px"  alt="..." >
-        @endempty
-
-      <div class="container">
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="caption">
-               <h2>Store working hours :</h2>
-              <div class="line-dec"></div>
-
-            @isset($store->opening_times)
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg><h2>{{ $store->opening_times }}</h2><span class="sr-only"></span>
+        <!-- Banner Starts Here -->
+        <div class="banner">
+            @isset($store->Baner)
+            <img src="{{asset($store->Baner)}}" width="100%" height="600px"  alt="..." >
             @endisset
-            @empty($store->opening_times)
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg><h2>In Work Now</h2><span class="sr-only"></span>
-            @endempty
-              <br>
-            @isset($store->close_times)
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg><h2>{{ $store->close_times }}</h2><span class="sr-only"></span>
-            @endisset
-            @empty($store->close_times)
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg><h2>In Work Now</h2><span class="sr-only"></span>
-            @endempty
-            <br><br>
-            <h2>What does the store offer?</h2>
-            <div class="line-dec"></div>
-              <p> {!! Str::limit($store->discription , 250) !!} </p>
 
-              <div class="main-button">
-                <a href="#">Order Now!</a>
+            @empty($store->Baner)
+            <img src="{{asset(img\store.jpg)}}" width="100%" height="600px"  alt="..." >
+            @endempty
+
+          <div class="container">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="caption">
+                   <h2>Store working hours :</h2>
+                  <div class="line-dec"></div>
+
+                @isset($store->opening_times)
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg><h2>{{ $store->opening_times }}</h2><span class="sr-only"></span>
+                @endisset
+                @empty($store->opening_times)
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg><h2>In Work Now</h2><span class="sr-only"></span>
+                @endempty
+                  <br>
+                @isset($store->close_times)
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg><h2>{{ $store->close_times }}</h2><span class="sr-only"></span>
+                @endisset
+                @empty($store->close_times)
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"></path></svg><h2>In Work Now</h2><span class="sr-only"></span>
+                @endempty
+                <br><br>
+                <h2>What does the store offer?</h2>
+                <div class="line-dec"></div>
+                  <p> {!! Str::limit($store->discription , 250) !!} </p>
+
+                  <div class="main-button">
+                    <a href="#">Order Now!</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- Banner Ends Here -->
-
-    <div class="cat">
-
-        <div class="container">
+        <!-- Banner Ends Here -->
+    <div class="container">
+<div class="row">
+    <div class="col-6">
+        <form method="POST" action="{{route('contact.send',$store->id)}}">
+            @csrf
             @include('flash::message')
-
-                @forelse ($categury as $item)
-
-            <ul class="list-unstyled mb-0 row gutters-5">
-                <li class="minw-0 col-2  mt-3" style="background-color: #109cdd;padding: 5px;border-radius: 5px;box-shadow: 1px 1px 10px #ccc; width:auto;  margin-left: 10px; ">
-                    <a href="/categories/{{$item->id}}/{{$store->id}} "class="d-block rounded bg-white p-2 text-reset shadow-sm">
-                        <img src="{{ asset($item->image)}}" alt="" class="img-fit lazyloaded" height="78" onerror="this.onerror=null">
-                            <div class="text-truncate fs-12 fw-600 mt-2 opacity-70">{{ $item->name }}</div>
-                    </a>
-                </li>
-
-            </ul>
-            @empty
-
-            @endforelse
-
+        <div class="mb-3">
+            <label for="store_id" class="form-label"></label>
+            <input name="store_id" type="hidden" class="form-control" id="store_id" value="{{$store->id}}" >
         </div>
 
+        <div class="mb-3">
+            <label for="fullname" class="form-label">Full Name</label>
+            <input name="fullname" type="text" class="form-control" id="fullname" placeholder="Full Name" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input name="email" type="email" class="form-control" id="email" placeholder="name@example.com" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input name="phone" type="Number" class="form-control" id="phone" placeholder="96005" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <input name="country" type="text" class="form-control" id="country" placeholder="USA" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input name="subject" type="text" class="form-control" id="subject" placeholder="Subject" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="messages" class="form-label">Message</label>
+            <textarea name="messages" class="form-control" id="messages" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-dark">Send Message</button>
+
     </div>
+</form>
 
+        <div class="col-3">
+            <div id="map" style="padding-top: 70px;">
+                <!-- How to change your own map point
+                       1. Go to Google Maps
+                       2. Click on your location point
+                       3. Click "Share" and choose "Embed map" tab
+                       4. Copy only URL and paste it within the src="" field below
+                -->
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1197183.8373802372!2d-1.9415093691103689!3d6.781986417238027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdb96f349e85efd%3A0xb8d1e0b88af1f0f5!2sKumasi+Central+Market!5e0!3m2!1sen!2sth!4v1532967884907" width="100%" height="500px" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+        </div>
+        <div class="col-3" style="padding-top:70px;">
+            <div class="info" style="background-color: rgb(0, 0, 0); border-radius: 5px; padding:15px; width:min-content; color:white;">
+            <h4 style="padding-top: 40px;">Contact Information : </h4>
+            <hr>
+            <div class="email" style="display: inline-flex;">
+                <i class="fa-solid fa-square-envelope" style="font-size:24px;"></i>
+                <h5 style="padding-left: 10px; padding-top:3px;">{{$store->email}}</h5>
+              </div>
 
-
-    <!-- Featured Starts Here -->
-
-    <div class="featured container no-gutter">
-        <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Feature product</h3></span>
-
-        <div class="container">
-            <div class="row">
-                <hr>
-                    @forelse ($feature as $item)
-                    <div class="col">
-                        <div class="card text-white bg-black" style="width: 18rem;">
-                            <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
-                            <div class="card-body">
-                            <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</a></h5>
-                            <br>
-                            <div class="d-flex">
-                                @if($item->discount)
-                                <h5 class="card-text"><small class="text-muted text-decoration-line-through">$ {{$item->price}}</small></h5>
-                                <h5 class="card-text">$ {{$item->discount}}</h5>
-                                @else
-                                <h5 class="card-text">$ {{$item->price}}</h5>
-                                @endif
-                            </div>
-                            <br>
-                            <div>
-
-                            <br>
-                            <form action="/cart/{{$store->id}}" method="POST">
-                                @csrf
-                                  <input type="hidden" name="id" id="id" value="{{ $item->id }}" >
-                                  <input type="hidden" name="name" id="name" value="{{ $item->name }}">
-                                  <input type="hidden" name="image" id="image" value="{{ $item->image }}">
-                                  <input type="hidden" name="shipping_cost" id="shipping_cost" value="{{ $item->shipping_cost }}">
-                                  <input type="hidden" name="shipping_type" id="shipping_type" value="{{ $item->shipping_type }}">
-                                  @if ($item->discount)
-                                  <input type="hidden" name="discount" id="discount" value="{{ $item->discount }}">
-                                  @else
-                                  <input type="hidden" name="price" id="price" value="{{ $item->price }}" >
-                                  @endif
-                                  <input type="hidden" value="1" name="quantity">
-                              <input type="submit" class="btn btn-primary" value="Add To Cart">
-                            </form>
-                            </div>
-                    </div>
-
+              <div class="email" style="display: inline-flex; padding-top:50px;">
+                <i class="fa-solid fa-phone" style="font-size:24px;"></i>
+                <h5 style="padding-left: 10px; padding-top:3px;">{{$store->phone}}</h5>
+              </div>
+              <hr>
+              <div class="share">
+                <h6>You can also keep in touch on:<br> <span><br><a href="#" class="sharee"><i class="fa fa-facebook"></i></a><a href="#"class="sharee"><i class="fa fa-linkedin" class="sharee"></i></a><a href="#" class="sharee"><i class="fa fa-twitter"></i><a href="#" class="sharee"><i class="fa fa-instagram"></i></a></span></h6>
+              </div>
             </div>
+        </div>
     </div>
-                @empty
-                <div class="empety">
-                    <h5 class="text-center">There are no product available 🙂 😔</h5>
-                </div>
-    @endforelse
-
-    <!-- Featred Ends Here -->
-
-    <!-- latest product start Here -->
-
-    <div class="featured container no-gutter">
-        <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Latest product</h3></span>
-
-        <div class="container">
-            <div class="row">
-                <hr>
-                    @forelse ($latest as $item)
-                    <div class="col">
-                        <div class="card text-white bg-black" style="width: 18rem;">
-                            <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
-                            <div class="card-body">
-                            <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</a></h5>
-                            <br>
-                            <div class="d-flex">
-                                @if($item->discount)
-                                <h5 class="card-text"><small class="text-muted text-decoration-line-through">$ {{$item->price}}</small></h5>
-                                <h5 class="card-text">$ {{$item->discount}}</h5>
-                                @else
-                                <h5 class="card-text">$ {{$item->price}}</h5>
-                                @endif
-                            </div>
-                            <br>
-                            <div>
-
-                            <br>
-                            <form action="/cart/{{$store->id}}" method="POST">
-                                @csrf
-                                  <input type="hidden" name="id" id="id" value="{{ $item->id }}" >
-                                  <input type="hidden" name="name" id="name" value="{{ $item->name }}">
-                                  <input type="hidden" name="image" id="image" value="{{ $item->image }}">
-                                  <input type="hidden" name="shipping_cost" id="shipping_cost" value="{{ $item->shipping_cost }}">
-                                  <input type="hidden" name="shipping_type" id="shipping_type" value="{{ $item->shipping_type }}">
-                                  @if ($item->discount)
-                                  <input type="hidden" name="discount" id="discount" value="{{ $item->discount }}">
-                                  @else
-                                  <input type="hidden" name="price" id="price" value="{{ $item->price }}" >
-                                  @endif
-                                  <input type="hidden" value="1" name="quantity">
-                              <input type="submit" class="btn btn-primary" value="Add To Cart">
-                            </form>
-                            </div>
-                    </div>
-
-            </div>
-    </div>
-                @empty
-                <div class="empety">
-                    <h5 class="text-center">There are no product available 🙂 😔</h5>
-                </div>
-    @endforelse
-
-<!-- latest product end Here -->
+</div>
 
         <!-- Footer Starts Here -->
         <div class="footer">

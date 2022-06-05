@@ -107,7 +107,7 @@
                 <a class="nav-link" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="{{route('contact.front',$store->id)}}">Contact Us</a>
               </li>
               @auth
               <li class="nav-item">
@@ -119,8 +119,6 @@
         </div>
 
       </nav>
-
-
     <!-- Page Content -->
     <!-- About Page Starts Here -->
     <div class="about-page">

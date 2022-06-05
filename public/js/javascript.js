@@ -7,21 +7,35 @@ $(document).ready(function() {
 
   $(document).ready(function(){
     $("#credit").click(function(){
-      $("#dfdf").show();
+      $("#input-strip").show();
     });
     $("#credit").click(function(){
         $("#knetttt").hide();
+        $("#cashh").hide();
       });
   });
 
-// كود السويتشر في صفحة الدفع  للسترايب
+// كود السويتشر في صفحة الدفع لمدى
 
   $(document).ready(function(){
     $("#Knet").click(function(){
       $("#knetttt").show();
     });
     $("#Knet").click(function(){
-        $("#dfdf").hide();
+        $("#input-strip").hide();
+        $("#cashh").hide();
+      });
+  });
+
+  // كود السويتشر في صفحة الدفع لمدى
+
+  $(document).ready(function(){
+    $("#cash").click(function(){
+      $("#cashh").show();
+    });
+    $("#cash").click(function(){
+        $("#input-strip").hide();
+        $("#knetttt").hide();
       });
   });
 

@@ -22,7 +22,7 @@ class CreateShippingsTable extends Migration
             $table->string('address');
             $table->string('country');
             $table->string('state');
-            $table->string('sameaddress')->default(0);
+            $table->boolean('sameaddress')->default(0);
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->unsignedBigInteger('store_id');
