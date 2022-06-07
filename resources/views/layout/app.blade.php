@@ -15,9 +15,9 @@
     <!--تضمين الهيدر-->
     @include('layout.header')
 
-    <div class="container">
-            @yield('content')
-    </div>
+
+    @yield('content')
+
 
     @include('layout.footer')
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
