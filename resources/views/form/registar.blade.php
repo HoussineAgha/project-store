@@ -16,6 +16,7 @@
 
 @section('content')
     <body class="body1">
+        <div class="container">
                 <form class="row g-3" action="/user/store" method="POST" id="form1">
                     @csrf
                     <div class="creat">
@@ -60,6 +61,7 @@
                     </div>
                 </div>
                 </form>
+        </div>
     </body>
 @endsection
 

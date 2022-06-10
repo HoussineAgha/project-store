@@ -246,13 +246,16 @@
 .top-bar2{
     text-align: center;
     padding-top: 10px;
+    background-color: #ffc107;
 }
 .top-bar2 a{
     text-decoration: none !important;
     color: black;
+
 }
 .top-bar2 a:hover{
     text-decoration: none !important;
-    color: rgb(57, 134, 221);
+    color: #ffffff;
 }
+
 

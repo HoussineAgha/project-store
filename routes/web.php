@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
+Route::get('/admin','App\Http\controllers\Paneladmincontroller@index');
 Route::get('/{id}','App\Http\controllers\Storecontroller@show')->name('store.show');
 Route::get('/All-Product/{store}','App\Http\controllers\Storecontroller@allproduct')->name('page.product');
 //Route::get('/{store}/{pages}','App\Http\controllers\Pagescontroller@show');
@@ -152,6 +153,11 @@ Route::prefix('contact-us')->group(function(){
     Route::get('/{contact}/details','App\Http\Controllers\Contactcontroller@view')->name('view.contact');
    });
    Route::get('/{store}','App\Http\Controllers\Contactcontroller@show')->name('contact.front');
+});
+
+Route::prefix('admin')->group(function(){
+    Route::post('/check','App\Http\controllers\Paneladmincontroller@login_admin')->name('login.admin');
+    Route::get('/logout','App\Http\controllers\Paneladmincontroller@logout')->name('admin.logout');
 });
 
 

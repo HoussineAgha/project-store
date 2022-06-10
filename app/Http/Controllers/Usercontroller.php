@@ -17,7 +17,7 @@ class Usercontroller extends Controller
         $role = Auth::User()->role;
 
         if($role == 'admin'){
-            return 'admin';
+            return view('admin.backend.index');
         }
 
         if($role == 'seller'){

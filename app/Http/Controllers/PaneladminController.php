@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers;
 
 use App\Models\Paneladmin;
 use App\Http\Requests\StorePaneladminRequest;
 use App\Http\Requests\UpdatePaneladminRequest;
+use App\models\User;
 
 class PaneladminController extends Controller
 {
@@ -15,7 +16,31 @@ class PaneladminController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.frontend.form.login');
+    }
+
+    public function login_admin(){
+
+        $validate = request()->validate([
+            'email'=>'required',
+            'password'=>'required|min:5'
+        ]);
+
+        if(auth()->attempt(['email'=>request()->email ,'password'=>request()->password])){
+            if(auth()->user()->role != 'admin'){
+                return back()->withErrors(['This is not considered the login data for the admin']);
+            }else{
+                return redirect()->intended('/');
+            }
+        }else{
+            return back()->withErrors(['Wrong registration information']);
+        }
+    }
+
+    public function logout(){
+        auth()->logout();
+        session()->flush();
+        return redirect('/');
     }
 
     /**

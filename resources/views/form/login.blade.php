@@ -4,6 +4,7 @@
 
 @section('content')
 <body class="body1">
+    <div class="container">
         <form class="row g-3" id="form1" method="POST" action="/user/selectlogin">
             @csrf
             <div class="col-4" id="login">
@@ -24,5 +25,6 @@
             </div>
         </div>
         </form>
+    </div>
 </body>
 @endsection
