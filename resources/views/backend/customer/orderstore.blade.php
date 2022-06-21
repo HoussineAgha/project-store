@@ -12,7 +12,7 @@
 @endsection
 
 @section('content2')
-
+@include('flash::message')
 <div class="row">
 
     <div class="col-12">

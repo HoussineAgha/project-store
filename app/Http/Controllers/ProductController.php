@@ -93,7 +93,11 @@ class ProductController extends Controller
             $newproduct->shipping_cost = request()->shipping_cost;
         }
 
-        $store->product()->save($newproduct);
+        if($store->product()->save($newproduct)){
+            flash('Product Create successfully')->success();
+        }else{
+            flash('Something went wrong, try again')->warning();
+        }
 
 
 
@@ -143,13 +147,15 @@ class ProductController extends Controller
         $datavalidation= request()-> validate([
             'name'=>'required|min:4',
             'price'=>'required',
-            'image'=>'required|mimes:jpeg,png,jpg|max:10000',
+            'image'=>'mimes:jpeg,png,jpg|max:10000',
             'gallery.*'=>'mimes:jpeg,png,jpg|max:10000',
             'discription'=>'required',
         ]);
-        if(request()->hasFile('image'))
+        if(request()->hasFile('image')){
         $path='/storage/'.request()->file('image')->store('image_cat',['disk'=>'public']);
-
+    }else{
+        $path = $product->image;
+    }
         $path2=array();
         $galleries = request()->gallery;
         if(count($galleries) > 0){
@@ -184,7 +190,11 @@ class ProductController extends Controller
             $product->shipping_cost = 0;
         }
 
-        $product->save();
+        if($product->save()){
+            flash('Product updated successfully')->success();
+        }else{
+            flash('Something went wrong, try again')->warning();
+        }
 
         return redirect('/product/'.$product->store->id.'/All-Products');
     }
@@ -197,10 +207,13 @@ class ProductController extends Controller
      */
     public function destroy(Product $product , Store $store)
     {
-        $product->delete();
+        if($product->delete()){
+            flash('Product Delete successfully')->success();
+        }else{
+            flash('Something went wrong, try again')->warning();
+        }
 
         return back();
-
-        return redirect(route('allproduct',$store->id));
     }
+
 }

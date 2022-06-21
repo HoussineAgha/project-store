@@ -32,6 +32,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="{{asset('css/material-dashboard.css?v=3.0.2')}}" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('summary/summernote-lite.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   @section('style')
 
   @show
@@ -58,15 +60,15 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="#">
+          <a class="nav-link text-white " href="{{route('admin.stores')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
+                <i class="fas fa-store-alt"></i>
             </div>
-            <span class="nav-link-text ms-1">Tables</span>
+            <span class="nav-link-text ms-1">Stores</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="#">
+          <a class="nav-link text-white " href="{{route('admin.payment')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
@@ -74,13 +76,21 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/virtual-reality.html#">
+          <a class="nav-link text-white " href="{{route('admin.sellers')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">view_in_ar</i>
+                <i class="fas fa-users"></i>
             </div>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
+            <span class="nav-link-text ms-1">Sellers</span>
           </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-white " href="{{route('admin.client')}}">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="fas fa-users"></i>
+              </div>
+              <span class="nav-link-text ms-1">Client</span>
+            </a>
+          </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="#">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -101,7 +111,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="#">
+          <a class="nav-link text-white " href="{{route('admin.profile')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
@@ -109,11 +119,11 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="#">
+          <a class="nav-link text-white " href="{{route('admin.editsettings')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">login</i>
+                <i class="fas fa-cog"></i>
             </div>
-            <span class="nav-link-text ms-1">Sign In</span>
+            <span class="nav-link-text ms-1">Settings</span>
           </a>
         </li>
         <li class="nav-item">
@@ -141,7 +151,7 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Template</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0">Template</h6>
+          <h6 class="font-weight-bolder mb-0">Welcome Admin</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -263,10 +273,15 @@
     </div>
   </div>
   <!--   Core JS Files   -->
+  <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
   <script src="{{asset('jas/core/popper.min.js')}}"></script>
   <script src= "{{asset('jas/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('jas/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{asset('jas/plugins/smooth-scrollbar.min.js')}}"></script>
+  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/feather.min.js') }}"></script>
+  <script src="{{ asset('summary/summernote-lite.min.js') }}"></script>
+  <script src="{{ asset('js/javascript.js') }}"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

@@ -14,7 +14,11 @@
               <div class="row align-items-center">
                 <div class="col-4 col-md-3 col-xl-2">
                   <!-- Image -->
-                  <a href="product.html"><img src="{{$item['attributes']['image']}}" alt="..." class="img-fluid"></a>
+                  @if ($order->status == 'succeeded' || $order->status == 'Waiting' )
+                  <a href="#"><img src="{{$item['attributes']['image']}}" alt="..." class="img-fluid"></a>
+                  @else
+                  <a href="#"><img src="{{$item['image']}}" alt="..." class="img-fluid"></a>
+                  @endif
                 </div>
                 <div class="col">
                   <!-- Title -->

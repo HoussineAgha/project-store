@@ -14,8 +14,8 @@
 
     <div class="col-md-12">
             <div class="mb-3">
-                <label for="name_store" class="form-label"></label>
-                <input name="name_store" type="text" class="form-control" id="name_store" placeholder="Enable store Name Example : The Best" value="{{old('name_store')}}">
+                <label for="name_store" class="form-label">Name Store</label>
+                <input name="name_store" type="text" class="form-control" id="name_store" placeholder="Enter store Name Example : The Best" value="{{old('name_store')}}">
             </div>
 
             <div class="mb-3">

@@ -4,11 +4,15 @@
 
 @section('content')
 
-
+@php
+    $setting = App\Models\Setting::select('logo')->get();
+@endphp
 
 <body class="text-center" >
     <div class="container" style="margin-top: 100px;">
-        <img src="{{asset('img/zz.png')}}" height="150px" width="200px" style="margin-bottom: 50px";>
+        @foreach ($setting as $item)
+        <img src="{{asset($item->logo)}}" height="150px" width="200px" style="margin-bottom: 50px";>
+        @endforeach
         <div class="row">
             <div class="col-4">
             </div>

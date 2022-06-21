@@ -43,7 +43,7 @@ class orderRepostory{
 
         $headers = [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ'
+            'Authorization' => 'Bearer '.env('Mada_Secret_API_Key')
         ];
 
         $response = $client->request('POST', 'https://api.tap.company/v2/charges', [
@@ -105,7 +105,7 @@ class orderRepostory{
 
         $headers = [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ'
+            'Authorization' => 'Bearer '.env('Mada_Secret_API_Key')
         ];
 
         $response = $client->request('GET', $id,[

@@ -20,7 +20,12 @@ class CreateSettingsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('social')->nullable();
+            $table->string('title_accordion')->nullable();
+            $table->longText('disc_accordion')->nullable();
+            $table->longText('image_accordion')->nullable();
+            $table->string('baner')->nullable();
             $table->string('discfooter')->nullable();
+
             $table->timestamps();
         });
     }

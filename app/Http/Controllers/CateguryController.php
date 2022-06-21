@@ -43,9 +43,11 @@ class CateguryController extends Controller
             'name'=>'required|unique:categuries',
             'slug'=>'required'
         ]);
-
+        if(request()->hasfile('image')){
         $path= '/storage/'.request()->File('image')->store('image_cat',['disk'=>'public']);
-
+    }else{
+        $path = "";
+    }
         $newcat= new Categury();
         $newcat->name = request()->name;
         $newcat->discription = request()->discription;

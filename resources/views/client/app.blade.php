@@ -93,7 +93,7 @@
                     @endif
                     <!---------- كود سلة التسوق---------->
                     @if (Cart::getTotalQuantity() ==null)
-                    <div class="cart" style="margin: 40px ; padding-top:40px;">
+                    <div class="cart" style="margin: 15px ; padding-top:40px;">
                         <div class="qyt">
                             {{ Cart::getTotalQuantity()}}
                         </div>

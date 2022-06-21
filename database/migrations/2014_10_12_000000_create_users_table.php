@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('Phone')->nullable();
             $table->string('image')->nullable();
             $table->string('role')->default('seller');
+            $table->boolean('bloack')->default(0);
             $table->timestamps();
         });
     }

@@ -9,7 +9,8 @@ use App\Models\Store;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Client;
-
+use App\Mail\ordercustomer;
+use Illuminate\Support\Facades\Mail;
 class StripeController extends Controller
 {
 
@@ -45,12 +46,13 @@ class StripeController extends Controller
         ]);
 
 
-        Stripe\Stripe::setApiKey('sk_test_51IEzzjKfOvzmk3QD8hbRIBwcn513uiZ1GYxrMiu5g4ie4Go93nYmtN4aUBXmwJwSLQVacGdQlTGYurHbhQ0Tlywk00UvLSp5DH');
+        Stripe\Stripe::setApiKey( env('STRIPE_SECRET') );
         $stripe =Stripe\Charge::create ([
                 "amount" => $totals *100,
                 "currency" => "usd",
                 "source" => 'tok_visa', //$request->stripeToken
                 "description" => "This payment is tested purpose phpcodingstuff.com",
+
         ]);
 
         Session::flash('success', 'Thank You Payment successful!');
@@ -74,7 +76,8 @@ class StripeController extends Controller
         $neworder->shipping = 'On the way';
 
         $neworder->save();
-
+    Mail::to($neworder->store->user)->send(new ordercustomer);
+    Mail::to($neworder->store->client)->send(new orderclient($order,$totals,$cartItems));
         return redirect()->route('payment.get',$store->id);
     }
 

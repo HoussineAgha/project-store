@@ -2,6 +2,12 @@
 
 @section('title','Orders')
 
+@section('style')
+    <style>
+
+    </style>
+@endsection
+
 
 @section('content4')
 

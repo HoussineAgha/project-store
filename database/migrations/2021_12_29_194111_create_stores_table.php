@@ -31,6 +31,8 @@ class CreateStoresTable extends Migration
             $table->string('phone')->nullable();
             $table->string('adsimage')->nullable();
             $table->string('urlads')->nullable();
+            $table->boolean('bloack')->default(0);
+            $table->boolean('review')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

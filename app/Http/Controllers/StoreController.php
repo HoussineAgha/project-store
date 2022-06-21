@@ -88,9 +88,14 @@ class StoreController extends Controller
      * @param  \App\Models\store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $Store, Product $product , $id ,Pages $pages,Client $client)
+    public function show(Store $store, Product $product , $id ,Pages $pages,Client $client)
     {
-        $store= Store::find($id);
+
+            $store= Store::find($id);
+            if($store->bloack == 1)
+            return abort(403);
+            if($store->review == 0)
+            return abort(404);
 
         $latest = Product:: where('store_id','=',$id)->orderBy('created_at', 'desc')->limit('8')->get();
 
@@ -113,7 +118,7 @@ class StoreController extends Controller
      * @param  \App\Models\store  $store
      * @return \Illuminate\Http\Response
      */
-    public function edit(store $store)
+    public function edit(Store $store)
     {
         if($store->user_id != auth()->user()->id)
         return back();
@@ -127,7 +132,7 @@ class StoreController extends Controller
      * @param  \App\Models\store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update( store $store)
+    public function update( Store $store)
     {
         $validateData= request()->validate([
             'name_store'=>'required|min:5',
@@ -137,13 +142,21 @@ class StoreController extends Controller
             'text_top'=>'max:400'
         ]);
 
-        if(request()->hasFile('Baner'))
+    if(request()->hasFile('Baner')){
         $path= '/storage/'.request()->file('Baner',)->store('image_store',['disk'=>'public']);
-        if(request()->hasFile('logo'))
+    }else{
+        $path = $store->Baner ;
+    }
+    if(request()->hasFile('logo')){
         $path2= '/storage/'.request()->file('logo',)->store('logo_store',['disk'=>'public']);
-        if(request()->hasFile('adsimage'))
+    }else{
+        $path2= $store->logo;
+    }
+    if(request()->hasFile('adsimage')){
         $path3= '/storage/'.request()->file('adsimage',)->store('image_store',['disk'=>'public']);
-
+    }else{
+        $path3= $store->adsimage;
+    }
         $store->name_store=request()->name_store;
         $store->discription=request()->discription;
         $store->Baner = $path;
@@ -171,7 +184,7 @@ class StoreController extends Controller
      * @param  \App\Models\store  $store
      * @return \Illuminate\Http\Response
      */
-    public function destroy(store $store)
+    public function destroy(Store $store)
     {
         $store->delete();
         return redirect('/user/account/stores');
@@ -181,10 +194,9 @@ class StoreController extends Controller
         if($store->user_id != auth()->user()->id)
         return back();
         return view('backend.customer.products',compact('store','product'));
-
     }
 
-    public function category(store $store){
+    public function category(Store $store){
         if($store->user_id != auth()->user()->id)
         return back();
         return view('backend.customer.show category',compact('store'));

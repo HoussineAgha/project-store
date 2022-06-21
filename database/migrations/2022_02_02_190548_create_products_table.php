@@ -30,7 +30,8 @@ class CreateProductsTable extends Migration
             $table->boolean('feature')->default(0);
             $table->string('unity')->nullable();
             $table->integer('qyt')->default(1);
-
+            $table->boolean('bloack')->default(0);
+            $table->boolean('review')->default(0);
             $table->unsignedBigInteger('store_id');
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
 

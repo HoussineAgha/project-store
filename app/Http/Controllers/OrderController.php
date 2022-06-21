@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Mail\ordercustomer;
+use App\Mail\orderclient;
 use Session;
 use App\Models\Order;
 use App\Models\Product;
@@ -10,7 +12,7 @@ use App\Models\Shipping;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\repostory\OrderRepostory;
-
+use Illuminate\Support\Facades\Mail;
 use Illuminate\support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -178,6 +180,8 @@ class OrderController extends Controller
             }else{
                 Session::flash('error payment', 'The payment process was not done');
     }
+    Mail::to($newOrder->store->user)->send(new ordercustomer);
+    Mail::to($newOrder->store->client)->send(new orderclient($order,$totals,$cartItems));
 
     return redirect()->route('payment.get',$store->id);
 
@@ -205,7 +209,8 @@ class OrderController extends Controller
         if($cash->save()){
             Session::flash('success', 'Thank You Payment successful!');
         }
-
+        Mail::to($cash->store->user)->send(new ordercustomer);
+        Mail::to($cash->store->client)->send(new orderclient($order,$totals,$cartItems));
         return redirect()->route('payment.get',$store->id);
     }
 
@@ -230,7 +235,11 @@ class OrderController extends Controller
 
     public function delivered(Order $order){
             $order->shipping = 'delivered';
-            $order->save();
+            if($order->save()){
+                flash('Status updated successfully')->success();
+            }else{
+                flash('There is something wrong')->warning();
+            }
 
             return back();
     }
@@ -241,7 +250,12 @@ class OrderController extends Controller
         if($order->status =='succeeded'){
             $order->shipping = 'On the way';
         }
-        $order->save();
+        if($order->save()){
+            flash('Status updated successfully')->success();
+        }else{
+            flash('There is something wrong')->warning();
+        }
+
         return back();
     }
 
@@ -254,7 +268,6 @@ class OrderController extends Controller
             if(session('success')){
                 \Cart::clear() ;
             }
-
             return view('front customer.customer store.paymentfinish',compact('store','cartItems','order','client','totals'));
     }
 }

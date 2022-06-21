@@ -167,7 +167,6 @@
          </div>
         @endif
 
-
         <div class="container">
             <div class="row">
                 <h3 class="thank" style="padding-bottom: 40px;"><strong>Thank you Dear :{{Auth::guard('client')->user()->fullname}}</strong></h3>
@@ -192,7 +191,6 @@
               </tr>
             </tbody>
           </table>
-
           <div class="ship">
             <h4><strong>Details Shipping :</strong></h4>
 

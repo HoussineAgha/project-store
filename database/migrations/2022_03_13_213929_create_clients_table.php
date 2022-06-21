@@ -23,6 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('role')->default('buyer');
             $table->unsignedBigInteger('store_id');
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
+            $table->boolean('bloack')->default(0);
             $table->timestamps();
         });
     }

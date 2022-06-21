@@ -14,7 +14,7 @@
 @section('content2')
 
 
-
+@include('flash::message')
 <a href="/product/create/{{$store->id }}" class="btn btn-primary" id="creat" >creat product</a>
 
 <h4> The Products spicial in this store:<strong> {{$store->name_store}} </strong></h4>

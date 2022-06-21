@@ -55,16 +55,17 @@ Route::prefix('stores')->group(function(){
 });
 
 Route::prefix('product')->group(function(){
-    Route:: get('/{store}/{product}','App\Http\controllers\ProductController@show');
+
 Route::group(['middleware'=>['auth']],function(){
-    Route::get('/{store}/All-Products','App\Http\controllers\Storecontroller@products')->name('allproduct');
-    Route::get('/create/{store}','App\Http\controllers\ProductController@create');
+    Route::get('/{store}/All-Products','App\Http\Controllers\StoreController@products')->name('all.product');
+    Route::get('/create/{store}','App\Http\Controllers\ProductController@create');
     Route::post('/{store}','App\Http\controllers\ProductController@store')->name('creat.product');
     Route::get('/edite/{product}','App\Http\controllers\ProductController@edit')->name('edit.product');
     Route::put('/{product}','App\Http\controllers\ProductController@update');
     Route::get('/delete/{product}','App\Http\controllers\ProductController@destroy')->name('delete.product');
 
     });
+    Route:: get('/{store}/{product}','App\Http\controllers\ProductController@show');
 });
 
 Route::prefix('categories')->group(function(){
@@ -107,7 +108,7 @@ Route::prefix('client')->group(function(){
 Route::group(['middleware'=>['web','auth:client']],function(){
     Route::get('/dashboard/{store}','App\Http\controllers\Clientcontroller@dashboard')->name('client.dashboard');
     Route::get('/order/{store}','App\Http\controllers\Clientcontroller@All_order')->name('order.client');
-    Route::get('/order-details/{order}/{store}','App\Http\controllers\Clientcontroller@order_details')->name('order.details');
+    Route::get('/order-details/{order}/{store}','App\Http\controllers\Clientcontroller@order_details')->name('order.detailss');
     Route::get('/{store}/profile/{client}','App\Http\controllers\Clientcontroller@edit')->name('client.profile');
     Route::put('/update/{client}','App\Http\controllers\Clientcontroller@update')->name('update.profile');
     Route::get('/{store}/Add_shipping/{client}','App\Http\Controllers\Shippingcontroller@add')->name('Add.shiping');
@@ -120,10 +121,10 @@ Route::group(['middleware'=>['web','auth:client']],function(){
 });
 Route::prefix('shipping')->group(function(){
     Route::get('/select-shipping/{store}','App\Http\Controllers\ShippingController@index')->name('select.shipping');
-    Route::get('/{store}','App\Http\controllers\OrderController@create')->middleware('auth')->name('order.request');
+    Route::get('/{store}','App\Http\controllers\OrderController@create')->name('order.request');
     Route::post('/{client}/shipping','App\Http\Controllers\Shippingcontroller@model_shipping')->name('model.shipping');
 });
-Route::group(['prefix'=>'order','middleware'=>'auth'],function(){
+Route::prefix('order')->group(function(){
     //Route::get('/{store}','App\Http\controllers\OrderController@create')->name('order.request');
     Route::post('/{store}/charge','App\Http\controllers\OrderController@chargeRequest')->name('charge');
     Route::get('/{store}/chargeupdate','App\Http\controllers\OrderController@chargeupdate')->name('chargeupdate');
@@ -158,6 +159,33 @@ Route::prefix('contact-us')->group(function(){
 Route::prefix('admin')->group(function(){
     Route::post('/check','App\Http\controllers\Paneladmincontroller@login_admin')->name('login.admin');
     Route::get('/logout','App\Http\controllers\Paneladmincontroller@logout')->name('admin.logout');
+    Route::group(['middleware'=>['admin']],function(){
+    Route::get('/profile','App\Http\controllers\Paneladmincontroller@profile')->name('admin.profile');
+    Route::get('/edit-profile','App\Http\controllers\Paneladmincontroller@edit_profile')->name('admin.editprofile');
+    Route::put('/update-profile','App\Http\controllers\Paneladmincontroller@update_profile')->name('admin.update');
+    Route::get('/All-store','App\Http\controllers\Paneladmincontroller@all_store')->name('admin.stores');
+    Route::get('/create-store','App\Http\controllers\Paneladmincontroller@index_store')->name('admin.creatnewstores');
+    Route::post('/create-store','App\Http\controllers\Paneladmincontroller@creat_store')->name('admin.creatstores');
+    Route::get('/delete-store/{store}','App\Http\controllers\Paneladmincontroller@delete_store')->name('admin.deletestore');
+    Route::get('/edit-store/{store}','App\Http\controllers\Paneladmincontroller@edit_store')->name('admin.editstore');
+    Route::put('/update-store/{store}','App\Http\controllers\Paneladmincontroller@update_store')->name('admin.updatestore');
+    Route::get('/All-seller','App\Http\controllers\Paneladmincontroller@all_seller')->name('admin.sellers');
+    Route::get('/create-seller','App\Http\controllers\Paneladmincontroller@index_seller')->name('admin.createsellers');
+    Route::post('/create-seller','App\Http\controllers\Paneladmincontroller@create_seller')->name('admin.createddsellers');
+    Route::get('/delete-seller/{user}','App\Http\controllers\Paneladmincontroller@delete_seller')->name('admin.deleteseller');
+    Route::get('/edit-seller/{user}','App\Http\controllers\Paneladmincontroller@edit_seller')->name('admin.editseller');
+    Route::put('/update-seller/{user}','App\Http\controllers\Paneladmincontroller@update_seller')->name('admin.updateseller');
+    Route::get('/settings','App\Http\Controllers\SettingController@show')->name('admin.settings');
+    Route::post('/settings','App\Http\Controllers\SettingController@store')->name('admin.storesettings');
+    Route::get('/edit-settings','App\Http\Controllers\SettingController@edit')->name('admin.editsettings');
+    Route::put('/settings/{setting}','App\Http\Controllers\SettingController@update')->name('admin.updatesettings');
+    Route::get('/delet-settings/{setting}','App\Http\Controllers\SettingController@destroy')->name('admin.deletesettings');
+    Route::get('All-Client','App\Http\Controllers\Homecontroller@all_client')->name('admin.client');
+    Route::get('delete-Client/{client}','App\Http\Controllers\Homecontroller@delete_client')->name('admin.deleteclient');
+    Route::get('/edit-Client/{client}','App\Http\Controllers\Homecontroller@edit_client')->name('admin.editclient');
+    Route::put('/update-client/{client}','App\Http\Controllers\Homecontroller@update_client')->name('admin.updateclient');
+    Route::get('/Payment','App\Http\Controllers\Homecontroller@payment')->name('admin.payment');
+    });
 });
 
 

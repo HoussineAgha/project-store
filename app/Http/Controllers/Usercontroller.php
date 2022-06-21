@@ -21,7 +21,12 @@ class Usercontroller extends Controller
         }
 
         if($role == 'seller'){
-            return view('backend.customer.index');
+            if(auth()->user()->bloack == 1){
+                abort(403);
+            }else{
+                return view('backend.customer.index');
+            }
+
         }
 
     }
