@@ -242,8 +242,8 @@
         <div class="container">
             <div class="row">
                     @forelse ($product as $item)
-                    <div class="col">
-                        <div class="card text-white bg-black" style="width: 18rem;">
+                    <div class="col-3">
+                        <div class="card text-white bg-black" >
                             <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
                             <div class="card-body">
                                 <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</h5></a>

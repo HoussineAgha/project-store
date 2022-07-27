@@ -47,12 +47,38 @@ class User extends Authenticatable
     }
 
     public function product(){
-        return $this->hasMany('App\models\product');
+        return $this->hasMany('App\models\Product');
     }
 
     public function pages(){
         return $this->hasMany('App\Models\pages');
     }
+    public function profit(){
+        return $this->hasMany('App\Models\Profit');
+    }
 
+    public function withdrawal(){
+        return $this->hasMany('App\Models\Withdrawal');
+    }
+
+    public function order(){
+        return $this->hasMany('App\Models\Order');
+    }
+
+    public function client(){
+        return $this->hasMany('App\Models\Client');
+    }
+
+    public function contact(){
+        return $this->hasMany('App\Models\Contact');
+    }
+
+    public function messages(){
+        return $this->hasMany('App\Models\messages');
+    }
+
+    public function ticket(){
+        return $this->hasMany('App\Models\Ticket');
+    }
 
 }

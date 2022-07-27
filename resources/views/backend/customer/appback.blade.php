@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -26,8 +27,7 @@
 
             </a>
     </div>
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Hello : {{auth()->user()->first_name}} {{auth()->user()->last_name}}</a>
-          <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" style="margin-right: auto;"> Hello : {{auth()->user()->first_name}} {{auth()->user()->last_name}}</a>
           <ul class="navbar-nav px-3" id="text1">
             <li class="nav-item text-nowrap">
               <a class="btn btn-outline-light me-2" href="/user/logout">Sign out</a>
@@ -52,28 +52,27 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/user/account/stores">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                        <i class="fas fa-store-alt" style="font-size: 20px;"></i>
                       stores
                     </a>
                   </li>
 
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('store.allorder')}}">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                       Orders
                     </a>
                   </li>
 
                   <li class="nav-item">
                     <a class="nav-link" href="#">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false" id="product">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false" id="product" style="padding: 0px;">
                         Categories
                       </button>
-                      <div class="collapse show" id="orders-collapse" style="">
+                      <div class="collapse hide" id="orders-collapse" style="">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                          <li><a href="{{route('creat Categories')}}" class="link-dark rounded">creat Categories</a></li>
-
+                        <li><a href="{{route('creat Categories')}}" class="link-dark rounded">creat Categories</a></li>
                         </ul>
                       </div>
                     </a>
@@ -82,6 +81,18 @@
                     <a class="nav-link" href="{{ route('all.client') }}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                       Customers
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('profit.store')}}">
+                        <i class="fab fa-product-hunt" style="font-size: 20px;"></i>
+                      Records Profits
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('withdrawal')}}">
+                        <i class="fas fa-money-check-alt" style="font-size: 20px;"></i>
+                      Withdrawal
                     </a>
                   </li>
                   <li class="nav-item">
@@ -111,22 +122,24 @@
                       Contact Us
                     </a>
                   </li>
+
                   <li class="nav-item">
                     <a class="nav-link" href="#">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                      Last quarter
+                        <i class="far fa-comment-dots" style="font-size: 20px;"></i>
+                      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false" id="product" style="padding: 0px;">
+                        Inbox Messages
+                      </button>
+                      <div class="collapse hide" id="orders-collapse" style="">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="{{route('user.allmessages')}}" class="link-dark rounded">Privet Messages</a></li>
+                        <li><a href="{{route('user.generalmessages')}}" class="link-dark rounded">General Messages</a></li>
+                        </ul>
+                      </div>
                     </a>
-                  </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                      Social engagement
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                      Year-end sale
+                    <a class="nav-link" href="{{route('user.tickets')}}">
+                        <i class="fa-solid fa-clipboard-list" style="font-size: 20px;"></i>
+                        Tickets
                     </a>
                   </li>
                 </ul>
@@ -169,7 +182,7 @@
     @yield('content2')
 
     @include('flash::message')
-    <script src="{{ asset('js/jquery-3.0.6.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('js/cdnjs/chart.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/feather.min.js') }}"></script>

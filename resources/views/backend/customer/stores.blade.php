@@ -5,7 +5,12 @@
 @section('content2')
 
 @include('flash::message')
-<a href="/stores/creat" class="btn btn-dark" id="creat-store"> Creat New </a>
+    @if (count(auth()->user()->stores) <= 2)
+    <a href="/stores/creat" class="btn btn-dark" id="creat-store"> Creat New </a>
+    @else
+    <a href="#" class="btn btn-dark" id="creat-store"> Upgrade Now </a>
+    @endif
+
 
 <div class="row row-cols-1 row-cols-md-3  g-4" id="card">
     @forelse (auth()->user()->stores as $item)
@@ -27,7 +32,7 @@
                 <div>
                     <span class="badge bg-danger" style="margin-bottom: 20px; font-size:16px;">Blocked</span><br>
                     <a href="{{route('store.show',$item->id)}}" class="btn btn-info"> View </a>
-                    <a href="{{ route('edite',$item->id) }}" class="btn btn-info disabled" target="_blank"> Edite </a>
+                    <a href="{{ route('edite',$item->id) }}" class="btn btn-info " target="_blank"> Edite </a>
                     <a href="{{ route('store.delete',$item->id) }}" class="btn btn-info disabled" id="delete-button"> Delete </a>
                     <hr>
                     <a href="{{ route('all.product',$item->id) }}" class="btn btn-info  margin-top disabled" id="delete-button"> View Products </a>
@@ -41,7 +46,7 @@
                     <a href="{{ route('edite',$item->id) }}" class="btn btn-info disabled" target="_blank"> Edite </a>
                     <a href="{{ route('store.delete',$item->id) }}" class="btn btn-info disabled" id="delete-button"> Delete </a>
                     <hr>
-                    <a href="{{route('all.product',$item->id)}}" class="btn btn-info  margin-top " id="delete-button"> View Products </a>
+                    <a href="{{route('all.product',$item->id)}}" class="btn btn-info disabled  margin-top " id="delete-button"> View Products </a>
                     <a href="{{ route('view.category',$item->id) }}" class="btn btn-info  margin-top " id="delete-button"> View category </a>
                 </div>
                     @break

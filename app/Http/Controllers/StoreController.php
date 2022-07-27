@@ -33,6 +33,8 @@ class StoreController extends Controller
      */
     public function create()
     {
+        if(count(auth()->user()->stores) == 3 )
+        return back();
         return view('backend.customer.creat_store');
     }
 
@@ -97,18 +99,31 @@ class StoreController extends Controller
             if($store->review == 0)
             return abort(404);
 
-        $latest = Product:: where('store_id','=',$id)->orderBy('created_at', 'desc')->limit('8')->get();
+        $latest = Product:: where([
+                    ['store_id','=',$id],
+                    ['review',1],
+                    ['bloack',0],
+                    ])->orderBy('created_at', 'desc')->limit('8')->get();
 
         $feature = Product:: where([
                                     ['store_id','=',$id],
                                     ['feature','=','1'],
+                                    ['review',1],
+                                    ['bloack',0],
                                 ])->orderBy('created_at', 'asc')->limit('8')->get();
+
+        $best = Product::where([
+                            ['store_id',$id],
+                            ['best_sellary','1'],
+                            ['review',1],
+                            ['bloack',0],
+                        ])->orderBy('created_at', 'asc')->limit('8')->get();
 
         $categury= Categury:: where('store_id','=' ,$id)->orderBy('created_at','desc')->limit('6')->get();
 
         //$clients = Client::find($client);
 
-        return view('front customer.customer store.index',compact('store','feature','latest','categury','pages','product'));
+        return view('front customer.customer store.index',compact('store','feature','latest','categury','pages','product','best'));
 
     }
 
@@ -137,23 +152,23 @@ class StoreController extends Controller
         $validateData= request()->validate([
             'name_store'=>'required|min:5',
             'discription'=>'required|min:5',
-            'Baner'=>'required|mimes:jpeg,png,jpg|max:10000',
-            'logo'=>'required|mimes:jpeg,png,jpg|max:10000',
+            'Baner'=>'mimes:jpeg,png,jpg|max:10000',
+            'logo'=>'mimes:jpeg,png,jpg|max:10000',
             'text_top'=>'max:400'
         ]);
 
     if(request()->hasFile('Baner')){
-        $path= '/storage/'.request()->file('Baner',)->store('image_store',['disk'=>'public']);
+        $path= '/storage/'.request()->file('Baner')->store('image_store',['disk'=>'public']);
     }else{
         $path = $store->Baner ;
     }
     if(request()->hasFile('logo')){
-        $path2= '/storage/'.request()->file('logo',)->store('logo_store',['disk'=>'public']);
+        $path2= '/storage/'.request()->file('logo')->store('logo_store',['disk'=>'public']);
     }else{
         $path2= $store->logo;
     }
     if(request()->hasFile('adsimage')){
-        $path3= '/storage/'.request()->file('adsimage',)->store('image_store',['disk'=>'public']);
+        $path3= '/storage/'.request()->file('adsimage')->store('image_store',['disk'=>'public']);
     }else{
         $path3= $store->adsimage;
     }
@@ -203,7 +218,42 @@ class StoreController extends Controller
     }
 
     public function allproduct(Categury $categury , Store $store){
-        $product = Product:: where('store_id','=', $store->id)->orderBy('created_at', 'desc')->paginate(6);
+        $minprice = Product::min('price');
+        $maxprice = Product::max('price');
+        if(request()->ajax()){
+            $data ='';
+            if(request()->data !=null){
+                $data = request()->data ;
+            }
+            if($data == 'all'){
+                $product = Product:: where([
+                    ['store_id','=', $store->id],
+                    ['review',1],
+                    ['bloack',0],
+                    ])->orderBy('created_at', 'desc')->paginate(24);
+            }elseif ($data == 'low') {
+                $product = Product:: where([
+                    ['store_id','=', $store->id],
+                    ['review',1],
+                    ['bloack',0],
+                    ['price',$minprice],
+
+                    ])->orderBy('created_at', 'desc')->paginate(24);
+            }elseif ($data == 'hiegt'){
+                $product = Product:: where([
+                    ['store_id','=', $store->id],
+                    ['review',1],
+                    ['bloack',0],
+                    ['price',$maxprice],
+                    ])->orderBy('created_at', 'desc')->paginate(24);
+            }
+            return view('front customer.modules.all_product',compact('product','store','categury'));
+        }
+        $product = Product:: where([
+            ['store_id','=', $store->id],
+            ['review',1],
+            ['bloack',0],
+            ])->orderBy('created_at', 'desc')->paginate(24);
         return view('front customer.customer store.products',compact('product','store','categury'));
     }
 

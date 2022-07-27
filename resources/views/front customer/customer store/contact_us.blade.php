@@ -157,9 +157,9 @@
                 <div class="line-dec"></div>
                   <p> {!! Str::limit($store->discription , 250) !!} </p>
 
-                  <div class="main-button">
-                    <a href="#">Order Now!</a>
-                  </div>
+                  <div class="status-store" id="status">
+                    <!--- لمعرفة اذا المتجر اون لاين ام لا -->
+                </div>
                 </div>
               </div>
             </div>
@@ -208,7 +208,7 @@
           </div>
 
           <button type="submit" class="btn btn-dark">Send Message</button>
-
+          @include('flash::message')
     </div>
 </form>
 

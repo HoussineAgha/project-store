@@ -7,6 +7,8 @@ use Illuminate\support\Facades\Auth;
 use App\models\User;
 use App\Models\Client;
 use App\Models\Store;
+use App\Models\Product;
+use App\Models\Order;
 use session;
 
 
@@ -184,6 +186,7 @@ class Usercontroller extends Controller
 
         return back();
     }
+
 
 }
 

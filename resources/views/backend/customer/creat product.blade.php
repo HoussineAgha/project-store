@@ -132,6 +132,12 @@
                                 <input name="feature" class="form-check-input" type="checkbox" role="switch" id="feature" value="1">
                                 <hr>
                             </div>
+
+                            <div class="form-check form-switch">
+                                <label class="form-check-label" for="best">Best Selling product</label>
+                                <input name="best" class="form-check-input" type="checkbox" role="switch" id="feature" value="1">
+                                <hr>
+                            </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary" id="publish">publish</button>

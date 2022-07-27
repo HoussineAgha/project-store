@@ -99,7 +99,7 @@
             </div>
             @endif
 <!-------- ايقونة السلة------------>
-            <div class="cart" style="margin: 40px; padding-top:40px">
+            <div class="cart" style="margin: 20px; padding-top:40px">
                 <div class="qyt">
                     {{ Cart::getTotalQuantity()}}
                 </div>
@@ -226,6 +226,13 @@
                 </div>
 
                 <div class="form-check">
+                    <label class="form-check-label" for="paytabs">Paytabs</label>
+                    <input id="paytabs" name="paymentmethod" type="radio" class="form-check-input" >
+                  <div class="col-xs-12">
+                 </div>
+                </div>
+
+                <div class="form-check">
                     <label class="form-check-label" for="paypal">Cash on D  elivery</label>
                     <input id="cash" name="paymentmethod" type="radio" class="form-check-input" >
                     </div>
@@ -296,6 +303,20 @@
 
     <div class="col-xs-12" id="cashh" style="display: none" >
         <button class="btn btn-primary btn-lg btn-block" id="submitbtn" type="submit">Pay with cash {{$totals}}$</button>
+    </div>
+    </form>
+
+    <form action="{{route('paytabs.post',$store->id)}}" method="POST">
+        @csrf
+        @foreach ($cartItems as $item)
+        <input type="hidden" name="id" id="id" value="{{$item->id}}"/>
+        <input type="hidden" name="nameproduct" id="nameproduct" value="{{$item->name}}"/>
+        <input type="hidden" name="quantity" id="quantity" value="{{$item->quantity}}"/>
+        <input type="hidden" name="price" id="price" value="{{$item->price}}"/>
+    @endforeach
+
+    <div class="col-xs-12" id="paytabss" style="display: none" >
+        <button class="btn btn-primary btn-lg btn-block" id="submitbtn" type="submit">Pay with paytabs {{$totals}}$</button>
     </div>
     </form>
 

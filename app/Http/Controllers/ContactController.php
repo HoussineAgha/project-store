@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use App\Models\Store;
 Use App\Models\Client;
+use App\Mail\contactCustomer;
 use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 
@@ -61,12 +63,14 @@ class ContactController extends Controller
         $contact->subject = $request->subject;
         $contact->message = $request->messages;
         $contact->store_id = $request->store_id;
+        $contact->user_id = $store->user_id;
 
         if($contact->save()){
         flash('Your information has been successfully send')->success();
     }else{
         flash('Something happened, no data sent, try again later')->error();
     }
+    Mail::to($contact->store->user)->send(new contactCustomer);
         return back();
     }
 

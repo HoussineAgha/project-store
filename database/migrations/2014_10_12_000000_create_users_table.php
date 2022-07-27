@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('image')->nullable();
             $table->string('role')->default('seller');
             $table->boolean('bloack')->default(0);
+            $table->double('balance',20,2)->default(0);
             $table->timestamps();
         });
     }

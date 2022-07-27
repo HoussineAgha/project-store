@@ -13,7 +13,7 @@ class store extends Model
     }
 
     public function product(){
-        return $this->hasMany('App\models\product');
+        return $this->hasMany('App\models\Product');
     }
 
     public function order(){
@@ -36,5 +36,8 @@ class store extends Model
     }
     public function contact(){
         return $this->hasMany('App\Models\contact');
+    }
+    public function profit(){
+        return $this->hasMany('App\Models\Profit');
     }
 }

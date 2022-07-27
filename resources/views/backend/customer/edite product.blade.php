@@ -30,8 +30,6 @@
 
 @section('content2')
 
-
-
     @include('shared.error')
 
     <div class="container">
@@ -139,6 +137,14 @@
                             <div class="form-check form-switch">
                                 <label class="form-check-label" for="feature">feature product</label>
                                 <input name="feature" class="form-check-input" type="checkbox" role="switch" id="feature" value="1" @if ($product->feature == 1) checked @endif>
+                                <hr>
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <label class="form-check-label" for="best">Best Selling product</label>
+                                <input name="best" class="form-check-input" type="checkbox" role="switch" id="feature" value="1" @if ($product->best_sellary == 1) checked @endif >
+
+
                                 <hr>
                             </div>
             </div>

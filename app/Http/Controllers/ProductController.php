@@ -76,15 +76,20 @@ class ProductController extends Controller
         $newproduct->shipping_cost = request()->shipping_cost;
         $newproduct->Inventory = request()->Inventory;
         $newproduct->discription_long = request()->discription_long;
-        $newproduct->feature = request()->feature;
         $newproduct->unity = request()->unity;
         $newproduct->qyt = request()->qyt;
         $newproduct->cat_id = request()->cat_id;
+        $newproduct->user_id = $store->user_id;
 
         if(empty(request(['feature']))){
             $newproduct->feature = '0';
         }else{
             $newproduct->feature = '1';
+        }
+        if(empty(request(['best']))){
+            $newproduct->best_sellary = '0';
+        }else{
+            $newproduct->best_sellary = '1';
         }
 
         if(request(['shipping_type']) == 'free'){
@@ -114,7 +119,7 @@ class ProductController extends Controller
     public function show(Store $store , Product $product,Categury $categury)
     {
 
-        $products = Product:: where('store_id','=',$store->id)->inRandomOrder()->limit(4)->get();
+        $products = Product:: where('store_id','=',$store->id)->inRandomOrder()->limit(3)->get();
         return view('front customer.customer store.single-product',compact('product','store','products','categury'));
     }
 
@@ -186,9 +191,16 @@ class ProductController extends Controller
             $product->feature='1';
         }
 
+        if(empty(request(['best']))){
+            $product->best_sellary = '0';
+        }else{
+            $product->best_sellary = '1';
+        }
+
         if(request('shipping_type') == ['free']){
             $product->shipping_cost = 0;
         }
+
 
         if($product->save()){
             flash('Product updated successfully')->success();

@@ -4,7 +4,14 @@
 
 @section('style')
     <style>
-
+        #navbarResponsive{
+            top: 220px;
+        }
+        .btn-dark{
+            width: max-content;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
     </style>
 @endsection
 

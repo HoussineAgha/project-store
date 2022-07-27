@@ -15,10 +15,12 @@
         .d-flex{
             display: inline-flex !important;
         }
-        .col{
+/*
+        .col-3{
             background-color: rgb(255, 255, 255);
             padding-bottom: 25px;
         }
+*/
         .border-bottom{
             border-bottom: 3px solid #2e7fcf !important;
         }
@@ -230,10 +232,10 @@
             <br><br>
             <h2>What does the store offer?</h2>
             <div class="line-dec"></div>
-              <p> {!! Str::limit($store->discription , 250) !!} </p>
+              <p> {!! Str::limit($store->discription , 500) !!} </p>
 
-              <div class="main-button">
-                <a href="#">Order Now!</a>
+              <div class="status-store" id="status">
+
               </div>
             </div>
           </div>
@@ -241,14 +243,10 @@
       </div>
     </div>
     <!-- Banner Ends Here -->
-
     <div class="cat">
-
         <div class="container">
             @include('flash::message')
-
                 @forelse ($categury as $item)
-
             <ul class="list-unstyled mb-0 row gutters-5">
                 <li class="minw-0 col-2  mt-3" style="background-color: #109cdd;padding: 5px;border-radius: 5px;box-shadow: 1px 1px 10px #ccc; width:auto;  margin-left: 10px; ">
                     <a href="/categories/{{$item->id}}/{{$store->id}} "class="d-block rounded bg-white p-2 text-reset shadow-sm">
@@ -274,10 +272,10 @@
         <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Feature product</h3></span>
 
         <div class="container">
-            <div class="row">
+            <div class="row" id="productss" >
                 <hr>
                     @forelse ($feature as $item)
-                    <div class="col">
+                    <div class="col-3">
                         <div class="card text-white bg-black" style="width: 18rem;">
                             <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
                             <div class="card-body">
@@ -323,16 +321,73 @@
 
     <!-- Featred Ends Here -->
 
+        <!-- BestSelling Starts Here -->
+
+        <div class="featured container no-gutter">
+            <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Best Selling </h3></span>
+
+            <div class="container">
+                <div class="row" id="productss">
+                    <hr>
+                        @forelse ($best as $item)
+                        <div class="col-3">
+                            <div class="card text-white bg-black" style="width: 18rem;">
+                                <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
+                                <div class="spans">
+                                    Hot
+                                </div>
+                                <div class="card-body">
+                                <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</a></h5>
+                                <br>
+                                <div class="d-flex">
+                                    @if($item->discount)
+                                    <h5 class="card-text"><small class="text-muted text-decoration-line-through">$ {{$item->price}}</small></h5>
+                                    <h5 class="card-text">$ {{$item->discount}}</h5>
+                                    @else
+                                    <h5 class="card-text">$ {{$item->price}}</h5>
+                                    @endif
+                                </div>
+                                <br>
+                                <div>
+
+                                <br>
+                                <form action="/cart/{{$store->id}}" method="POST">
+                                    @csrf
+                                      <input type="hidden" name="id" id="id" value="{{ $item->id }}" >
+                                      <input type="hidden" name="name" id="name" value="{{ $item->name }}">
+                                      <input type="hidden" name="image" id="image" value="{{ $item->image }}">
+                                      <input type="hidden" name="shipping_cost" id="shipping_cost" value="{{ $item->shipping_cost }}">
+                                      <input type="hidden" name="shipping_type" id="shipping_type" value="{{ $item->shipping_type }}">
+                                      @if ($item->discount)
+                                      <input type="hidden" name="discount" id="discount" value="{{ $item->discount }}">
+                                      @else
+                                      <input type="hidden" name="price" id="price" value="{{ $item->price }}" >
+                                      @endif
+                                      <input type="hidden" value="1" name="quantity">
+                                  <input type="submit" class="btn btn-primary" value="Add To Cart">
+                                </form>
+                                </div>
+                        </div>
+
+                </div>
+        </div>
+                    @empty
+                    <div class="empety">
+                        <h5 class="text-center">There are no product available 🙂 😔</h5>
+                    </div>
+        @endforelse
+
+        <!-- Best Selling Ends Here -->
+
     <!-- latest product start Here -->
 
     <div class="featured container no-gutter">
         <span class="border-bottom border-primary border-width-8 pb-3 d-inline-block"><h3>Latest product</h3></span>
-
         <div class="container">
-            <div class="row">
+            <div class="row" id="productss">
                 <hr>
                     @forelse ($latest as $item)
-                    <div class="col">
+                    <div class="col-3">
                         <div class="card text-white bg-black" style="width: 18rem;">
                             <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
                             <div class="card-body">
@@ -369,7 +424,9 @@
                     </div>
 
             </div>
-    </div>
+        </div>
+
+
                 @empty
                 <div class="empety">
                     <h5 class="text-center">There are no product available 🙂 😔</h5>
@@ -470,6 +527,33 @@
                 t.style.color='#fff';
                 }
             }
+          </script>
+          <script>
+            // من اجل خاصية ان المتجر متصل بالانترنت ام لا عبر احداث جافا سكربت مع المتصفح ومعرفة الحالة
+    	let status = document.getElementById("status");
+
+            window.addEventListener('load', function(e) {
+                if (navigator.onLine) {
+                    status.innerHTML = "Store is online";
+                    status.classList.add("success");
+                } else {
+                    status.innerHTML = "Store is offline";
+                    status.classList.remove("success");
+                    status.classList.add("error");
+                }
+            }, false);
+
+            window.addEventListener('online', function(e) {
+                status.innerHTML = "Store is back online";
+                status.classList.remove("error");
+                status.classList.add("success");
+            }, false);
+
+            window.addEventListener('offline', function(e) {
+                status.innerHTML = "Store went offline";
+                status.classList.remove("success");
+                status.classList.add("error");
+            }, false);
           </script>
 @section('script')
 

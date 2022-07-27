@@ -141,15 +141,15 @@ Route::prefix('order')->group(function(){
 Route::prefix('payment')->group(function(){
     Route::post('/stripe/{store}', 'App\Http\controllers\StripeController@stripePost')->name('stripe.post');
     Route::post('/cash/{store}','App\Http\controllers\OrderController@cash_payment')->name('cash.post');
-
+    Route::get('/paytabs_payment/{store}','App\Http\controllers\PaytabsController@index');
+    Route::post('/paytabs_payment/{store}','App\Http\controllers\PaytabsController@response')->name('paytabs.post');
 });
 
 Route::prefix('contact-us')->group(function(){
+    Route::post('/{store}','App\Http\Controllers\Contactcontroller@store')->name('contact.send');
    Route::group(['middleware'=>['auth']],function(){
     Route::get('/contact-us','App\Http\Controllers\Contactcontroller@create')->name('contactus');
     Route::get('/messages/{store}','App\Http\Controllers\Contactcontroller@index')->name('contact.store');
-
-    Route::post('/{store}','App\Http\Controllers\Contactcontroller@store')->name('contact.send');
     Route::get('/{contact}/delete','App\Http\Controllers\Contactcontroller@destroy')->name('delete.contact');
     Route::get('/{contact}/details','App\Http\Controllers\Contactcontroller@view')->name('view.contact');
    });
@@ -170,6 +170,7 @@ Route::prefix('admin')->group(function(){
     Route::get('/edit-store/{store}','App\Http\controllers\Paneladmincontroller@edit_store')->name('admin.editstore');
     Route::put('/update-store/{store}','App\Http\controllers\Paneladmincontroller@update_store')->name('admin.updatestore');
     Route::get('/All-seller','App\Http\controllers\Paneladmincontroller@all_seller')->name('admin.sellers');
+    Route::get('/details-seller/{user}','App\Http\controllers\Paneladmincontroller@details_seller')->name('admin.detailssellers');
     Route::get('/create-seller','App\Http\controllers\Paneladmincontroller@index_seller')->name('admin.createsellers');
     Route::post('/create-seller','App\Http\controllers\Paneladmincontroller@create_seller')->name('admin.createddsellers');
     Route::get('/delete-seller/{user}','App\Http\controllers\Paneladmincontroller@delete_seller')->name('admin.deleteseller');
@@ -180,12 +181,56 @@ Route::prefix('admin')->group(function(){
     Route::get('/edit-settings','App\Http\Controllers\SettingController@edit')->name('admin.editsettings');
     Route::put('/settings/{setting}','App\Http\Controllers\SettingController@update')->name('admin.updatesettings');
     Route::get('/delet-settings/{setting}','App\Http\Controllers\SettingController@destroy')->name('admin.deletesettings');
-    Route::get('All-Client','App\Http\Controllers\Homecontroller@all_client')->name('admin.client');
-    Route::get('delete-Client/{client}','App\Http\Controllers\Homecontroller@delete_client')->name('admin.deleteclient');
+    Route::get('/All-Client','App\Http\Controllers\Homecontroller@all_client')->name('admin.client');
+    Route::get('/delete-Client/{client}','App\Http\Controllers\Homecontroller@delete_client')->name('admin.deleteclient');
     Route::get('/edit-Client/{client}','App\Http\Controllers\Homecontroller@edit_client')->name('admin.editclient');
     Route::put('/update-client/{client}','App\Http\Controllers\Homecontroller@update_client')->name('admin.updateclient');
     Route::get('/Payment','App\Http\Controllers\Homecontroller@payment')->name('admin.payment');
+    Route::get('/all-Withdrawal','App\Http\Controllers\WithdrawalController@admin_Withdrawal')->name('admin.allWithdrawal');
+    Route::get('/Withdrawal/{id}/user/{user}','App\Http\Controllers\WithdrawalController@show')->name('admin.showWithdrawal');
+    Route::get('/done-Withdrawal/{id}','App\Http\Controllers\WithdrawalController@done_Withdrawal')->name('admin.doneWithdrawal');
+    Route::get('/rejected-Withdrawal/{id}','App\Http\Controllers\WithdrawalController@rejected_Withdrawal')->name('admin.rejectedWithdrawal');
+    Route::get('/creat-message','App\Http\Controllers\MessagesController@show')->name('admin.creatmessage');
+    Route::post('/send-message','App\Http\Controllers\MessagesController@store')->name('admin.creatmessagestore');
+    Route::get('/All-message','App\Http\Controllers\MessagesController@index')->name('admin.allmessage');
+    Route::get('/details-message/{messages}','App\Http\Controllers\MessagesController@details_message')->name('admin.detailsmessage');
+    Route::get('/delete-message/{messages}','App\Http\Controllers\MessagesController@destroy')->name('admin.deletemessage');
+    Route::get('/all-tickets','App\Http\Controllers\TicketController@index')->name('admin.tickets');
+    Route::get('/details-tickets/{ticket}','App\Http\Controllers\TicketController@details_ticket_admin')->name('admin.detailstickets');
+    Route::get('/solve-tickets/{ticket}','App\Http\Controllers\TicketController@solved_ticket')->name('admin.solvedstickets');
+    Route::post('/replay-tickets/{ticket}','App\Http\Controllers\ReplayController@store')->name('admin.replaystickets');
+    Route::get('/product-pendding','App\Http\Controllers\Paneladmin2Controller@product_pendding')->name('admin.productpendding');
+    Route::get('/edite-product/{product}','App\Http\Controllers\Paneladmin2Controller@product_edit')->name('admin.productedit');
+    Route::put('/updat-product/{product}','App\Http\Controllers\Paneladmin2Controller@update_product')->name('admin.productupdate');
+    Route::get('/product-delete/{product}','App\Http\Controllers\Paneladmin2Controller@product_delete')->name('admin.productdelete');
+    Route::get('/product-publish','App\Http\Controllers\Paneladmin2Controller@product_publish')->name('admin.productpublish');
+    Route::get('/product-bloack','App\Http\Controllers\Paneladmin2Controller@product_bloack')->name('admin.productbloack');
+    Route::get('/all-order','App\Http\Controllers\Paneladmin2Controller@all_order')->name('admin.allorder');
     });
+});
+
+Route::group(['prefix'=>'Profit','middleware'=>'auth'],function(){
+    Route::get('/All-store','App\Http\Controllers\ProfitController@show')->name('profit.store');
+    Route::get('/All-profits/{store}','App\Http\Controllers\ProfitController@profits_store')->name('profit.profitstore');
+});
+
+Route::group(['prefix'=>'Withdrawal','middleware'=>'auth'],function(){
+    Route::get('/request','App\Http\Controllers\WithdrawalController@index')->name('withdrawal');
+    Route::post('/store','App\Http\Controllers\WithdrawalController@store')->name('withdrawal.request');
+});
+
+Route::group(['prefix'=>'Message','middleware'=>'auth'],function(){
+    Route::get('/all-privet','App\Http\Controllers\MessagesController@user_all_messages')->name('user.allmessages');
+    Route::get('/all-general','App\Http\Controllers\MessagesController@user_all_messages_general')->name('user.generalmessages');
+    Route::get('/privet/{messages}','App\Http\Controllers\MessagesController@user_details_message')->name('user.detailsmessages');
+    Route::get('/general/{messages}','App\Http\Controllers\MessagesController@user_details_general_message')->name('user.detailsgeneralmessages');
+});
+Route::group(['prefix'=>'tickets','middleware'=>'auth'],function(){
+    Route::get('/addnew','App\Http\Controllers\TicketController@show')->name('user.tickets');
+    Route::post('/store','App\Http\Controllers\TicketController@store')->name('user.storeticket');
+    Route::get('/details/{ticket}','App\Http\Controllers\TicketController@details_ticket_user')->name('user.detailsticket');
+    Route::post('/replay-ticket/{ticket}','App\Http\Controllers\ReplayController@store')->name('user.replaystickets');
+
 });
 
 

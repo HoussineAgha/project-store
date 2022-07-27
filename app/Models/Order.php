@@ -23,6 +23,9 @@ class order extends Model
     public function shipping(){
         return $this->belongsTo('App\models\shipping');
     }
+    public function profit(){
+        return $this->belongsTo('App\Models\Profit');
+    }
 
 
     protected $casts = [

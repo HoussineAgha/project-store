@@ -126,7 +126,7 @@
             </div>
             @endif
 <!-------- ايقونة السلة------------>
-            <div class="cart" style="margin: 40px; padding-top:40px;">
+            <div class="cart" style="margin: 20px; padding-top:40px;">
                 <div class="qyt">
                     {{ Cart::getTotalQuantity()}}
                 </div>

@@ -60,6 +60,7 @@ class ClientController extends Controller
             $newclient->image = request()->image;
             $newclient->role = request()->role;
             $newclient->store_id = $store->id;
+            $newclient->user_id = $store->user_id;
             $newclient->save();
 
             return redirect(route('client.loginee',$store->id));
@@ -100,9 +101,11 @@ class ClientController extends Controller
      */
     public function update(Client $client,Store $store)
     {
-
+    if(request()->hasFile('image')){
         $path = '/storage/'.request()->file('image')->store('image_client',['disk' => 'public']);
-
+    }else{
+        $path = asset('img\zz.png');
+    }
         $client = Auth::guard('client')->user();
         $client->fullname = request()->fullname;
         $client->email = request()->email;

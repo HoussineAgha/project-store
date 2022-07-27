@@ -7,8 +7,10 @@ use Session;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\User;
 use App\Models\Client;
 use App\Models\Shipping;
+use App\Models\Profit;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\repostory\OrderRepostory;
@@ -73,6 +75,62 @@ class OrderController extends Controller
      */
     public function show(Order $order,Store $store)
     {
+        if(request()->ajax()){
+            $filter = '';
+            if(request()->filter != null){
+                $filter = request()->filter;
+            }
+            if($filter == 'all'){
+                $cartItems = \Cart::getContent();
+                $totals = \Cart::getTotal();
+                $orders = Order:: where('store_id',$store->id)->paginate(10);
+            }elseif ($filter == 'paid') {
+                $cartItems = \Cart::getContent();
+                $totals = \Cart::getTotal();
+                $orders = Order:: where([
+                    ['store_id',$store->id],
+                    ['status','!=','field'],
+                    ])->orderBy('created_at','desc')->paginate(25);
+            }elseif ($filter == 'mada') {
+                $cartItems = \Cart::getContent();
+                $totals = \Cart::getTotal();
+                $orders = Order:: where([
+                    ['store_id',$store->id],
+                    ['patment_type','Mada'],
+                    ])->orderBy('created_at','desc')->paginate(25);
+            }elseif ($filter == 'stripe') {
+                $cartItems = \Cart::getContent();
+                $totals = \Cart::getTotal();
+                $orders = Order:: where([
+                    ['store_id',$store->id],
+                    ['patment_type','visa'],
+                    ])->orderBy('created_at','desc')->paginate(25);
+            }elseif ($filter == 'paypal') {
+                $cartItems = \Cart::getContent();
+                $totals = \Cart::getTotal();
+                $orders = Order:: where([
+                    ['store_id',$store->id],
+                    ['patment_type','paypal'],
+                    ])->orderBy('created_at','desc')->paginate(25);
+            }elseif ($filter == 'delivered') {
+                $cartItems = \Cart::getContent();
+                $totals = \Cart::getTotal();
+                $orders = Order:: where([
+                    ['store_id',$store->id],
+                    ['shipping','delivered'],
+                    ])->orderBy('created_at','desc')->paginate(25);
+            }elseif ($filter == 'way') {
+                $cartItems = \Cart::getContent();
+                $totals = \Cart::getTotal();
+                $orders = Order:: where([
+                    ['store_id',$store->id],
+                    ['shipping','On the way'],
+                    ])->orderBy('created_at','desc')->paginate(25);
+            }
+            if($store->user_id != auth()->user()->id)
+            return back();
+            return view('backend.customer.modules.orderstore_ajax',compact('order','store','cartItems','orders'));
+        }
         $cartItems = \Cart::getContent();
         $totals = \Cart::getTotal();
         $orders = Order:: where('store_id',$store->id)->paginate(10);
@@ -137,6 +195,9 @@ class OrderController extends Controller
         $shipping = session::get('select_shipping');
         $response = $orderRepostory ->validateRequest(request()->tap_id);
         $cartItems = \Cart::getContent();
+        $totals = $response["amount"];
+        $profits = ($response["amount"]*95)/100 ;
+
 
         $ptoduct_details[] = Session::get('info_product',[
             'id'=>$response['metadata']['id'],
@@ -166,33 +227,45 @@ class OrderController extends Controller
             $newOrder->shipping_info = $shipping_info;
             $newOrder->client_id = $response["customer"]["first_name"];
             $newOrder->store_id = $store->id;
+            $newOrder->user_id = $store->user_id;
             $newOrder->total = $response["amount"];
             $newOrder->cartnumber = $response['card']['last_four'];
             $newOrder->shipping = 'Waiting';
 
             if($response['status'] == 'CAPTURED')
                 $newOrder->shipping = 'On the way';
-
-            $newOrder->save();
-
+                $newOrder->save();
             if($response['status'] == 'CAPTURED'){
                 Session::flash('success', 'Thank You Payment successful!');
+                $profit = new Profit();
+                $profit->amount = $profits;
+                $profit->payment_method = 'Mada';
+                $profit->store_id = $store->id;
+                $profit->order_id = $newOrder->id;
+                $profit->user_id = $store->user_id ;
+                $profit->save();
             }else{
                 Session::flash('error payment', 'The payment process was not done');
     }
     Mail::to($newOrder->store->user)->send(new ordercustomer);
     Mail::to($newOrder->store->client)->send(new orderclient($order,$totals,$cartItems));
+    $user = $profit->user_id ;
+    $user_id = User:: find($user);
+    $user_id->balance += $profits ;
+    $user_id->save();
 
     return redirect()->route('payment.get',$store->id);
 
 }
 
-    public function cash_payment(Store $store , Order $order){
+    public function cash_payment(Store $store , Order $order,Profit $profit , User $user){
         $recept = random_int(1,1000);
         $totals = 0;
+        $profits = 0 ;
         $cartItems = \Cart::getContent();
         foreach($cartItems as $item){
             $totals += $item->price * $item->quantity + $item->shipping ;
+            $profits = ($totals * 95) /100 ;
         }
         $shipping_info = Session::get('select_shipping');
         $cash = new Order();
@@ -203,14 +276,27 @@ class OrderController extends Controller
         $cash->shipping_info = $shipping_info;
         $cash->client_id = \Auth::guard('client')->user()->id;
         $cash->store_id = $store->id;
+        $cash->user_id = $store->user_id;
         $cash->total = $totals;
         $cash->shipping = 'Waiting';
 
         if($cash->save()){
-            Session::flash('success', 'Thank You Payment successful!');
-        }
-        Mail::to($cash->store->user)->send(new ordercustomer);
-        Mail::to($cash->store->client)->send(new orderclient($order,$totals,$cartItems));
+        Session::flash('success', 'Thank You Payment successful!');
+        $profit = new Profit();
+        $profit->amount = $profits;
+        $profit->payment_method = 'Cash';
+        $profit->store_id = $store->id;
+        $profit->order_id = $cash->id;
+        $profit->user_id = $store->user_id ;
+        $profit->save();
+    }
+
+    Mail::to($cash->store->user)->send(new ordercustomer);
+    Mail::to($cash->client)->send(new orderclient($order,$totals,$cartItems));
+    $user = $profit->user_id ;
+    $user_id = User:: find($user);
+    $user_id->balance += $profits ;
+    $user_id->save();
         return redirect()->route('payment.get',$store->id);
     }
 

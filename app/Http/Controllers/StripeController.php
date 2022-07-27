@@ -7,9 +7,12 @@ use Session;
 use Stripe;
 use App\Models\Store;
 use App\Models\Product;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Client;
 use App\Mail\ordercustomer;
+use App\Mail\orderclient;
+use App\Models\Profit;
 use Illuminate\Support\Facades\Mail;
 class StripeController extends Controller
 {
@@ -37,6 +40,7 @@ class StripeController extends Controller
         $cartItems = \Cart::getContent();
         foreach($cartItems as $item){
             $totals += $item->price*$item->quantity + $item->shipping ;
+            $profits = ($totals *95) /100 ;
         }
 
         $datavalidate = $request->validate([
@@ -68,6 +72,7 @@ class StripeController extends Controller
         $neworder->shipping_info = $shipping;
         $neworder->client_id = \Auth::guard('client')->user()->id;
         $neworder->store_id = $store->id;
+        $neworder->user_id = $store->user_id;
         $neworder->total = $totals;
         $neworder->shipping = 'Waiting';
         $neworder->cartnumber = $stripe['payment_method_details']['card']['last4'];
@@ -75,9 +80,21 @@ class StripeController extends Controller
         if($stripe['status'] == 'succeeded')
         $neworder->shipping = 'On the way';
 
-        $neworder->save();
-    Mail::to($neworder->store->user)->send(new ordercustomer);
-    Mail::to($neworder->store->client)->send(new orderclient($order,$totals,$cartItems));
+        if($neworder->save()){
+            $profit = new Profit();
+            $profit->amount = $profits;
+            $profit->payment_method = 'visa';
+            $profit->store_id = $store->id;
+            $profit->order_id = $neworder->id;
+            $profit->user_id = $store->user_id ;
+            $profit->save();
+        }
+        Mail::to($neworder->store->user)->send(new ordercustomer);
+        Mail::to($neworder->store->client)->send(new orderclient($order,$totals,$cartItems));
+        $user = $profit->user_id ;
+        $user_id = User:: find($user);
+        $user_id->balance += $profits ;
+        $user_id->save();
         return redirect()->route('payment.get',$store->id);
     }
 

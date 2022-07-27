@@ -257,5 +257,32 @@
     text-decoration: none !important;
     color: #ffffff;
 }
+.spans{
+    background-color: #62b959;
+    border-radius: 50px;
+    position: absolute;
+    padding: 0px 20px;
+    margin-top: 10px;
+    margin-left: 5px;
+    box-shadow: black;
+}
+
+.error {
+    background-color:#ff5252;
+    color:white;
+    padding:10px;
+    border-radius:5px;
+    margin-top:10px;
+    width:fit-content;
+
+}
+.success {
+    background-color:#00e676;
+    color:white;
+    padding:10px;
+    border-radius:5px;
+    margin-top:10px;
+    width:fit-content;
+}
 
 

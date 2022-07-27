@@ -7,6 +7,8 @@ use App\Http\Requests\StorePaneladminRequest;
 use App\Http\Requests\UpdatePaneladminRequest;
 use App\models\User;
 Use App\Models\Store;
+use App\Models\Product;
+use App\repostory\PaneladminRepostory;
 
 class PaneladminController extends Controller
 {
@@ -93,9 +95,30 @@ class PaneladminController extends Controller
 
     public function all_store(){
 
-        $store = Store::orderBy('created_at', 'desc')->paginate(10);
+        if(request()->ajax()){
+            $sort = "";
+            if(request()->sort != null){
+                $sort = request()->sort ;
+            }
+            if($sort == 'all'){
+                $stores = store:: orderBy('created_at', 'desc')->paginate(10);
+            }elseif ($sort == 'online') {
+                $stores = store:: where([
+                    ['review',1],
+                    ['bloack',0]
+                    ])->orderBy('created_at', 'desc')->paginate(20);
+            }elseif($sort == 'bloacked') {
+                $stores = store:: where('bloack',1)->orderBy('created_at', 'desc')->paginate(20);
 
-        return view('admin.backend.stores',compact('store'));
+            }elseif($sort == 'inreview') {
+                $stores = store:: where('review',0)->orderBy('created_at', 'desc')->paginate(20);
+            }
+
+            return view('admin.backend.modules.stores_ajax',compact('stores'));
+        }
+
+        $stores = Store:: orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.backend.stores',compact('stores'));
     }
 
     public function delete_store(Store $store){
@@ -224,6 +247,10 @@ class PaneladminController extends Controller
         $user = User:: where('role','seller')->orderby('created_at', 'desc')->paginate(10);
 
         return view('admin.backend.sellers',compact('user'));
+    }
+
+    public function details_seller(User $user){
+        return view('admin.backend.details_seller',compact('user'));
     }
 
 

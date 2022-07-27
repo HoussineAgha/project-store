@@ -198,9 +198,9 @@
           </div>
           <div class="col-md-8 col-sm-12">
             <div id="filters" class="button-group">
-              <button class="btn btn-primary" data-filter="*">All Products</button>
-              <button class="btn btn-primary" data-filter=".new">Newest</button>
-              <button class="btn btn-primary" data-filter=".low">Low Price</button>
+              <button  type="button" class="btn btn-primary"  value="all">All Products</button>
+              <button  type="button" class="btn btn-primary"  value="hiegt">Hiegt Price</button>
+              <button  type="button" class="btn btn-primary"  value="low">Low Price</button>
 
             <div class="navbar-light bg-light">
               <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -240,57 +240,11 @@
       </div>
     </div>
 
-
-
     <div class="featured container no-gutter">
         <div class="container">
-            <div class="row">
-                    @forelse ($product as $item)
-                    <div class="col">
-                        <div class="card text-white bg-black" style="width: 16rem;">
-                            <a href="/product/{{$store->id}}/{{$item->id}}"><img src="{{$item->image}}" class="card-img-top" alt="..." width="100%" height="250px"></a>
-                            <div class="card-body">
-                            <a href="/product/{{$store->id}}/{{$item->id}}"><h5 class="card-title">{{$item->name}}</a></h5>
-                            <br>
-                            <div class="d-flex">
-                                @if($item->discount)
-                                <h5 class="card-text"><small class="text-muted text-decoration-line-through">$ {{$item->price}}</small></h5>
-                                <h5 class="card-text">$ {{$item->discount}}</h5>
-                                @else
-                                <h5 class="card-text">$ {{$item->price}}</h5>
-                                @endif
-                            </div>
-                            <br>
-                            <div>
-
-                            <br>
-                            <form action="/cart/{{$store->id}}" method="POST">
-                                @csrf
-                                  <input type="hidden" name="id" id="id" value="{{ $item->id }}" >
-                                  <input type="hidden" name="name" id="name" value="{{ $item->name }}">
-                                  <input type="hidden" name="image" id="image" value="{{ $item->image }}">
-                                  <input type="hidden" name="shipping_cost" id="shipping_cost" value="{{ $item->shipping_cost }}" >
-                                  <input type="hidden" name="shipping_type" id="shipping_type" value="{{ $item->shipping_type }}" >
-                                  @if ($item->discount)
-                                  <input type="hidden" name="discount" id="discount" value="{{ $item->discount }}">
-                                  @else
-                                  <input type="hidden" name="price" id="price" value="{{ $item->price }}" >
-                                  @endif
-                                  <input type="hidden" value="1" name="quantity">
-                              <input type="submit" class="btn btn-primary" value="Add To Cart">
-                            </form>
-                            </div>
-                    </div>
-
+            <div class="row" id="product">
+                @include('front customer.modules.all_product')
             </div>
-    </div>
-                @empty
-                <div class="empety">
-                    <h5 class="text-center">There are no product available 🙂 😔</h5>
-                </div>
-    @endforelse
-
-
 <!-- Featred Page Ends Here -->
 
 <!-- pandgation Page start Here -->
@@ -305,6 +259,7 @@
             <!-- Footer Starts Here -->
 
             <div class="footer">
+
                 <div class="container">
                   <div class="row">
                     <div class="col-md-12">
@@ -385,7 +340,7 @@
                   </div>
                 </div>
               </div>
-
+              @section('script')
               <script language = "text/Javascript">
                 cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
                 function clearField(t){                   //declaring the array outside of the
@@ -397,19 +352,26 @@
                 }
               </script>
 
+        <script>
+            $('.btn').click(function() {
+                var data = $(this).val();
+                    $.ajax({
+                        headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content3')
+                },
+                type:"Get",
+                url:'',
+                data:{data:data},
 
-    <script language = "text/Javascript">
-      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-      function clearField(t){                   //declaring the array outside of the
-      if(! cleared[t.id]){                      // function makes it static and global
-          cleared[t.id] = 1;  // you could use true and false, but that's more typing
-          t.value='';         // with more chance of typos
-          t.style.color='#fff';
-          }
-      }
-    </script>
+                success: function (data) {
+                    console.log(data);
+                document.getElementById("product").innerHTML = data;
+                    }
+                });
+            });
+        </script>
 
 
   </body>
-
+  @endsection
   @endsection

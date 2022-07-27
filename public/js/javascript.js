@@ -12,6 +12,7 @@ $(document).ready(function() {
     $("#credit").click(function(){
         $("#knetttt").hide();
         $("#cashh").hide();
+        $("#paytabss").hide();
       });
   });
 
@@ -24,10 +25,11 @@ $(document).ready(function() {
     $("#Knet").click(function(){
         $("#input-strip").hide();
         $("#cashh").hide();
+        $("#paytabss").hide();
       });
   });
 
-  // كود السويتشر في صفحة الدفع لمدى
+  // كود السويتشر في صفحة الدفع للكاش
 
   $(document).ready(function(){
     $("#cash").click(function(){
@@ -36,6 +38,18 @@ $(document).ready(function() {
     $("#cash").click(function(){
         $("#input-strip").hide();
         $("#knetttt").hide();
+        $("#paytabss").hide();
+      });
+  });
+  // كود السويتشر في صفحة الدفع لباي تابس
+  $(document).ready(function(){
+    $("#paytabs").click(function(){
+      $("#paytabss").show();
+    });
+    $("#paytabs").click(function(){
+        $("#input-strip").hide();
+        $("#knetttt").hide();
+        $("#cashh").hide();
       });
   });
 
@@ -51,7 +65,17 @@ $(function() {
         }
     });
 });
-
+// في صفحة ارسال رسالة عند الادمن في حال اخترنا مستخدم خاص سيظهر مربع لاختيار اسم المستخدم وإلا سيبقى مختفي
+$(function() {
+    $('#user').hide();
+    $('#Choose_Type').change(function(){
+        if($('#Choose_Type').val() == 'special') {
+            $('#user').show();
+        } else {
+            $('#user').hide();
+        }
+    });
+});
 
 
 

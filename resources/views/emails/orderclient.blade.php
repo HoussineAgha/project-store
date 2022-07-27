@@ -5,7 +5,7 @@
 
         <h3 class="thank" style="padding-bottom: 40px;"><strong>Thank you Dear :{{Auth::guard('client')->user()->fullname}}</strong></h3>
         <br>
-        <h4><strong>Details user : <p> Your request will be sent via e-mail </p></strong></h4>
+        <h4><strong>Details user : </strong></h4>
 
 <table class="table table-striped table-dark">
     <thead>

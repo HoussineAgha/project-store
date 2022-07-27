@@ -18,6 +18,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="apple-touch-icon" sizes="76x76" href="{{asset('img/apple-icon.png')}}">
   <link rel="icon" type="image/png" href="{{asset('img/favicon.png')}}">
   <title>@yield('title')</title>
@@ -49,7 +50,7 @@
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link text-white " href="#">
@@ -67,6 +68,27 @@
             <span class="nav-link-text ms-1">Stores</span>
           </a>
         </li>
+        <li class="nav-item" style="padding-left:10px; margin-bottom:-15px;">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false" id="product" style="color: white; font-weight:400; text-transform:none;font-size: 0.875rem;">
+                <i class="fas fa-barcode"></i>
+                All Product
+            </button>
+            <div class="collapse hide" id="dashboard-collapse" style="">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" style="margin-top:-10px;">
+                <li><a href="{{route('admin.productpublish')}}" class="link-white rounded">Publish Product</a></li>
+                <li><a href="{{route('admin.productpendding')}}" class="link-white rounded">Pending product</a></li>
+                <li><a href="{{route('admin.productbloack')}}" class="link-white rounded">Bloacked Product</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white " href="{{route('admin.allorder')}}">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+              </div>
+              <span class="nav-link-text ms-1">All Orders</span>
+            </a>
+          </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="{{route('admin.payment')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -92,23 +114,16 @@
             </a>
           </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="#">
+          <a class="nav-link text-white " href="{{route('admin.allWithdrawal')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                <i class="fas fa-money-check-alt"></i>
             </div>
-            <span class="nav-link-text ms-1">RTL</span>
+            <span class="nav-link-text ms-1">Request withdrawal</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="#">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">notifications</i>
-            </div>
-            <span class="nav-link-text ms-1">Notifications</span>
-          </a>
-        </li>
+
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account Settings</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="{{route('admin.profile')}}">
@@ -123,9 +138,29 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="fas fa-cog"></i>
             </div>
-            <span class="nav-link-text ms-1">Settings</span>
+            Settings</span>
           </a>
         </li>
+        <li class="nav-item" style="padding-left:10px; margin-bottom:-15px;">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false" style="color: white; font-weight:400; text-transform:none;font-size: 0.875rem;">
+                <i class="far fa-comment-dots" style="font-size: 18px;"></i>
+                <span class="nav-link-text ms-1">Messages</span>
+            </button>
+            <div class="collapse hide" id="dashboard-collapse" style="">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" style="margin-top:-10px;">
+                <li><a href="{{route('admin.creatmessage')}}" class="link-white rounded">Creat Message</a></li>
+                <li><a href="{{route('admin.allmessage')}}" class="link-white rounded">All Messages</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white " href="{{route('admin.tickets')}}">
+              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">assignment</i>
+              </div>
+              <span class="nav-link-text ms-1">Tickets</span>
+            </a>
+          </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="#">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -302,3 +337,4 @@
 </body>
 
 </html>
+

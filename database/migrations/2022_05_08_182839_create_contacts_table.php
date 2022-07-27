@@ -23,6 +23,8 @@ class CreateContactsTable extends Migration
             $table->text('message');
             $table->UnsignedBigInteger('store_id');
             $table->foreign('store_id')->references('id')->on('stores')->OnDelete('cascade');
+            $table->UnsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->OnDelete('cascade');
             $table->timestamps();
         });
     }

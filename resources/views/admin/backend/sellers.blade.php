@@ -31,7 +31,8 @@
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name seller</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID Seller</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name Seller</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created at</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Option</th>
@@ -40,6 +41,9 @@
                 <tbody>
                     @foreach ($user as $item)
                   <tr>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">#{{$item->id}}</span>
+                      </td>
                     <td>
                       <div class="d-flex px-2 py-1">
                         <div>
@@ -70,7 +74,8 @@
                       <span class="text-secondary text-xs font-weight-bold">{{$item->created_at}}</span>
                     </td>
                     <td class="align-middle" style="text-align: center;">
-                        <i class="fas fa-edit"></i><a href="{{route('admin.editseller',$item->id)}}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Seller">Edit | </a>
+                      <i class="fas fa-edit"></i><a href="{{route('admin.editseller',$item->id)}}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Seller">Edit | </a>
+                      <i class="fas fa-info-circle"></i> <a href="{{route('admin.detailssellers',$item->id)}}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="Details Seller">Details |</a>
                       <i class="material-icons text-sm me-2">delete</i><a href="{{route('admin.deleteseller',$item->id)}}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Seller">Delete </a>
                     </td>
                   </tr>

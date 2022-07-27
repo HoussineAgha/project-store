@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class orderReceved extends Mailable
+class withdrawalcancel extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,6 @@ class orderReceved extends Mailable
      */
     public function build()
     {
-        return $this->from('support@matjari.info')->view('emails.orderReceved');
+        return $this->from('support@matjari.info')->markdown('emails.withdrawalcancel');
     }
 }
