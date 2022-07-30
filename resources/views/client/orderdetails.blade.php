@@ -14,7 +14,7 @@
               <div class="row align-items-center">
                 <div class="col-4 col-md-3 col-xl-2">
                   <!-- Image -->
-                  @if ($order->status == 'succeeded' || $order->status == 'Waiting' )
+                  @if ($order->status == 'succeeded' || $order->status == 'Waiting' ||$order->status == 'COMPLETED' )
                   <a href="#"><img src="{{$item['attributes']['image']}}" alt="..." class="img-fluid"></a>
                   @else
                   <a href="#"><img src="{{$item['image']}}" alt="..." class="img-fluid"></a>
@@ -110,7 +110,7 @@
               <p class="mb-4 font-weight-bold" style="color: rgb(172, 163, 40)">
                 <strong> Shipping Method:</strong>
                </p>
-               @if ($order->status == 'succeeded' || $order->status == 'CAPTURED')
+               @if ($order->status == 'succeeded' || $order->status == 'CAPTURED' || $order->status == 'COMPLETED')
                <p class="mb-7 text-gray-500">
                 Standart Shipping <br>
               <strong>(5 - 7 days)</strong>

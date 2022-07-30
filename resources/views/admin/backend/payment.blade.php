@@ -90,16 +90,9 @@
                     <i class="fab fa-cc-paypal" style="margin-left: 250px; font-size:30px;"></i>
                   </div>
                     <div class="row mb-3">
-                        <label for="STRIPE_KEY" class="col-sm-2 col-form-label">STRIPE_KEY</label>
+                        <label for="Client_ID" class="col-sm-2 col-form-label">Client_ID</label>
                         <div class="col-sm-10">
-                          <input name="STRIPE_KEY" type="text" class="form-control" id="STRIPE_KEY">
-                        </div>
-                      </div>
-
-                      <div class="row mb-3">
-                        <label for="STRIPE_SECRET" class="col-sm-2 col-form-label">STRIPE_SECRET</label>
-                        <div class="col-sm-10">
-                          <input name="STRIPE_SECRET" type="text" class="form-control" id="STRIPE_SECRET">
+                          <input name="Client_ID" type="text" class="form-control" id="Client_ID" value="{{ env('Paypal_Client_ID') }}">
                         </div>
                       </div>
                 </div>

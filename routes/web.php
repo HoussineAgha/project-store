@@ -141,8 +141,12 @@ Route::prefix('order')->group(function(){
 Route::prefix('payment')->group(function(){
     Route::post('/stripe/{store}', 'App\Http\controllers\StripeController@stripePost')->name('stripe.post');
     Route::post('/cash/{store}','App\Http\controllers\OrderController@cash_payment')->name('cash.post');
-    Route::get('/paytabs_payment/{store}','App\Http\controllers\PaytabsController@index');
-    Route::post('/paytabs_payment/{store}','App\Http\controllers\PaytabsController@response')->name('paytabs.post');
+    Route::get('/paytabs-payment/{store}','App\Http\Controllers\PaytabsController@paypage')->name('paytabs.get');
+    Route::post('/paytabs-payment/{store}','App\Http\Controllers\PaytabsController@paypage')->name('paytabs.post');
+    Route::post('/paypal/{store}','App\Http\Controllers\PaypalController@payment')->name('paypal.post');
+    //Route::get('/success/{store}', 'App\Http\Controllers\PaypalController@success')->name('paypal.success');
+    //Route::get('paypal-cancel',[PaypalController::class,'cancel'])->name('paypal.cancel');
+
 });
 
 Route::prefix('contact-us')->group(function(){

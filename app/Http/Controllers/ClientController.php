@@ -7,7 +7,6 @@ use App\Models\Store;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-
 use Auth;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
@@ -181,7 +180,7 @@ class ClientController extends Controller
     }
 
     public function All_order(Store $store,Client $client,Order $order){
-        $orders = Order:: where('client_id','=',Auth::guard('client')->user()->id)->orderBy('created_at', 'desc')->paginate(3);
+        $orders = Order:: where('client_id','=',Auth::guard('client')->user()->id)->orderBy('created_at', 'desc')->paginate(6);
         return view('client.order',compact('store','client','order','orders'));
     }
 

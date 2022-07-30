@@ -13,6 +13,7 @@ $(document).ready(function() {
         $("#knetttt").hide();
         $("#cashh").hide();
         $("#paytabss").hide();
+        $("#paypal-button-container").hide();
       });
   });
 
@@ -26,6 +27,7 @@ $(document).ready(function() {
         $("#input-strip").hide();
         $("#cashh").hide();
         $("#paytabss").hide();
+        $("#paypal-button-container").hide();
       });
   });
 
@@ -39,6 +41,7 @@ $(document).ready(function() {
         $("#input-strip").hide();
         $("#knetttt").hide();
         $("#paytabss").hide();
+        $("#paypal-button-container").hide();
       });
   });
   // كود السويتشر في صفحة الدفع لباي تابس
@@ -50,8 +53,22 @@ $(document).ready(function() {
         $("#input-strip").hide();
         $("#knetttt").hide();
         $("#cashh").hide();
+        $("#paypal-button-container").hide();
       });
   });
+
+    // كود السويتشر في صفحة الدفع لباي بال
+    $(document).ready(function(){
+        $("#paypal").click(function(){
+          $("#paypal-button-container").show();
+        });
+        $("#paypal").click(function(){
+            $("#input-strip").hide();
+            $("#knetttt").hide();
+            $("#cashh").hide();
+            $("#paytabss").hide();
+          });
+      });
 
 // كود السيليكت في لنوع الشحن في حال كان فري بخفي حقل السعر في حال كان مدفوع بظهر حقل اللي بدي اكتب فيه السعر
 

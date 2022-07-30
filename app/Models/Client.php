@@ -19,7 +19,6 @@ class Client extends Authenticatable
     public function shipping(){
         return $this->hasMany('App\Models\Shipping');
     }
-
 }
 
 

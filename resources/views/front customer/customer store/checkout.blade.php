@@ -210,11 +210,13 @@
               <hr class="my-4">
               <div class="my-3">
                 <div class="form-check">
+                <i class="fab fa-cc-stripe" style="font-size:22px;"></i>
                 <label class="form-check-label" for="credit">Credit card</label>
                 <input id="credit" name="paymentmethod" type="radio" class="form-check-input" checked required >
                 </div>
 
                 <div class="form-check">
+                <i class="fab fa-cc-paypal" style="font-size:24px;"></i>
                 <label class="form-check-label" for="paypal">PayPal</label>
                 <input id="paypal" name="paymentmethod" type="radio" class="form-check-input" >
                 </div>
@@ -231,12 +233,12 @@
                   <div class="col-xs-12">
                  </div>
                 </div>
-
+<!--
                 <div class="form-check">
                     <label class="form-check-label" for="paypal">Cash on D  elivery</label>
                     <input id="cash" name="paymentmethod" type="radio" class="form-check-input" >
-                    </div>
-
+                </div>
+-->
               </div>
               </div>
 <!---start payment---->
@@ -319,8 +321,8 @@
         <button class="btn btn-primary btn-lg btn-block" id="submitbtn" type="submit">Pay with paytabs {{$totals}}$</button>
     </div>
     </form>
-
-
+    <!-- this for paypal only--->
+    <div id="paypal-button-container" style="display: none;width:200px;"></div>
 
 <!-- payment end -->
 
@@ -409,7 +411,59 @@
                   </div>
 
                   @section('script')
+                  <!--------paypal sdk ------------>
+                <script src="https://www.paypal.com/sdk/js?client-id={{env('Paypal_Client_ID')}}&currency=USD" data-namespace="paypal_sdk"></script>
+                <script>
+                    paypal_sdk.Buttons({
+                      // Sets up the transaction when a payment button is clicked
+                      createOrder: (data, actions) => {
+                        return actions.order.create({
+                          purchase_units: [{
+                            amount: {
+                              value: '{{$totals}}' // Can also reference a variable or function
+                            }
+                          }]
+                        });
+                      },
+                      // Finalize the transaction after payer approval
+                      onApprove: (data, actions) => {
+                        return actions.order.capture().then(function(orderData) {
+                          // Successful capture! For dev/demo purposes:
+                          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                          const transaction = orderData.purchase_units[0].payments.captures[0];
+                          //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
 
+                          var product_id = $('#id').val();
+                          var product_name = $('#nameproduct').val();
+                          var product_quantity = $('#quantity').val();
+                          var product_price = $('#price').val();
+                            $.ajax({
+                                type: "POST",
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                url:"{{route('paypal.post',$store->id)}}",
+                                data:{
+                                    'id':product_id,
+                                    'name':product_name,
+                                    'quantity':product_quantity,
+                                    'price':product_price,
+                                    'payment_id':orderData.id,
+                                    'status':orderData.status,
+                                },
+                                success:function(responce){
+                                    //swal(responce.status);
+                                    window.location.href="{{route('payment.get',$store->id)}}";
+
+                                }
+                            });
+                        });
+                      }
+                    }).render('#paypal-button-container');
+                  </script>
+    <!------------ end paypal payment----------->
+
+                <!-- stripe code -->
                 <script language = "text/Javascript">
                     cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
                     function clearField(t){                   //declaring the array outside of the
@@ -419,7 +473,6 @@
                         t.style.color='#fff';
                         }
                     }
-
 
                 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
                 <script type="text/javascript">
